@@ -1,31 +1,29 @@
 package logico;
 
-public abstract class Persona
+public class Empresa
 {
-	protected String id;
-	protected String nombre;
-	protected String telefono;
-	protected String direccion;
-	protected boolean contratado;
+	private String rnc;
+	private String nombre;
+	private String telefono;
+	private String direccion;
 	
-	public Persona(String id, String nombre, String telefono, String direccion, boolean contratado)
+	public Empresa(String rnc, String nombre, String telefono, String direccion)
 	{
 		super();
-		this.id = id;
+		this.rnc = rnc;
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.direccion = direccion;
-		this.contratado = contratado;
 	}
 
-	public String getId()
+	public String getRnc()
 	{
-		return id;
+		return rnc;
 	}
 
-	public void setId(String id)
+	public void setRnc(String rnc)
 	{
-		this.id = id;
+		this.rnc = rnc;
 	}
 
 	public String getNombre()
@@ -56,15 +54,5 @@ public abstract class Persona
 	public void setDireccion(String direccion)
 	{
 		this.direccion = direccion;
-	}
-
-	public boolean isContratado()
-	{
-		return contratado;
-	}
-
-	public void setContratado(boolean contratado)
-	{
-		this.contratado = contratado;
 	}
 }
