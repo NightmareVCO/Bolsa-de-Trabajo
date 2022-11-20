@@ -7,22 +7,22 @@ public class Bolsa
 	private ArrayList<Persona> personas;
 	private ArrayList<Solicitud> solicitudes;
 	private ArrayList<Empresa> empresas;
-	private static Bolsa stock = null;
-	
-	public Bolsa()
+	private static Bolsa bolsa = null;
+
+	private Bolsa()
 	{
 		super();
 		personas = new ArrayList<>();
 		solicitudes = new ArrayList<>();
 		empresas = new ArrayList<>();
 	}
-	
+
 	public static Bolsa getInstance()
 	{
-		if(stock == null)
-			stock = new Bolsa();
-		
-		return stock;
+		if (bolsa == null)
+			bolsa = new Bolsa();
+
+		return bolsa;
 	}
 
 	public ArrayList<Persona> getPersonas()
