@@ -9,7 +9,7 @@ public class EmpUniversitario extends SolEmpresa
 			boolean activa, String rnc, float porcentajeMacth, String tipoSalario, float sueldo, int cantidad,
 			String carrera, int agnos)
 	{
-		super(codigo, movilidad, contrato, licencia, cuidad, activa, rnc, porcentajeMacth, tipoSalario, sueldo, cantidad);
+		super(codigo, movilidad, contrato, licencia, cuidad, sueldo, activa, rnc, porcentajeMacth, tipoSalario, cantidad);
 		this.carrera = carrera;
 		this.agnos = agnos;
 	}

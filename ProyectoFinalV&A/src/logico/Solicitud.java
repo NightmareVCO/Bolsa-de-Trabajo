@@ -7,9 +7,11 @@ public abstract class Solicitud
 	protected String contrato;
 	protected boolean licencia;
 	protected String cuidad;
+	protected float sueldo;
 	protected boolean activa;
 
-	public Solicitud(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, boolean activa)
+	public Solicitud(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
+			boolean activa)
 	{
 		super();
 		this.codigo = codigo;
@@ -17,6 +19,7 @@ public abstract class Solicitud
 		this.contrato = contrato;
 		this.licencia = licencia;
 		this.cuidad = cuidad;
+		this.sueldo = sueldo;
 		this.activa = activa;
 	}
 
@@ -68,6 +71,16 @@ public abstract class Solicitud
 	public void setCuidad(String cuidad)
 	{
 		this.cuidad = cuidad;
+	}
+
+	public Float getSueldo()
+	{
+		return sueldo;
+	}
+
+	public void setSueldo(float sueldo)
+	{
+		this.sueldo = sueldo;
 	}
 
 	public boolean isActiva()

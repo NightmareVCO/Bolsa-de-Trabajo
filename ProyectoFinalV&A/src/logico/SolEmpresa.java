@@ -5,17 +5,15 @@ public class SolEmpresa extends Solicitud
 	protected String rnc;
 	protected float porcentajeMacth;
 	protected String tipoSalario;
-	protected float sueldo;
 	protected int cantidad;
 
-	public SolEmpresa(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, boolean activa,
-			String rnc, float porcentajeMacth, String tipoSalario, float sueldo, int cantidad)
+	public SolEmpresa(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
+			boolean activa, String rnc, float porcentajeMacth, String tipoSalario, int cantidad)
 	{
-		super(codigo, movilidad, contrato, licencia, cuidad, activa);
+		super(codigo, movilidad, contrato, licencia, cuidad, sueldo, activa);
 		this.rnc = rnc;
 		this.porcentajeMacth = porcentajeMacth;
 		this.tipoSalario = tipoSalario;
-		this.sueldo = sueldo;
 		this.cantidad = cantidad;
 	}
 
@@ -47,16 +45,6 @@ public class SolEmpresa extends Solicitud
 	public void setTipoSalario(String tipoSalario)
 	{
 		this.tipoSalario = tipoSalario;
-	}
-
-	public float getSueldo()
-	{
-		return sueldo;
-	}
-
-	public void setSueldo(float sueldo)
-	{
-		this.sueldo = sueldo;
 	}
 
 	public int getCantidad()

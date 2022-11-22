@@ -7,10 +7,10 @@ public class SolPersona extends Solicitud
 	private String cedula;
 	private ArrayList<String> idiomas;
 
-	public SolPersona(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, boolean activa,
-			String cedula, ArrayList<String> idiomas)
+	public SolPersona(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
+			boolean activa, String cedula, ArrayList<String> idiomas)
 	{
-		super(codigo, movilidad, contrato, licencia, cuidad, activa);
+		super(codigo, movilidad, contrato, licencia, cuidad, sueldo, activa);
 		this.cedula = cedula;
 		this.idiomas = idiomas;
 	}
