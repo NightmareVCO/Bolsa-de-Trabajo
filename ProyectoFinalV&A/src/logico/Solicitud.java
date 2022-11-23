@@ -1,5 +1,7 @@
 package logico;
 
+import java.util.ArrayList;
+
 public abstract class Solicitud
 {
 	protected String codigo;//
@@ -7,8 +9,9 @@ public abstract class Solicitud
 	protected String contrato;//
 	protected boolean licencia;
 	protected String cuidad;
-	protected float sueldo;//
+	protected float sueldo;
 	protected boolean activa;//
+	private ArrayList<String> idiomas;
 
 	public Solicitud(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
 			boolean activa)
@@ -21,6 +24,7 @@ public abstract class Solicitud
 		this.cuidad = cuidad;
 		this.sueldo = sueldo;
 		this.activa = activa;
+		idiomas = new ArrayList<String>();
 	}
 
 	public String getCodigo()
@@ -91,6 +95,16 @@ public abstract class Solicitud
 	public void setActiva(boolean activa)
 	{
 		this.activa = activa;
+	}
+
+	public ArrayList<String> getIdiomas()
+	{
+		return idiomas;
+	}
+
+	public void setIdiomas(ArrayList<String> idiomas)
+	{
+		this.idiomas = idiomas;
 	}
 
 	public abstract boolean checkEstado();

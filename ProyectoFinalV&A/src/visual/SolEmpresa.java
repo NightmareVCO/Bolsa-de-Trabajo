@@ -5,8 +5,13 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -30,7 +35,25 @@ public class SolEmpresa extends JDialog
 	private JTextField txtNombre;
 	private JTextField txtTelefono;
 	private JTextField txtDireccion;
-	private JTextField textField;
+	private JTextField txtCodigo;
+	private JTextField txtIdioma;
+	private JComboBox cbxArea;
+	private JComboBox cbxCarrea;
+	private JComboBox cbxCiudad;
+	private JComboBox cbxTipoSalario;
+	private JSpinner spnSalario;
+	private JComboBox cbxContrato;
+	private JRadioButton rdbtnLicenciaSi;
+	private JRadioButton rdbtnLicenciaNo;
+	private JRadioButton rdbtnMudarseSi;
+	private JRadioButton rdbtnMudarseNo;
+	private JRadioButton rdbtnUniversitario;
+	private JRadioButton rdbtnTecnico;
+	private JRadioButton rdbtnObrero;
+	private ArrayList<String> idiomasAux;
+	private JButton btnValidar;
+	private JButton btnRegistrar;
+	private JButton btnCancelar;
 
 	public static void main(String[] args)
 	{
@@ -49,6 +72,7 @@ public class SolEmpresa extends JDialog
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public SolEmpresa()
 	{
+		idiomasAux = new ArrayList<>();
 		setResizable(false);
 		setTitle("Registrar Solicitud de Empresa");
 		setBounds(100, 100, 582, 776);
@@ -157,47 +181,63 @@ public class SolEmpresa extends JDialog
 				PanelDatosSolicitud.setLayout(null);
 				{
 					JLabel lblNewLabel_4 = new JLabel("Contrato:");
-					lblNewLabel_4.setBounds(10, 35, 59, 14);
+					lblNewLabel_4.setBounds(10, 32, 59, 14);
 					PanelDatosSolicitud.add(lblNewLabel_4);
 				}
 				{
 					JLabel lblNewLabel_5 = new JLabel("Salario:");
-					lblNewLabel_5.setBounds(10, 84, 46, 14);
+					lblNewLabel_5.setBounds(10, 78, 46, 14);
 					PanelDatosSolicitud.add(lblNewLabel_5);
 				}
 
-				JSpinner spinner = new JSpinner();
-				spinner.setModel(new SpinnerNumberModel(new Float(1000), new Float(0), null, new Float(500)));
-				spinner.setBounds(66, 81, 93, 20);
-				PanelDatosSolicitud.add(spinner);
+				spnSalario = new JSpinner();
+				spnSalario.setModel(new SpinnerNumberModel(new Float(1000), new Float(0), null, new Float(500)));
+				spnSalario.setBounds(66, 75, 93, 20);
+				PanelDatosSolicitud.add(spnSalario);
 				{
 					JLabel lblNewLabel_6 = new JLabel("Tipo de Salario:");
-					lblNewLabel_6.setBounds(286, 81, 127, 14);
+					lblNewLabel_6.setBounds(286, 78, 127, 14);
 					PanelDatosSolicitud.add(lblNewLabel_6);
 				}
 				{
 					JLabel lblNewLabel_7 = new JLabel("Ciudad:");
-					lblNewLabel_7.setBounds(10, 134, 46, 14);
+					lblNewLabel_7.setBounds(10, 124, 46, 14);
 					PanelDatosSolicitud.add(lblNewLabel_7);
 				}
 				{
 					JLabel lblNewLabel_8 = new JLabel("Puede Mudarse:");
-					lblNewLabel_8.setBounds(286, 134, 93, 14);
+					lblNewLabel_8.setBounds(286, 170, 93, 14);
 					PanelDatosSolicitud.add(lblNewLabel_8);
 				}
 				{
-					JRadioButton rdbtnMudarseSi = new JRadioButton("Sí");
-					rdbtnMudarseSi.setBounds(389, 130, 59, 23);
+					rdbtnMudarseSi = new JRadioButton("Sí");
+					rdbtnMudarseSi.addMouseListener(new MouseAdapter()
+					{
+						@Override
+						public void mouseClicked(MouseEvent e)
+						{
+							rdbtnMudarseNo.setSelected(false);
+						}
+					});
+					rdbtnMudarseSi.setBounds(385, 166, 59, 23);
 					PanelDatosSolicitud.add(rdbtnMudarseSi);
 				}
 				{
-					JRadioButton rdbtnMudarseNo = new JRadioButton("No");
-					rdbtnMudarseNo.setBounds(450, 130, 52, 23);
+					rdbtnMudarseNo = new JRadioButton("No");
+					rdbtnMudarseNo.addMouseListener(new MouseAdapter()
+					{
+						@Override
+						public void mouseClicked(MouseEvent e)
+						{
+							rdbtnMudarseSi.setSelected(false);
+						}
+					});
+					rdbtnMudarseNo.setBounds(450, 166, 52, 23);
 					PanelDatosSolicitud.add(rdbtnMudarseNo);
 				}
 				{
 					JLabel lblNewLabel_9 = new JLabel("Licencia:");
-					lblNewLabel_9.setBounds(10, 178, 59, 14);
+					lblNewLabel_9.setBounds(10, 170, 59, 14);
 					PanelDatosSolicitud.add(lblNewLabel_9);
 				}
 				{
@@ -211,48 +251,87 @@ public class SolEmpresa extends JDialog
 					PanelDatosSolicitud.add(radioButton);
 				}
 				{
-					JComboBox comboBox = new JComboBox();
-					comboBox.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Santiago", "Santo Domingo",
-							"Espallat", "La Vega", "San Francisco", "Licey", "Samana", "Higuey", "" }));
-					comboBox.setBounds(66, 131, 147, 20);
-					PanelDatosSolicitud.add(comboBox);
+					cbxCiudad = new JComboBox();
+					cbxCiudad.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Santiago", "Santo Domingo",
+							"Espallat", "La Vega", "San Francisco", "Licey", "Samana", "Higuey" }));
+					cbxCiudad.setBounds(66, 121, 147, 20);
+					PanelDatosSolicitud.add(cbxCiudad);
 				}
 				{
-					JComboBox comboBox = new JComboBox();
-					comboBox.setModel(new DefaultComboBoxModel(
+					cbxContrato = new JComboBox();
+					cbxContrato.setModel(new DefaultComboBoxModel(
 							new String[] { "<Selecionar>", "Jornada Completa", "Media Jornada", "Jornada Mixta" }));
-					comboBox.setBounds(66, 32, 120, 20);
-					PanelDatosSolicitud.add(comboBox);
+					cbxContrato.setBounds(66, 29, 120, 20);
+					PanelDatosSolicitud.add(cbxContrato);
 				}
 				{
-					JComboBox comboBox = new JComboBox();
-					comboBox.setModel(new DefaultComboBoxModel(
+					cbxTipoSalario = new JComboBox();
+					cbxTipoSalario.setModel(new DefaultComboBoxModel(
 							new String[] { "<Selecionar>", "Quincenal", "Mensual", "Semanal", "Diario" }));
-					comboBox.setBounds(379, 78, 123, 20);
-					PanelDatosSolicitud.add(comboBox);
+					cbxTipoSalario.setBounds(379, 75, 123, 20);
+					PanelDatosSolicitud.add(cbxTipoSalario);
 				}
 				{
 					JLabel lblNewLabel_10 = new JLabel("Código:");
-					lblNewLabel_10.setBounds(286, 35, 46, 14);
+					lblNewLabel_10.setBounds(286, 32, 46, 14);
 					PanelDatosSolicitud.add(lblNewLabel_10);
 				}
 				{
-					textField = new JTextField();
-					textField.setEditable(false);
-					textField.setBounds(379, 32, 123, 20);
-					PanelDatosSolicitud.add(textField);
-					textField.setColumns(10);
+					txtCodigo = new JTextField();
+					txtCodigo.setEditable(false);
+					txtCodigo.setBounds(379, 29, 123, 20);
+					PanelDatosSolicitud.add(txtCodigo);
+					txtCodigo.setColumns(10);
 				}
 				{
-					JRadioButton rdbtnLicenciaSi = new JRadioButton("Sí");
-					rdbtnLicenciaSi.setBounds(71, 174, 59, 23);
+					rdbtnLicenciaSi = new JRadioButton("Sí");
+					rdbtnLicenciaSi.addMouseListener(new MouseAdapter()
+					{
+						@Override
+						public void mouseClicked(MouseEvent e)
+						{
+							rdbtnLicenciaNo.setSelected(false);
+						}
+					});
+					rdbtnLicenciaSi.setBounds(66, 166, 59, 23);
 					PanelDatosSolicitud.add(rdbtnLicenciaSi);
 				}
 				{
-					JRadioButton rdbtnLicenciaNo = new JRadioButton("No");
-					rdbtnLicenciaNo.setBounds(132, 174, 52, 23);
+					rdbtnLicenciaNo = new JRadioButton("No");
+					rdbtnLicenciaNo.addMouseListener(new MouseAdapter()
+					{
+						@Override
+						public void mouseClicked(MouseEvent e)
+						{
+							rdbtnLicenciaSi.setSelected(false);
+						}
+					});
+					rdbtnLicenciaNo.setBounds(134, 166, 52, 23);
 					PanelDatosSolicitud.add(rdbtnLicenciaNo);
 				}
+				{
+					JLabel lblNewLabel_12 = new JLabel("Idiomas:");
+					lblNewLabel_12.setBounds(286, 124, 59, 14);
+					PanelDatosSolicitud.add(lblNewLabel_12);
+				}
+				{
+					txtIdioma = new JTextField();
+					txtIdioma.setBounds(342, 121, 86, 20);
+					PanelDatosSolicitud.add(txtIdioma);
+					txtIdioma.setColumns(10);
+				}
+
+				JButton btnAgregarIdioma = new JButton("Agregar");
+				btnAgregarIdioma.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						idiomasAux.add(txtIdioma.getText());
+						txtIdioma.setText("");
+					}
+				});
+				btnAgregarIdioma.setBounds(438, 120, 86, 23);
+				PanelDatosSolicitud.add(btnAgregarIdioma);
 			}
 			{
 				JPanel PanelTipoSolicitud = new JPanel();
@@ -262,36 +341,97 @@ public class SolEmpresa extends JDialog
 				panel.add(PanelTipoSolicitud);
 				PanelTipoSolicitud.setLayout(null);
 
-				JRadioButton rdbtnNewRadioButton = new JRadioButton("Universatario");
-				rdbtnNewRadioButton.setBounds(71, 27, 108, 23);
-				PanelTipoSolicitud.add(rdbtnNewRadioButton);
+				rdbtnUniversitario = new JRadioButton("Universatario");
+				rdbtnUniversitario.setSelected(true);
+				rdbtnUniversitario.setBounds(71, 27, 108, 23);
+				PanelTipoSolicitud.add(rdbtnUniversitario);
 
-				JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Técnico");
-				rdbtnNewRadioButton_1.setBounds(250, 27, 81, 23);
-				PanelTipoSolicitud.add(rdbtnNewRadioButton_1);
+				rdbtnTecnico = new JRadioButton("Técnico");
+				rdbtnTecnico.setBounds(250, 27, 81, 23);
+				PanelTipoSolicitud.add(rdbtnTecnico);
 
-				JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Obrero");
-				rdbtnNewRadioButton_2.setBounds(402, 27, 69, 23);
-				PanelTipoSolicitud.add(rdbtnNewRadioButton_2);
+				rdbtnObrero = new JRadioButton("Obrero");
+				rdbtnObrero.setBounds(402, 27, 69, 23);
+				PanelTipoSolicitud.add(rdbtnObrero);
 			}
 
-			JPanel panel_1 = new JPanel();
-			panel_1.setBorder(new TitledBorder(null, "Aptitudes", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel_1.setBounds(10, 512, 545, 186);
-			panel.add(panel_1);
+			JPanel PanelAptidutes = new JPanel();
+			PanelAptidutes.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Aptitudes:",
+					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			PanelAptidutes.setBounds(10, 512, 545, 186);
+			panel.add(PanelAptidutes);
+			PanelAptidutes.setLayout(null);
+
+			JLabel lblNewLabel_11 = new JLabel("Carrera:");
+			lblNewLabel_11.setBounds(11, 118, 58, 14);
+			PanelAptidutes.add(lblNewLabel_11);
+			{
+				JLabel lblNewLabel_13 = new JLabel("Área:");
+				lblNewLabel_13.setBounds(10, 52, 46, 14);
+				PanelAptidutes.add(lblNewLabel_13);
+			}
+
+			cbxArea = new JComboBox();
+			cbxArea.addItemListener(new ItemListener()
+			{
+				public void itemStateChanged(ItemEvent e)
+				{
+					if (!cbxArea.getSelectedItem().toString().equalsIgnoreCase("<Selecionar>"))
+					{
+						cbxCarrea.setEditable(true);
+						cbxCarrea.setEnabled(true);
+
+						if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias e Ingeniería"))
+							cbxCarrea.setModel(new DefaultComboBoxModel(
+									new String[] { "<Selecionar>", "Ing. Ciencias de la Computacíon" }));
+						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias de la Salud"))
+							cbxCarrea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Medicina" }));
+						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias Administrativas"))
+							cbxCarrea.setModel(
+									new DefaultComboBoxModel(new String[] { "<Selecionar>", "Direccíon Empresarial" }));
+						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias Humanidades y Artes"))
+							cbxCarrea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Derecho" }));
+						else
+							cbxCarrea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>" }));
+					}
+
+				}
+			});
+			cbxArea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Ciencias de la Salud",
+					"Ciencias e Ingeniería", "Ciencias Administrativas", "Ciencias Humanidades y Artes" }));
+			cbxArea.setBounds(67, 48, 208, 20);
+			PanelAptidutes.add(cbxArea);
+			{
+				cbxCarrea = new JComboBox();
+				cbxCarrea.setEnabled(false);
+				cbxCarrea.setBounds(67, 116, 208, 20);
+				PanelAptidutes.add(cbxCarrea);
+			}
+
+			JLabel lblNewLabel_14 = new JLabel("Años:");
+			lblNewLabel_14.setBounds(328, 52, 46, 14);
+			PanelAptidutes.add(lblNewLabel_14);
+
+			JSpinner spinner = new JSpinner();
+			spinner.setModel(new SpinnerNumberModel(0, 0, 100, 1));
+			spinner.setBounds(384, 49, 110, 20);
+			PanelAptidutes.add(spinner);
 		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+			btnValidar = new JButton("Validar");
+			buttonPane.add(btnValidar);
 			{
-				JButton btnRegistrar = new JButton("Registrar");
+				btnRegistrar = new JButton("Registrar");
 				btnRegistrar.setActionCommand("OK");
 				buttonPane.add(btnRegistrar);
 				getRootPane().setDefaultButton(btnRegistrar);
 			}
 			{
-				JButton btnCancelar = new JButton("Cancelar");
+				btnCancelar = new JButton("Cancelar");
 				btnCancelar.addActionListener(new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e)
