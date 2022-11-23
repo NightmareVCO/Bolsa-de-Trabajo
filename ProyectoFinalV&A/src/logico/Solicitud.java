@@ -2,13 +2,13 @@ package logico;
 
 public abstract class Solicitud
 {
-	protected String codigo;
+	protected String codigo;//
 	protected boolean movilidad;
-	protected String contrato;
+	protected String contrato;//
 	protected boolean licencia;
 	protected String cuidad;
-	protected float sueldo;
-	protected boolean activa;
+	protected float sueldo;//
+	protected boolean activa;//
 
 	public Solicitud(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
 			boolean activa)
