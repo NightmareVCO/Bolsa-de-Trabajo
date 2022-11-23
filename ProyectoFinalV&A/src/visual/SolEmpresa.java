@@ -261,7 +261,7 @@ public class SolEmpresa extends JDialog
 					cbxContrato = new JComboBox();
 					cbxContrato.setModel(new DefaultComboBoxModel(
 							new String[] { "<Selecionar>", "Jornada Completa", "Media Jornada", "Jornada Mixta" }));
-					cbxContrato.setBounds(66, 29, 120, 20);
+					cbxContrato.setBounds(66, 29, 147, 20);
 					PanelDatosSolicitud.add(cbxContrato);
 				}
 				{
