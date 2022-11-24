@@ -8,6 +8,8 @@ public class Bolsa
 	private ArrayList<Solicitud> solicitudes;
 	private ArrayList<Empresa> empresas;
 	private static Bolsa bolsa = null;
+	public static int genSol = 1;
+	public static int genPer = 1;
 
 	private Bolsa()
 	{
@@ -53,5 +55,17 @@ public class Bolsa
 	public void setEmpresas(ArrayList<Empresa> empresas)
 	{
 		this.empresas = empresas;
+	}
+	
+	public void addSolPersona(Persona person)
+	{
+		personas.add(person);
+		genPer++;
+	}
+	
+	public void addSolicitud(Solicitud soli)
+	{
+		solicitudes.add(soli);
+		genSol++;
 	}
 }

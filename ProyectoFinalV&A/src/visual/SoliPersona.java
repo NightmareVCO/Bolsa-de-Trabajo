@@ -10,12 +10,19 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
+
+import logico.Bolsa;
+import logico.SolPersona;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class SoliPersona extends JDialog
 {
@@ -43,12 +50,14 @@ public class SoliPersona extends JDialog
 	private JButton btnValidar;
 	private JTextField txtTelf;
 	private JPanel PanelTipoSolicitud;
-	private JRadioButton radioButton;
+	private JRadioButton rdbtnUniver;
 	private JRadioButton rdbtnTecnico;
-	private JRadioButton radioButton_2;
+	private JRadioButton rdbtnObrero;
 	private JLabel label;
 	private JComboBox cbxCiudad;
 	private JComboBox cbxCarrera;
+	private boolean mov = false;
+	private boolean lic = false;
 
 	public static void main(String[] args)
 	{
@@ -209,6 +218,7 @@ public class SoliPersona extends JDialog
 			txtCode = new JTextField();
 			txtCode.setEnabled(false);
 			txtCode.setBounds(331, 46, 116, 22);
+			txtCode.setText("SOL-"+Bolsa.genSol);
 			PanelDatosSolicitud.add(txtCode);
 			txtCode.setColumns(10);
 
@@ -275,18 +285,18 @@ public class SoliPersona extends JDialog
 			PanelTipoSolicitud.setBorder(
 					new TitledBorder(null, "Tipo de Solicitud:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-			radioButton = new JRadioButton("Universatario");
-			radioButton.setSelected(true);
-			radioButton.setBounds(75, 27, 108, 23);
-			PanelTipoSolicitud.add(radioButton);
+			rdbtnUniver = new JRadioButton("Universatario");
+			rdbtnUniver.setSelected(true);
+			rdbtnUniver.setBounds(75, 27, 108, 23);
+			PanelTipoSolicitud.add(rdbtnUniver);
 
 			rdbtnTecnico = new JRadioButton("Tecnico");
 			rdbtnTecnico.setBounds(258, 27, 81, 23);
 			PanelTipoSolicitud.add(rdbtnTecnico);
 
-			radioButton_2 = new JRadioButton("Obrero");
-			radioButton_2.setBounds(414, 27, 69, 23);
-			PanelTipoSolicitud.add(radioButton_2);
+			rdbtnObrero = new JRadioButton("Obrero");
+			rdbtnObrero.setBounds(414, 27, 69, 23);
+			PanelTipoSolicitud.add(rdbtnObrero);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -298,6 +308,20 @@ public class SoliPersona extends JDialog
 			buttonPane.add(btnValidar);
 			{
 				btnSolicitar = new JButton("Solicitar");
+				btnSolicitar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(rdbtnSiMud.isSelected())
+							mov = true;
+						
+						if(rdbtnSiLic.isSelected())
+							lic = true;
+						
+						SolPersona soli = new SolPersona(txtCode.getText(), mov, cbxCotrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(), Float.valueOf(spnSal.getValue().toString()), true, txtCedula.getText());
+						Bolsa.getInstance().addSolicitud(soli);
+						JOptionPane.showMessageDialog(null, "Solicitud ingresada", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+						clean();
+					}
+				});
 				btnSolicitar.setActionCommand("OK");
 				buttonPane.add(btnSolicitar);
 				getRootPane().setDefaultButton(btnSolicitar);
@@ -308,5 +332,27 @@ public class SoliPersona extends JDialog
 				buttonPane.add(btnCancelar);
 			}
 		}
+	}
+
+	private void clean()
+	{
+		txtCedula.setText("");
+		txtNom.setText("");
+		txtTelf.setText("");
+		txtDir.setText("");
+		cbxCotrato.setSelectedIndex(0);
+		txtCode.setText("SOL-"+Bolsa.genSol);
+		spnSal.setValue(new Float("1000"));
+		txtIdiomas.setText("");
+		rdbtnNoLic.setSelected(false);
+		rdbtnSiLic.setSelected(false);
+		rdbtnSiMud.setSelected(false);
+		rdbtnNoMud.setSelected(false);
+		rdbtnTecnico.setSelected(false);
+		rdbtnTecnico.setSelected(false);
+		rdbtnUniver.setSelected(true);
+		cbxArea.setSelectedIndex(0);
+		cbxCarrera.setSelectedIndex(0);
+		spnAgnos.setValue(new Integer("0"));
 	}
 }
