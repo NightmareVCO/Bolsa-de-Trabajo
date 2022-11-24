@@ -201,7 +201,7 @@ public class SolPersona extends JDialog
 			PanelDatosSolicitud.add(lblNewLabel_8);
 
 			txtCode = new JTextField();
-			txtCode.setEnabled(false);
+			txtCode.setEditable(false);
 			txtCode.setBounds(331, 46, 116, 22);
 			txtCode.setText("SOL-" + Bolsa.genSol);
 			PanelDatosSolicitud.add(txtCode);
@@ -309,6 +309,7 @@ public class SolPersona extends JDialog
 						Bolsa.getInstance().addSolicitud(soli);
 						JOptionPane.showMessageDialog(null, "Solicitud ingresada", "Informacion",
 								JOptionPane.INFORMATION_MESSAGE);
+						System.out.println(Bolsa.getInstance().getSolicitudes().get(0).getCodigo());
 						clean();
 					}
 				});
@@ -318,8 +319,10 @@ public class SolPersona extends JDialog
 			}
 			{
 				btnCancelar = new JButton("Cancelar");
-				btnCancelar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+				btnCancelar.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
 						dispose();
 					}
 				});

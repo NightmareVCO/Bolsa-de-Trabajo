@@ -56,16 +56,16 @@ public class Bolsa
 	{
 		this.empresas = empresas;
 	}
-	
-	public void addSolPersona(Persona person)
+
+	public boolean addSolPersona(Persona person)
 	{
-		personas.add(person);
 		genPer++;
+		return personas.add(person);
 	}
-	
-	public void addSolicitud(Solicitud soli)
+
+	public boolean addSolicitud(Solicitud soli)
 	{
-		solicitudes.add(soli);
 		genSol++;
+		return solicitudes.add(soli);
 	}
 }
