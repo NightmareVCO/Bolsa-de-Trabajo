@@ -1,10 +1,10 @@
 package logico;
 
-public class SolPersona extends Solicitud
+public class SoliPersona extends Solicitud
 {
 	private String cedula;
 
-	public SolPersona(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
+	public SoliPersona(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
 			boolean activa, String cedula)
 	{
 		super(codigo, movilidad, contrato, licencia, cuidad, sueldo, activa);

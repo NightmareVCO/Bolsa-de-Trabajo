@@ -54,20 +54,9 @@ public class SolEmpresa extends JDialog
 	private JButton btnValidar;
 	private JButton btnSolicitar;
 	private JButton btnCancelar;
-
-	public static void main(String[] args)
-	{
-		try
-		{
-			SolEmpresa dialog = new SolEmpresa();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
+	private JLabel lblNewLabel_13;
+	private JLabel lblNewLabel_11;
+	private JLabel lblNewLabel_14;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public SolEmpresa()
@@ -362,11 +351,11 @@ public class SolEmpresa extends JDialog
 			panel.add(PanelAptidutes);
 			PanelAptidutes.setLayout(null);
 
-			JLabel lblNewLabel_11 = new JLabel("Carrera:");
+			lblNewLabel_11 = new JLabel("Carrera:");
 			lblNewLabel_11.setBounds(11, 118, 58, 14);
 			PanelAptidutes.add(lblNewLabel_11);
 			{
-				JLabel lblNewLabel_13 = new JLabel("Area:");
+				lblNewLabel_13 = new JLabel("Area:");
 				lblNewLabel_13.setBounds(10, 52, 46, 14);
 				PanelAptidutes.add(lblNewLabel_13);
 			}
@@ -407,7 +396,7 @@ public class SolEmpresa extends JDialog
 				PanelAptidutes.add(cbxCarrera);
 			}
 
-			JLabel lblNewLabel_14 = new JLabel("Años:");
+			lblNewLabel_14 = new JLabel("Años:");
 			lblNewLabel_14.setBounds(328, 52, 46, 14);
 			PanelAptidutes.add(lblNewLabel_14);
 

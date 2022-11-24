@@ -2,6 +2,8 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -19,12 +21,9 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 
 import logico.Bolsa;
-import logico.SolPersona;
+import logico.SoliPersona;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class SoliPersona extends JDialog
+public class SolPersona extends JDialog
 {
 
 	private final JPanel contentPanel = new JPanel();
@@ -53,27 +52,13 @@ public class SoliPersona extends JDialog
 	private JRadioButton rdbtnUniver;
 	private JRadioButton rdbtnTecnico;
 	private JRadioButton rdbtnObrero;
-	private JLabel label;
 	private JComboBox cbxCiudad;
 	private JComboBox cbxCarrera;
 	private boolean mov = false;
 	private boolean lic = false;
+	private JLabel lblNewLabel_6;
 
-	public static void main(String[] args)
-	{
-		try
-		{
-			SoliPersona dialog = new SoliPersona();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	public SoliPersona()
+	public SolPersona()
 	{
 		setTitle("Registrar solicitud de persona");
 		setBounds(100, 100, 613, 830);
@@ -185,7 +170,7 @@ public class SoliPersona extends JDialog
 			cbxArea.setBounds(72, 47, 208, 20);
 			PanelAptitudes.add(cbxArea);
 
-			JLabel lblNewLabel_6 = new JLabel("A\u00F1os:");
+			lblNewLabel_6 = new JLabel("A\u00F1os:");
 			lblNewLabel_6.setBounds(331, 50, 47, 16);
 			PanelAptitudes.add(lblNewLabel_6);
 
@@ -218,7 +203,7 @@ public class SoliPersona extends JDialog
 			txtCode = new JTextField();
 			txtCode.setEnabled(false);
 			txtCode.setBounds(331, 46, 116, 22);
-			txtCode.setText("SOL-"+Bolsa.genSol);
+			txtCode.setText("SOL-" + Bolsa.genSol);
 			PanelDatosSolicitud.add(txtCode);
 			txtCode.setColumns(10);
 
@@ -268,7 +253,7 @@ public class SoliPersona extends JDialog
 			btnAgregar.setBounds(442, 112, 97, 25);
 			PanelDatosSolicitud.add(btnAgregar);
 
-			label = new JLabel("Ciudad:");
+			JLabel label = new JLabel("Ciudad:");
 			label.setBounds(12, 146, 46, 14);
 			PanelDatosSolicitud.add(label);
 
@@ -308,17 +293,22 @@ public class SoliPersona extends JDialog
 			buttonPane.add(btnValidar);
 			{
 				btnSolicitar = new JButton("Solicitar");
-				btnSolicitar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						if(rdbtnSiMud.isSelected())
+				btnSolicitar.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						if (rdbtnSiMud.isSelected())
 							mov = true;
-						
-						if(rdbtnSiLic.isSelected())
+
+						if (rdbtnSiLic.isSelected())
 							lic = true;
-						
-						SolPersona soli = new SolPersona(txtCode.getText(), mov, cbxCotrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(), Float.valueOf(spnSal.getValue().toString()), true, txtCedula.getText());
+
+						SoliPersona soli = new SoliPersona(txtCode.getText(), mov, cbxCotrato.getSelectedItem().toString(),
+								lic, cbxCiudad.getSelectedItem().toString(), Float.valueOf(spnSal.getValue().toString()), true,
+								txtCedula.getText());
 						Bolsa.getInstance().addSolicitud(soli);
-						JOptionPane.showMessageDialog(null, "Solicitud ingresada", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Solicitud ingresada", "Informacion",
+								JOptionPane.INFORMATION_MESSAGE);
 						clean();
 					}
 				});
@@ -341,7 +331,7 @@ public class SoliPersona extends JDialog
 		txtTelf.setText("");
 		txtDir.setText("");
 		cbxCotrato.setSelectedIndex(0);
-		txtCode.setText("SOL-"+Bolsa.genSol);
+		txtCode.setText("SOL-" + Bolsa.genSol);
 		spnSal.setValue(new Float("1000"));
 		txtIdiomas.setText("");
 		rdbtnNoLic.setSelected(false);
