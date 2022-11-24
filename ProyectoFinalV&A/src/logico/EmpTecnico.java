@@ -1,6 +1,6 @@
 package logico;
 
-public class EmpTecnico extends SolEmpresa
+public class EmpTecnico extends SoliEmpresa
 {
 	private String area;
 	private int agnos;

@@ -38,7 +38,7 @@ public class SolEmpresa extends JDialog
 	private JTextField txtCodigo;
 	private JTextField txtIdioma;
 	private JComboBox cbxArea;
-	private JComboBox cbxCarrea;
+	private JComboBox cbxCarrera;
 	private JComboBox cbxCiudad;
 	private JComboBox cbxTipoSalario;
 	private JSpinner spnSalario;
@@ -52,7 +52,7 @@ public class SolEmpresa extends JDialog
 	private JRadioButton rdbtnObrero;
 	private ArrayList<String> idiomasAux;
 	private JButton btnValidar;
-	private JButton btnRegistrar;
+	private JButton btnSolicitar;
 	private JButton btnCancelar;
 
 	public static void main(String[] args)
@@ -75,7 +75,7 @@ public class SolEmpresa extends JDialog
 		idiomasAux = new ArrayList<>();
 		setResizable(false);
 		setTitle("Registrar Solicitud de Empresa");
-		setBounds(100, 100, 582, 776);
+		setBounds(100, 100, 613, 830);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -90,27 +90,27 @@ public class SolEmpresa extends JDialog
 			JPanel PanelDatos = new JPanel();
 			PanelDatos.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos:",
 					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			PanelDatos.setBounds(10, 11, 545, 178);
+			PanelDatos.setBounds(10, 11, 561, 203);
 			panel.add(PanelDatos);
 			PanelDatos.setLayout(null);
 			{
 				JLabel lblNewLabel = new JLabel("RNC:");
-				lblNewLabel.setBounds(10, 24, 46, 14);
+				lblNewLabel.setBounds(10, 29, 46, 14);
 				PanelDatos.add(lblNewLabel);
 			}
 			{
 				JLabel lblNewLabel_1 = new JLabel("Nombre:");
-				lblNewLabel_1.setBounds(10, 62, 65, 14);
+				lblNewLabel_1.setBounds(10, 72, 65, 14);
 				PanelDatos.add(lblNewLabel_1);
 			}
 			{
-				JLabel lblNewLabel_2 = new JLabel("TelÃ©fono:");
-				lblNewLabel_2.setBounds(10, 100, 65, 14);
+				JLabel lblNewLabel_2 = new JLabel("Telefono:");
+				lblNewLabel_2.setBounds(10, 115, 65, 14);
 				PanelDatos.add(lblNewLabel_2);
 			}
 			{
-				JLabel lblNewLabel_3 = new JLabel("DirecciÃ³n:");
-				lblNewLabel_3.setBounds(10, 138, 65, 14);
+				JLabel lblNewLabel_3 = new JLabel("Direccion:");
+				lblNewLabel_3.setBounds(10, 158, 65, 14);
 				PanelDatos.add(lblNewLabel_3);
 			}
 
@@ -125,7 +125,7 @@ public class SolEmpresa extends JDialog
 						e.consume();
 				}
 			});
-			txtRNC.setBounds(76, 21, 163, 20);
+			txtRNC.setBounds(76, 24, 163, 20);
 			PanelDatos.add(txtRNC);
 			txtRNC.setColumns(10);
 			{
@@ -141,7 +141,7 @@ public class SolEmpresa extends JDialog
 							e.consume();
 					}
 				});
-				txtNombre.setBounds(76, 59, 210, 20);
+				txtNombre.setBounds(76, 68, 210, 20);
 				PanelDatos.add(txtNombre);
 				txtNombre.setColumns(10);
 			}
@@ -157,13 +157,13 @@ public class SolEmpresa extends JDialog
 							e.consume();
 					}
 				});
-				txtTelefono.setBounds(76, 97, 163, 20);
+				txtTelefono.setBounds(76, 112, 163, 20);
 				PanelDatos.add(txtTelefono);
 				txtTelefono.setColumns(10);
 			}
 			{
 				txtDireccion = new JTextField();
-				txtDireccion.setBounds(76, 135, 300, 20);
+				txtDireccion.setBounds(76, 156, 300, 20);
 				PanelDatos.add(txtDireccion);
 				txtDireccion.setColumns(10);
 			}
@@ -176,41 +176,41 @@ public class SolEmpresa extends JDialog
 				JPanel PanelDatosSolicitud = new JPanel();
 				PanelDatosSolicitud.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
 						"Datos de Solicitud:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-				PanelDatosSolicitud.setBounds(10, 200, 545, 218);
+				PanelDatosSolicitud.setBounds(10, 225, 561, 252);
 				panel.add(PanelDatosSolicitud);
 				PanelDatosSolicitud.setLayout(null);
 				{
 					JLabel lblNewLabel_4 = new JLabel("Contrato:");
-					lblNewLabel_4.setBounds(10, 32, 59, 14);
+					lblNewLabel_4.setBounds(10, 39, 59, 14);
 					PanelDatosSolicitud.add(lblNewLabel_4);
 				}
 				{
 					JLabel lblNewLabel_5 = new JLabel("Salario:");
-					lblNewLabel_5.setBounds(10, 78, 46, 14);
+					lblNewLabel_5.setBounds(10, 92, 46, 14);
 					PanelDatosSolicitud.add(lblNewLabel_5);
 				}
 
 				spnSalario = new JSpinner();
 				spnSalario.setModel(new SpinnerNumberModel(new Float(1000), new Float(0), null, new Float(500)));
-				spnSalario.setBounds(66, 75, 93, 20);
+				spnSalario.setBounds(66, 86, 93, 20);
 				PanelDatosSolicitud.add(spnSalario);
 				{
 					JLabel lblNewLabel_6 = new JLabel("Tipo de Salario:");
-					lblNewLabel_6.setBounds(286, 78, 127, 14);
+					lblNewLabel_6.setBounds(286, 92, 127, 14);
 					PanelDatosSolicitud.add(lblNewLabel_6);
 				}
 				{
 					JLabel lblNewLabel_7 = new JLabel("Ciudad:");
-					lblNewLabel_7.setBounds(10, 124, 46, 14);
+					lblNewLabel_7.setBounds(10, 145, 46, 14);
 					PanelDatosSolicitud.add(lblNewLabel_7);
 				}
 				{
 					JLabel lblNewLabel_8 = new JLabel("Puede Mudarse:");
-					lblNewLabel_8.setBounds(286, 170, 93, 14);
+					lblNewLabel_8.setBounds(286, 198, 93, 14);
 					PanelDatosSolicitud.add(lblNewLabel_8);
 				}
 				{
-					rdbtnMudarseSi = new JRadioButton("SÃ­");
+					rdbtnMudarseSi = new JRadioButton("Si");
 					rdbtnMudarseSi.addMouseListener(new MouseAdapter()
 					{
 						@Override
@@ -219,7 +219,7 @@ public class SolEmpresa extends JDialog
 							rdbtnMudarseNo.setSelected(false);
 						}
 					});
-					rdbtnMudarseSi.setBounds(385, 166, 59, 23);
+					rdbtnMudarseSi.setBounds(379, 192, 59, 23);
 					PanelDatosSolicitud.add(rdbtnMudarseSi);
 				}
 				{
@@ -232,12 +232,12 @@ public class SolEmpresa extends JDialog
 							rdbtnMudarseSi.setSelected(false);
 						}
 					});
-					rdbtnMudarseNo.setBounds(450, 166, 52, 23);
+					rdbtnMudarseNo.setBounds(440, 192, 52, 23);
 					PanelDatosSolicitud.add(rdbtnMudarseNo);
 				}
 				{
 					JLabel lblNewLabel_9 = new JLabel("Licencia:");
-					lblNewLabel_9.setBounds(10, 170, 59, 14);
+					lblNewLabel_9.setBounds(10, 198, 59, 14);
 					PanelDatosSolicitud.add(lblNewLabel_9);
 				}
 				{
@@ -254,35 +254,37 @@ public class SolEmpresa extends JDialog
 					cbxCiudad = new JComboBox();
 					cbxCiudad.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Santiago", "Santo Domingo",
 							"Espallat", "La Vega", "San Francisco", "Licey", "Samana", "Higuey" }));
-					cbxCiudad.setBounds(66, 121, 147, 20);
+					cbxCiudad.setBounds(66, 139, 147, 20);
 					PanelDatosSolicitud.add(cbxCiudad);
 				}
 				{
 					cbxContrato = new JComboBox();
-					cbxContrato.setModel(new DefaultComboBoxModel(new String[] {"<Selecionar>", "Jornada Completa", "Media Jornada", "Jornada Mixta"}));
-					cbxContrato.setBounds(66, 29, 147, 20);
+					cbxContrato.setModel(new DefaultComboBoxModel(
+							new String[] { "<Selecionar>", "Jornada Completa", "Media Jornada", "Jornada Mixta" }));
+					cbxContrato.setBounds(66, 33, 147, 20);
 					PanelDatosSolicitud.add(cbxContrato);
 				}
 				{
 					cbxTipoSalario = new JComboBox();
-					cbxTipoSalario.setModel(new DefaultComboBoxModel(new String[] {"<Selecionar>", "Quincenal", "Mensual", "Semanal", "Diario"}));
-					cbxTipoSalario.setBounds(379, 75, 123, 20);
+					cbxTipoSalario.setModel(new DefaultComboBoxModel(
+							new String[] { "<Selecionar>", "Quincenal", "Mensual", "Semanal", "Diario" }));
+					cbxTipoSalario.setBounds(379, 86, 123, 20);
 					PanelDatosSolicitud.add(cbxTipoSalario);
 				}
 				{
-					JLabel lblNewLabel_10 = new JLabel("CÃ³digo:");
-					lblNewLabel_10.setBounds(286, 32, 46, 14);
+					JLabel lblNewLabel_10 = new JLabel("Codigo:");
+					lblNewLabel_10.setBounds(286, 39, 46, 14);
 					PanelDatosSolicitud.add(lblNewLabel_10);
 				}
 				{
 					txtCodigo = new JTextField();
 					txtCodigo.setEditable(false);
-					txtCodigo.setBounds(379, 29, 123, 20);
+					txtCodigo.setBounds(379, 33, 123, 20);
 					PanelDatosSolicitud.add(txtCodigo);
 					txtCodigo.setColumns(10);
 				}
 				{
-					rdbtnLicenciaSi = new JRadioButton("SÃ­");
+					rdbtnLicenciaSi = new JRadioButton("Si");
 					rdbtnLicenciaSi.addMouseListener(new MouseAdapter()
 					{
 						@Override
@@ -291,7 +293,7 @@ public class SolEmpresa extends JDialog
 							rdbtnLicenciaNo.setSelected(false);
 						}
 					});
-					rdbtnLicenciaSi.setBounds(66, 166, 59, 23);
+					rdbtnLicenciaSi.setBounds(66, 194, 59, 23);
 					PanelDatosSolicitud.add(rdbtnLicenciaSi);
 				}
 				{
@@ -304,17 +306,17 @@ public class SolEmpresa extends JDialog
 							rdbtnLicenciaSi.setSelected(false);
 						}
 					});
-					rdbtnLicenciaNo.setBounds(134, 166, 52, 23);
+					rdbtnLicenciaNo.setBounds(127, 194, 52, 23);
 					PanelDatosSolicitud.add(rdbtnLicenciaNo);
 				}
 				{
 					JLabel lblNewLabel_12 = new JLabel("Idiomas:");
-					lblNewLabel_12.setBounds(286, 124, 59, 14);
+					lblNewLabel_12.setBounds(286, 145, 59, 14);
 					PanelDatosSolicitud.add(lblNewLabel_12);
 				}
 				{
 					txtIdioma = new JTextField();
-					txtIdioma.setBounds(342, 121, 86, 20);
+					txtIdioma.setBounds(342, 139, 86, 20);
 					PanelDatosSolicitud.add(txtIdioma);
 					txtIdioma.setColumns(10);
 				}
@@ -328,14 +330,14 @@ public class SolEmpresa extends JDialog
 						txtIdioma.setText("");
 					}
 				});
-				btnAgregarIdioma.setBounds(438, 120, 86, 23);
+				btnAgregarIdioma.setBounds(449, 138, 86, 23);
 				PanelDatosSolicitud.add(btnAgregarIdioma);
 			}
 			{
 				JPanel PanelTipoSolicitud = new JPanel();
 				PanelTipoSolicitud.setBorder(
 						new TitledBorder(null, "Tipo de Solicitud:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				PanelTipoSolicitud.setBounds(10, 429, 545, 72);
+				PanelTipoSolicitud.setBounds(10, 483, 561, 72);
 				panel.add(PanelTipoSolicitud);
 				PanelTipoSolicitud.setLayout(null);
 
@@ -344,7 +346,7 @@ public class SolEmpresa extends JDialog
 				rdbtnUniversitario.setBounds(71, 27, 108, 23);
 				PanelTipoSolicitud.add(rdbtnUniversitario);
 
-				rdbtnTecnico = new JRadioButton("TÃ©cnico");
+				rdbtnTecnico = new JRadioButton("Tecnico");
 				rdbtnTecnico.setBounds(250, 27, 81, 23);
 				PanelTipoSolicitud.add(rdbtnTecnico);
 
@@ -356,7 +358,7 @@ public class SolEmpresa extends JDialog
 			JPanel PanelAptidutes = new JPanel();
 			PanelAptidutes.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Aptitudes:",
 					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			PanelAptidutes.setBounds(10, 512, 545, 186);
+			PanelAptidutes.setBounds(10, 566, 561, 186);
 			panel.add(PanelAptidutes);
 			PanelAptidutes.setLayout(null);
 
@@ -364,7 +366,7 @@ public class SolEmpresa extends JDialog
 			lblNewLabel_11.setBounds(11, 118, 58, 14);
 			PanelAptidutes.add(lblNewLabel_11);
 			{
-				JLabel lblNewLabel_13 = new JLabel("Ã�rea:");
+				JLabel lblNewLabel_13 = new JLabel("Area:");
 				lblNewLabel_13.setBounds(10, 52, 46, 14);
 				PanelAptidutes.add(lblNewLabel_13);
 			}
@@ -376,36 +378,36 @@ public class SolEmpresa extends JDialog
 				{
 					if (!cbxArea.getSelectedItem().toString().equalsIgnoreCase("<Selecionar>"))
 					{
-						cbxCarrea.setEditable(true);
-						cbxCarrea.setEnabled(true);
+						cbxCarrera.setEditable(true);
+						cbxCarrera.setEnabled(true);
 
-						if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias e IngenierÃ­a"))
-							cbxCarrea.setModel(new DefaultComboBoxModel(
-									new String[] { "<Selecionar>", "Ing. Ciencias de la ComputacÃ­on" }));
+						if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias e Ingenieria"))
+							cbxCarrera.setModel(new DefaultComboBoxModel(
+									new String[] { "<Selecionar>", "Ing. Ciencias de la Computacion" }));
 						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias de la Salud"))
-							cbxCarrea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Medicina" }));
+							cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Medicina" }));
 						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias Administrativas"))
-							cbxCarrea.setModel(
-									new DefaultComboBoxModel(new String[] { "<Selecionar>", "DireccÃ­on Empresarial" }));
+							cbxCarrera.setModel(
+									new DefaultComboBoxModel(new String[] { "<Selecionar>", "Direccion Empresarial" }));
 						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias Humanidades y Artes"))
-							cbxCarrea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Derecho" }));
+							cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Derecho" }));
 						else
-							cbxCarrea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>" }));
+							cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>" }));
 					}
-
 				}
 			});
-			cbxArea.setModel(new DefaultComboBoxModel(new String[] {"<Selecionar>", "Ciencias de la Salud", "Ciencias e Ingenier\u00C3\u00ADa", "Ciencias Administrativas", "Ciencias Humanidades y Artes"}));
+			cbxArea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Ciencias de la Salud",
+					"Ciencias e Ingenier\u00C3\u00ADa", "Ciencias Administrativas", "Ciencias Humanidades y Artes" }));
 			cbxArea.setBounds(67, 48, 208, 20);
 			PanelAptidutes.add(cbxArea);
 			{
-				cbxCarrea = new JComboBox();
-				cbxCarrea.setEnabled(false);
-				cbxCarrea.setBounds(67, 116, 208, 20);
-				PanelAptidutes.add(cbxCarrea);
+				cbxCarrera = new JComboBox();
+				cbxCarrera.setEnabled(false);
+				cbxCarrera.setBounds(67, 116, 208, 20);
+				PanelAptidutes.add(cbxCarrera);
 			}
 
-			JLabel lblNewLabel_14 = new JLabel("AÃ±os:");
+			JLabel lblNewLabel_14 = new JLabel("Años:");
 			lblNewLabel_14.setBounds(328, 52, 46, 14);
 			PanelAptidutes.add(lblNewLabel_14);
 
@@ -422,10 +424,10 @@ public class SolEmpresa extends JDialog
 			btnValidar = new JButton("Validar");
 			buttonPane.add(btnValidar);
 			{
-				btnRegistrar = new JButton("Registrar");
-				btnRegistrar.setActionCommand("OK");
-				buttonPane.add(btnRegistrar);
-				getRootPane().setDefaultButton(btnRegistrar);
+				btnSolicitar = new JButton("Solicitar");
+				btnSolicitar.setActionCommand("OK");
+				buttonPane.add(btnSolicitar);
+				getRootPane().setDefaultButton(btnSolicitar);
 			}
 			{
 				btnCancelar = new JButton("Cancelar");

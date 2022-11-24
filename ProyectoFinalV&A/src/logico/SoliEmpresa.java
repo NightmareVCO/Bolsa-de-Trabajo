@@ -1,13 +1,13 @@
 package logico;
 
-public class SolEmpresa extends Solicitud
+public class SoliEmpresa extends Solicitud
 {
 	protected String rnc;
 	protected float porcentajeMacth;
 	protected String tipoSalario;
 	protected int cantidad;
 
-	public SolEmpresa(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
+	public SoliEmpresa(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
 			boolean activa, String rnc, float porcentajeMacth, String tipoSalario, int cantidad)
 	{
 		super(codigo, movilidad, contrato, licencia, cuidad, sueldo, activa);
