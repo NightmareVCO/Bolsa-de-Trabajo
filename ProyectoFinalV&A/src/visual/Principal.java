@@ -15,6 +15,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class Principal extends JFrame
@@ -62,12 +64,33 @@ public class Principal extends JFrame
 		menuBar.add(mnNewMenu);
 
 		JMenuItem mntmNewMenuItem = new JMenuItem("Ingresar de Empresa");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SolEmpresa solEmp = new SolEmpresa();
+				solEmp.setModal(true);
+				solEmp.setVisible(true);
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem);
 
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Ingresar de Persona");
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SolPersona solPer = new SolPersona();
+				solPer.setModal(true);
+				solPer.setVisible(true);
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem_5);
 
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listar");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListSolicitudes listSol = new ListSolicitudes();
+				listSol.setModal(true);
+				listSol.setVisible(true);
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem_1);
 
 		JMenu mnNewMenu_1 = new JMenu("Personas");
