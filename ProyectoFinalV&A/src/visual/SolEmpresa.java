@@ -104,12 +104,12 @@ public class SolEmpresa extends JDialog
 				PanelDatos.add(lblNewLabel_1);
 			}
 			{
-				JLabel lblNewLabel_2 = new JLabel("Teléfono:");
+				JLabel lblNewLabel_2 = new JLabel("TelÃ©fono:");
 				lblNewLabel_2.setBounds(10, 100, 65, 14);
 				PanelDatos.add(lblNewLabel_2);
 			}
 			{
-				JLabel lblNewLabel_3 = new JLabel("Dirección:");
+				JLabel lblNewLabel_3 = new JLabel("DirecciÃ³n:");
 				lblNewLabel_3.setBounds(10, 138, 65, 14);
 				PanelDatos.add(lblNewLabel_3);
 			}
@@ -210,7 +210,7 @@ public class SolEmpresa extends JDialog
 					PanelDatosSolicitud.add(lblNewLabel_8);
 				}
 				{
-					rdbtnMudarseSi = new JRadioButton("Sí");
+					rdbtnMudarseSi = new JRadioButton("SÃ­");
 					rdbtnMudarseSi.addMouseListener(new MouseAdapter()
 					{
 						@Override
@@ -241,7 +241,7 @@ public class SolEmpresa extends JDialog
 					PanelDatosSolicitud.add(lblNewLabel_9);
 				}
 				{
-					JRadioButton radioButton = new JRadioButton("Sí");
+					JRadioButton radioButton = new JRadioButton("SÃ­");
 					radioButton.setBounds(6, 347, 52, 23);
 					PanelDatosSolicitud.add(radioButton);
 				}
@@ -259,20 +259,18 @@ public class SolEmpresa extends JDialog
 				}
 				{
 					cbxContrato = new JComboBox();
-					cbxContrato.setModel(new DefaultComboBoxModel(
-							new String[] { "<Selecionar>", "Jornada Completa", "Media Jornada", "Jornada Mixta" }));
+					cbxContrato.setModel(new DefaultComboBoxModel(new String[] {"<Selecionar>", "Jornada Completa", "Media Jornada", "Jornada Mixta"}));
 					cbxContrato.setBounds(66, 29, 147, 20);
 					PanelDatosSolicitud.add(cbxContrato);
 				}
 				{
 					cbxTipoSalario = new JComboBox();
-					cbxTipoSalario.setModel(new DefaultComboBoxModel(
-							new String[] { "<Selecionar>", "Quincenal", "Mensual", "Semanal", "Diario" }));
+					cbxTipoSalario.setModel(new DefaultComboBoxModel(new String[] {"<Selecionar>", "Quincenal", "Mensual", "Semanal", "Diario"}));
 					cbxTipoSalario.setBounds(379, 75, 123, 20);
 					PanelDatosSolicitud.add(cbxTipoSalario);
 				}
 				{
-					JLabel lblNewLabel_10 = new JLabel("Código:");
+					JLabel lblNewLabel_10 = new JLabel("CÃ³digo:");
 					lblNewLabel_10.setBounds(286, 32, 46, 14);
 					PanelDatosSolicitud.add(lblNewLabel_10);
 				}
@@ -284,7 +282,7 @@ public class SolEmpresa extends JDialog
 					txtCodigo.setColumns(10);
 				}
 				{
-					rdbtnLicenciaSi = new JRadioButton("Sí");
+					rdbtnLicenciaSi = new JRadioButton("SÃ­");
 					rdbtnLicenciaSi.addMouseListener(new MouseAdapter()
 					{
 						@Override
@@ -346,7 +344,7 @@ public class SolEmpresa extends JDialog
 				rdbtnUniversitario.setBounds(71, 27, 108, 23);
 				PanelTipoSolicitud.add(rdbtnUniversitario);
 
-				rdbtnTecnico = new JRadioButton("Técnico");
+				rdbtnTecnico = new JRadioButton("TÃ©cnico");
 				rdbtnTecnico.setBounds(250, 27, 81, 23);
 				PanelTipoSolicitud.add(rdbtnTecnico);
 
@@ -366,7 +364,7 @@ public class SolEmpresa extends JDialog
 			lblNewLabel_11.setBounds(11, 118, 58, 14);
 			PanelAptidutes.add(lblNewLabel_11);
 			{
-				JLabel lblNewLabel_13 = new JLabel("Área:");
+				JLabel lblNewLabel_13 = new JLabel("Ã�rea:");
 				lblNewLabel_13.setBounds(10, 52, 46, 14);
 				PanelAptidutes.add(lblNewLabel_13);
 			}
@@ -381,14 +379,14 @@ public class SolEmpresa extends JDialog
 						cbxCarrea.setEditable(true);
 						cbxCarrea.setEnabled(true);
 
-						if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias e Ingeniería"))
+						if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias e IngenierÃ­a"))
 							cbxCarrea.setModel(new DefaultComboBoxModel(
-									new String[] { "<Selecionar>", "Ing. Ciencias de la Computacíon" }));
+									new String[] { "<Selecionar>", "Ing. Ciencias de la ComputacÃ­on" }));
 						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias de la Salud"))
 							cbxCarrea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Medicina" }));
 						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias Administrativas"))
 							cbxCarrea.setModel(
-									new DefaultComboBoxModel(new String[] { "<Selecionar>", "Direccíon Empresarial" }));
+									new DefaultComboBoxModel(new String[] { "<Selecionar>", "DireccÃ­on Empresarial" }));
 						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias Humanidades y Artes"))
 							cbxCarrea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Derecho" }));
 						else
@@ -397,8 +395,7 @@ public class SolEmpresa extends JDialog
 
 				}
 			});
-			cbxArea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Ciencias de la Salud",
-					"Ciencias e Ingeniería", "Ciencias Administrativas", "Ciencias Humanidades y Artes" }));
+			cbxArea.setModel(new DefaultComboBoxModel(new String[] {"<Selecionar>", "Ciencias de la Salud", "Ciencias e Ingenier\u00C3\u00ADa", "Ciencias Administrativas", "Ciencias Humanidades y Artes"}));
 			cbxArea.setBounds(67, 48, 208, 20);
 			PanelAptidutes.add(cbxArea);
 			{
@@ -408,7 +405,7 @@ public class SolEmpresa extends JDialog
 				PanelAptidutes.add(cbxCarrea);
 			}
 
-			JLabel lblNewLabel_14 = new JLabel("Años:");
+			JLabel lblNewLabel_14 = new JLabel("AÃ±os:");
 			lblNewLabel_14.setBounds(328, 52, 46, 14);
 			PanelAptidutes.add(lblNewLabel_14);
 
