@@ -4,11 +4,10 @@ public class Universitario extends Persona
 {
 	private String carrera;
 	private int agnos;
-	
-	public Universitario(String id, String nombre, String telefono, String direccion, boolean contratado, String carrera,
-			int agnos)
+
+	public Universitario(String id, String nombre, String telefono, String direccion, String carrera, int agnos)
 	{
-		super(id, nombre, telefono, direccion, contratado);
+		super(id, nombre, telefono, direccion);
 		this.carrera = carrera;
 		this.agnos = agnos;
 	}

@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,28 +23,23 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import logico.Bolsa;
-import logico.EmpObrero;
-import logico.EmpTecnico;
-import logico.EmpUniversitario;
-import logico.Empresa;
 import logico.Obrero;
 import logico.Persona;
 import logico.SoliPersona;
 import logico.Tecnico;
 import logico.Universitario;
 
-import javax.swing.UIManager;
-import java.awt.Color;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
-
+@SuppressWarnings("serial")
 public class SolPersona extends JDialog
 {
 
@@ -56,10 +52,12 @@ public class SolPersona extends JDialog
 	private JRadioButton rdbtnLicenciaNo;
 	private JRadioButton rdbtnMudarseNo;
 	private JRadioButton rdbtnMudarseSi;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxArea;
 	private JLabel lblcarrera;
 	private JLabel lblarea;
 	private JSpinner spnAgnos;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxContrato;
 	private JSpinner spnSalario;
 	private JTextField txtCodigo;
@@ -74,6 +72,7 @@ public class SolPersona extends JDialog
 	private JRadioButton rdbtnObrero;
 	@SuppressWarnings("rawtypes")
 	private JComboBox cbxCiudad;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxCarrera;
 	private JLabel lblagnos;
 	private boolean mov = false;
@@ -86,6 +85,7 @@ public class SolPersona extends JDialog
 	private JPanel PanelAptitudes;
 	private JLabel lblActividades;
 	private JButton btnAgregarAct;
+	@SuppressWarnings("rawtypes")
 	private JList ListaActividades;
 	private JButton btnEliminar;
 	private JPanel PanelListaDeActividades;
@@ -93,6 +93,8 @@ public class SolPersona extends JDialog
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public SolPersona()
 	{
+		idiomasAux = new ArrayList<>();
+		actividades = new ArrayList<>();
 		setTitle("Registrar Solicitud de Persona");
 		setBounds(100, 100, 613, 830);
 		setResizable(false);
@@ -177,7 +179,7 @@ public class SolPersona extends JDialog
 
 			PanelAptitudes = new JPanel();
 			PanelAptitudes
-			.setBorder(new TitledBorder(null, "Aptitudes:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+					.setBorder(new TitledBorder(null, "Aptitudes:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			PanelAptitudes.setBounds(12, 568, 561, 186);
 			panel.add(PanelAptitudes);
 			PanelAptitudes.setLayout(null);
@@ -242,11 +244,11 @@ public class SolPersona extends JDialog
 			spnAgnos.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 			spnAgnos.setBounds(384, 49, 110, 20);
 			PanelAptitudes.add(spnAgnos);
-			
+
 			lblActividades = new JLabel("Actividades:");
 			lblActividades.setBounds(11, 84, 86, 14);
 			PanelAptitudes.add(lblActividades);
-			
+
 			txtActividades = new JTextField();
 			txtActividades.addKeyListener(new KeyAdapter()
 			{
@@ -262,17 +264,18 @@ public class SolPersona extends JDialog
 			txtActividades.setBounds(90, 81, 185, 20);
 			PanelAptitudes.add(txtActividades);
 			txtActividades.setColumns(10);
-			
+
 			PanelListaDeActividades = new JPanel();
-			PanelListaDeActividades.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Actividades:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			PanelListaDeActividades.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Actividades:",
+					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			PanelListaDeActividades.setBounds(328, 31, 208, 130);
 			PanelAptitudes.add(PanelListaDeActividades);
 			PanelListaDeActividades.setLayout(new BorderLayout(0, 0));
-			
+
 			JScrollPane scrollPane = new JScrollPane();
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			PanelListaDeActividades.add(scrollPane, BorderLayout.CENTER);
-			
+
 			ModelActividades = new DefaultListModel<String>();
 			ListaActividades = new JList();
 			ListaActividades.addMouseListener(new MouseAdapter()
@@ -290,7 +293,7 @@ public class SolPersona extends JDialog
 			ListaActividades.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			ListaActividades.setModel(ModelActividades);
 			scrollPane.setViewportView(ListaActividades);
-			
+
 			btnAgregarAct = new JButton("Agregar");
 			btnAgregarAct.setEnabled(false);
 			btnAgregarAct.addActionListener(new ActionListener()
@@ -306,7 +309,7 @@ public class SolPersona extends JDialog
 			});
 			btnAgregarAct.setBounds(90, 138, 86, 23);
 			PanelAptitudes.add(btnAgregarAct);
-			
+
 			btnEliminar = new JButton("Eliminar");
 			btnEliminar.addActionListener(new ActionListener()
 			{
@@ -510,8 +513,8 @@ public class SolPersona extends JDialog
 					lblcarrera.setVisible(false);
 					cbxCarrera.setVisible(false);
 					cbxArea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Amd. de Peq. Empresas",
-							"Artes Culinarias", "Automatizacion", "Diseño Grafico", "Enfermeria", "Gestion Social",
-							"Mercadeo", "Microfinanzas", "Publicidad y Medios Digistales", "Redes de Datos", }));
+							"Artes Culinarias", "Automatizacion", "Diseï¿½o Grafico", "Enfermeria", "Gestion Social", "Mercadeo",
+							"Microfinanzas", "Publicidad y Medios Digistales", "Redes de Datos", }));
 					lblActividades.setVisible(false);
 					txtActividades.setVisible(false);
 					btnAgregarAct.setVisible(false);
@@ -565,19 +568,24 @@ public class SolPersona extends JDialog
 							{
 								if (rdbtnUniversitario.isSelected())
 								{
-									person = new Universitario(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(), txtDireccion.getText(), false, cbxCarrera.getSelectedItem().toString(), Integer.valueOf(spnAgnos.getValue().toString()));
+									person = new Universitario(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(),
+											txtDireccion.getText(), cbxCarrera.getSelectedItem().toString(),
+											Integer.valueOf(spnAgnos.getValue().toString()));
 								}
-								
+
 								else if (rdbtnTecnico.isSelected())
 								{
-									person = new Tecnico(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(), txtDireccion.getText(), false, cbxArea.getSelectedItem().toString(), Integer.valueOf(spnAgnos.getValue().toString()));
+									person = new Tecnico(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(),
+											txtDireccion.getText(), cbxArea.getSelectedItem().toString(),
+											Integer.valueOf(spnAgnos.getValue().toString()));
 								}
-								
+
 								else if (rdbtnObrero.isSelected())
 								{
-									person = new Obrero(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(), txtDireccion.getText(), false, actividades);
+									person = new Obrero(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(),
+											txtDireccion.getText(), actividades);
 								}
-								
+
 								Bolsa.getInstance().addPersona(person);
 							}
 
@@ -586,8 +594,10 @@ public class SolPersona extends JDialog
 
 							if (rdbtnLicenciaSi.isSelected())
 								lic = true;
-							
-							SoliPersona soli = new SoliPersona(txtCodigo.getText(), mov, cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(), Float.valueOf(spnSalario.getValue().toString()), txtCedula.getText());
+
+							SoliPersona soli = new SoliPersona(txtCodigo.getText(), mov,
+									cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
+									Float.valueOf(spnSalario.getValue().toString()), txtCedula.getText());
 							Bolsa.getInstance().addSolicitud(soli);
 
 							JOptionPane.showMessageDialog(null, "Solicitud ingresada", "Informacion",
@@ -631,22 +641,31 @@ public class SolPersona extends JDialog
 		txtNombre.setText("");
 		txtTelefono.setText("");
 		txtDireccion.setText("");
+		txtNombre.setEditable(false);
+		txtTelefono.setEditable(false);
+		txtDireccion.setEditable(false);
 		cbxContrato.setSelectedIndex(0);
 		txtCodigo.setText("SOL-" + Bolsa.genSol);
 		spnSalario.setValue(new Float("1000"));
 		txtIdiomas.setText("");
-		rdbtnLicenciaNo.setSelected(false);
+		rdbtnLicenciaNo.setSelected(true);
 		rdbtnLicenciaSi.setSelected(false);
 		rdbtnMudarseSi.setSelected(false);
-		rdbtnMudarseNo.setSelected(false);
+		rdbtnMudarseNo.setSelected(true);
 		rdbtnTecnico.setSelected(false);
 		rdbtnTecnico.setSelected(false);
 		rdbtnUniversitario.setSelected(true);
-		cbxArea.setSelectedIndex(0);
-		cbxCarrera.setSelectedIndex(0);
+		if (rdbtnUniversitario.isSelected() || rdbtnTecnico.isSelected())
+			cbxArea.setSelectedIndex(0);
+		if (rdbtnUniversitario.isSelected())
+			cbxCarrera.setSelectedIndex(0);
+		cbxCiudad.setSelectedIndex(0);
 		spnAgnos.setValue(new Integer("0"));
+		actividades.removeAll(actividades);
+		idiomasAux.removeAll(idiomasAux);
+		ModelActividades.removeAllElements();
 	}
-	
+
 	private void cargarActividades()
 	{
 		ModelActividades.removeAllElements();
@@ -662,7 +681,7 @@ public class SolPersona extends JDialog
 			ModelActividades.addElement(aux);
 		}
 	}
-	
+
 	private boolean validar()
 	{
 
@@ -670,22 +689,20 @@ public class SolPersona extends JDialog
 
 		if (rdbtnUniversitario.isSelected() && (((txtCedula.getText().length() > 1) && (txtNombre.getText().length() > 1)
 				&& (txtTelefono.getText().length() > 1) && (txtDireccion.getText().length() > 1)
-				&& (cbxContrato.getSelectedIndex() > 0))
-				&& (idiomasAux.size() > 0) && (cbxArea.getSelectedIndex() > 0) && (cbxCarrera.getSelectedIndex() > 0)
-				&& (cbxCiudad.getSelectedIndex() > 0)))
+				&& (cbxContrato.getSelectedIndex() > 0)) && (idiomasAux.size() > 0) && (cbxArea.getSelectedIndex() > 0)
+				&& (cbxCarrera.getSelectedIndex() > 0) && (cbxCiudad.getSelectedIndex() > 0)))
 			validado = true;
 		else if (rdbtnTecnico.isSelected() && (((txtCedula.getText().length() > 1) && (txtNombre.getText().length() > 1)
 				&& (txtTelefono.getText().length() > 1) && (txtDireccion.getText().length() > 1)
-				&& (cbxContrato.getSelectedIndex() > 0) && (idiomasAux.size() > 0) && (cbxArea.getSelectedIndex() > 0) && (cbxCiudad.getSelectedIndex() > 0))))
+				&& (cbxContrato.getSelectedIndex() > 0) && (idiomasAux.size() > 0) && (cbxArea.getSelectedIndex() > 0)
+				&& (cbxCiudad.getSelectedIndex() > 0))))
 			validado = true;
 		else if (rdbtnObrero.isSelected() && (((txtCedula.getText().length() > 1) && (txtNombre.getText().length() > 1)
 				&& (txtTelefono.getText().length() > 1) && (txtDireccion.getText().length() > 1)
-				&& (cbxContrato.getSelectedIndex() > 0)&& (idiomasAux.size() > 0) && (cbxCiudad.getSelectedIndex() > 0) && actividades.size() > 0)))
+				&& (cbxContrato.getSelectedIndex() > 0) && (idiomasAux.size() > 0) && (cbxCiudad.getSelectedIndex() > 0)
+				&& actividades.size() > 0)))
 			validado = true;
 
 		return validado;
 	}
 }
-
-
-

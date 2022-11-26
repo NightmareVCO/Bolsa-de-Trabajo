@@ -8,14 +8,14 @@ public abstract class Persona
 	protected String direccion;
 	protected boolean contratado;
 
-	public Persona(String cedula, String nombre, String telefono, String direccion, boolean contratado)
+	public Persona(String cedula, String nombre, String telefono, String direccion)
 	{
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.direccion = direccion;
-		this.contratado = contratado;
+		contratado = false;
 	}
 
 	public String getId()

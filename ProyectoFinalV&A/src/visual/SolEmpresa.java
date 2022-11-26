@@ -770,11 +770,16 @@ public class SolEmpresa extends JDialog
 		rdbtnTecnico.setSelected(false);
 		rdbtnTecnico.setSelected(false);
 		rdbtnUniversitario.setSelected(true);
-		cbxArea.setSelectedIndex(0);
-		cbxCarrera.setSelectedIndex(0);
+		if (rdbtnUniversitario.isSelected() || rdbtnTecnico.isSelected())
+			cbxArea.setSelectedIndex(0);
+		if (rdbtnUniversitario.isSelected())
+			cbxCarrera.setSelectedIndex(0);
 		cbxCiudad.setSelectedIndex(0);
 		cbxTipoSalario.setSelectedIndex(0);
 		spnAgnos.setValue(new Integer("0"));
+		actividades.removeAll(actividades);
+		idiomasAux.removeAll(idiomasAux);
+		ModelActividades.removeAllElements();
 	}
 
 	private boolean validar()
