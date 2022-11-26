@@ -93,4 +93,22 @@ public class Bolsa
 		}
 		return aux;
 	}
+	
+	public Persona buscarPersonaByCedula(String cedula)
+	{
+		boolean encontrado = false;
+		int i = 0;
+		Persona aux = null;
+
+		while (!encontrado && i < empresas.size())
+		{
+			if (personas.get(i).getId().equalsIgnoreCase(cedula))
+			{
+				encontrado = true;
+				aux = personas.get(i);
+			}
+			i++;
+		}
+		return aux;
+	}
 }

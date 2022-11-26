@@ -6,10 +6,10 @@ public class Obrero extends Persona
 {
 	private ArrayList<String> oficios;
 
-	public Obrero(String id, String nombre, String telefono, String direccion, boolean contratado)
+	public Obrero(String id, String nombre, String telefono, String direccion, boolean contratado, ArrayList<String> oficios)
 	{
 		super(id, nombre, telefono, direccion, contratado);
-		oficios = new ArrayList<>();
+		this.oficios = oficios;
 	}
 
 	public ArrayList<String> getOficios()

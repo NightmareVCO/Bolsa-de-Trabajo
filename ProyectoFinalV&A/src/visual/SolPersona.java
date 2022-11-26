@@ -6,12 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -21,7 +28,21 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 
 import logico.Bolsa;
+import logico.EmpObrero;
+import logico.EmpTecnico;
+import logico.EmpUniversitario;
+import logico.Empresa;
+import logico.Obrero;
+import logico.Persona;
 import logico.SoliPersona;
+import logico.Tecnico;
+import logico.Universitario;
+
+import javax.swing.UIManager;
+import java.awt.Color;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 
 public class SolPersona extends JDialog
 {
@@ -36,28 +57,40 @@ public class SolPersona extends JDialog
 	private JRadioButton rdbtnMudarseNo;
 	private JRadioButton rdbtnMudarseSi;
 	private JComboBox cbxArea;
-	private JLabel lblCarrera;
-	private JLabel lblArea;
+	private JLabel lblcarrera;
+	private JLabel lblarea;
 	private JSpinner spnAgnos;
 	private JComboBox cbxContrato;
 	private JSpinner spnSalario;
 	private JTextField txtCodigo;
 	private JTextField txtIdiomas;
-	private JButton btnAgregar;
+	private JButton btnAgregarIdioma;
 	private JButton btnSolicitar;
 	private JButton btnCancelar;
-	private JButton btnValidar;
 	private JTextField txtTelefono;
 	private JPanel PanelTipoSolicitud;
 	private JRadioButton rdbtnUniversitario;
 	private JRadioButton rdbtnTecnico;
 	private JRadioButton rdbtnObrero;
+	@SuppressWarnings("rawtypes")
 	private JComboBox cbxCiudad;
 	private JComboBox cbxCarrera;
-	private JLabel lblNewLabel_6;
+	private JLabel lblagnos;
 	private boolean mov = false;
 	private boolean lic = false;
+	private ArrayList<String> idiomasAux;
+	private ArrayList<String> actividades;
+	private int selected = -1;
+	private DefaultListModel<String> ModelActividades;
+	private JTextField txtActividades;
+	private JPanel PanelAptitudes;
+	private JLabel lblActividades;
+	private JButton btnAgregarAct;
+	private JList ListaActividades;
+	private JButton btnEliminar;
+	private JPanel PanelListaDeActividades;
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public SolPersona()
 	{
 		setTitle("Registrar Solicitud de Persona");
@@ -94,11 +127,31 @@ public class SolPersona extends JDialog
 			PanelDatos.add(lblNewLabel_1);
 
 			txtNombre = new JTextField();
+			txtNombre.setEditable(false);
 			txtNombre.setBounds(80, 68, 210, 20);
 			PanelDatos.add(txtNombre);
 			txtNombre.setColumns(10);
 
 			btnBuscar = new JButton("Buscar");
+			btnBuscar.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					Persona aux = Bolsa.getInstance().buscarPersonaByCedula(txtCedula.getText());
+					if (aux != null)
+					{
+						txtNombre.setText(aux.getNombre());
+						txtTelefono.setText(aux.getTelefono());
+						txtDireccion.setText(aux.getDireccion());
+					}
+					else
+					{
+						txtNombre.setEditable(true);
+						txtTelefono.setEditable(true);
+						txtDireccion.setEditable(true);
+					}
+				}
+			});
 			btnBuscar.setBounds(454, 23, 97, 25);
 			PanelDatos.add(btnBuscar);
 
@@ -107,6 +160,7 @@ public class SolPersona extends JDialog
 			PanelDatos.add(lblNewLabel_2);
 
 			txtTelefono = new JTextField();
+			txtTelefono.setEditable(false);
 			txtTelefono.setBounds(80, 111, 178, 20);
 			PanelDatos.add(txtTelefono);
 			txtTelefono.setColumns(10);
@@ -116,29 +170,30 @@ public class SolPersona extends JDialog
 			PanelDatos.add(lblNewLabel_3);
 
 			txtDireccion = new JTextField();
+			txtDireccion.setEditable(false);
 			txtDireccion.setBounds(80, 154, 300, 20);
 			PanelDatos.add(txtDireccion);
 			txtDireccion.setColumns(10);
 
-			JPanel PanelAptitudes = new JPanel();
+			PanelAptitudes = new JPanel();
 			PanelAptitudes
-					.setBorder(new TitledBorder(null, "Aptitudes:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			.setBorder(new TitledBorder(null, "Aptitudes:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			PanelAptitudes.setBounds(12, 568, 561, 186);
 			panel.add(PanelAptitudes);
 			PanelAptitudes.setLayout(null);
 
-			lblCarrera = new JLabel("Carrera:");
-			lblCarrera.setBounds(12, 118, 56, 16);
-			PanelAptitudes.add(lblCarrera);
+			lblcarrera = new JLabel("Carrera:");
+			lblcarrera.setBounds(12, 118, 56, 16);
+			PanelAptitudes.add(lblcarrera);
 
 			cbxCarrera = new JComboBox();
 			cbxCarrera.setEnabled(false);
 			cbxCarrera.setBounds(72, 116, 208, 20);
 			PanelAptitudes.add(cbxCarrera);
 
-			lblArea = new JLabel("Area:");
-			lblArea.setBounds(12, 51, 56, 16);
-			PanelAptitudes.add(lblArea);
+			lblarea = new JLabel("Area:");
+			lblarea.setBounds(12, 48, 56, 16);
+			PanelAptitudes.add(lblarea);
 
 			cbxArea = new JComboBox();
 			cbxArea.addItemListener(new ItemListener()
@@ -176,17 +231,95 @@ public class SolPersona extends JDialog
 			});
 			cbxArea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Ciencias de la Salud",
 					"Ciencias e Ingenieria", "Ciencias Administrativas", "Ciencias Humanidades y Artes" }));
-			cbxArea.setBounds(72, 49, 208, 20);
+			cbxArea.setBounds(72, 46, 208, 20);
 			PanelAptitudes.add(cbxArea);
 
-			lblNewLabel_6 = new JLabel("A\u00F1os:");
-			lblNewLabel_6.setBounds(331, 50, 47, 16);
-			PanelAptitudes.add(lblNewLabel_6);
+			lblagnos = new JLabel("A\u00F1os:");
+			lblagnos.setBounds(328, 52, 46, 14);
+			PanelAptitudes.add(lblagnos);
 
 			spnAgnos = new JSpinner();
 			spnAgnos.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-			spnAgnos.setBounds(388, 48, 110, 20);
+			spnAgnos.setBounds(384, 49, 110, 20);
 			PanelAptitudes.add(spnAgnos);
+			
+			lblActividades = new JLabel("Actividades:");
+			lblActividades.setBounds(11, 84, 86, 14);
+			PanelAptitudes.add(lblActividades);
+			
+			txtActividades = new JTextField();
+			txtActividades.addKeyListener(new KeyAdapter()
+			{
+				@Override
+				public void keyTyped(KeyEvent e)
+				{
+					if (txtActividades.getText().length() > 0)
+						btnAgregarAct.setEnabled(true);
+					else if (txtActividades.getText().length() < 1)
+						btnAgregarAct.setEnabled(false);
+				}
+			});
+			txtActividades.setBounds(90, 81, 185, 20);
+			PanelAptitudes.add(txtActividades);
+			txtActividades.setColumns(10);
+			
+			PanelListaDeActividades = new JPanel();
+			PanelListaDeActividades.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Actividades:", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+			PanelListaDeActividades.setBounds(328, 31, 208, 130);
+			PanelAptitudes.add(PanelListaDeActividades);
+			PanelListaDeActividades.setLayout(new BorderLayout(0, 0));
+			
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			PanelListaDeActividades.add(scrollPane, BorderLayout.CENTER);
+			
+			ModelActividades = new DefaultListModel<String>();
+			ListaActividades = new JList();
+			ListaActividades.addMouseListener(new MouseAdapter()
+			{
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					selected = ListaActividades.getSelectedIndex();
+					if (selected >= 0)
+					{
+						btnEliminar.setEnabled(true);
+					}
+				}
+			});
+			ListaActividades.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			ListaActividades.setModel(ModelActividades);
+			scrollPane.setViewportView(ListaActividades);
+			
+			btnAgregarAct = new JButton("Agregar");
+			btnAgregarAct.setEnabled(false);
+			btnAgregarAct.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					actividades.add(txtActividades.getText());
+					txtActividades.setText("");
+					ModelActividades.addElement(txtActividades.getText());
+					btnAgregarAct.setEnabled(false);
+					recargarActividades();
+				}
+			});
+			btnAgregarAct.setBounds(90, 138, 86, 23);
+			PanelAptitudes.add(btnAgregarAct);
+			
+			btnEliminar = new JButton("Eliminar");
+			btnEliminar.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					actividades.remove(selected);
+					recargarActividades();
+					btnEliminar.setEnabled(false);
+				}
+			});
+			btnEliminar.setEnabled(false);
+			btnEliminar.setBounds(186, 138, 89, 23);
+			PanelAptitudes.add(btnEliminar);
 
 			JPanel PanelDatosSolicitud = new JPanel();
 			PanelDatosSolicitud.setBorder(
@@ -230,10 +363,27 @@ public class SolPersona extends JDialog
 			PanelDatosSolicitud.add(lblNewLabel_4);
 
 			rdbtnLicenciaSi = new JRadioButton("Si");
+			rdbtnLicenciaSi.addMouseListener(new MouseAdapter()
+			{
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					rdbtnLicenciaNo.setSelected(false);
+				}
+			});
 			rdbtnLicenciaSi.setBounds(78, 194, 48, 25);
 			PanelDatosSolicitud.add(rdbtnLicenciaSi);
 
 			rdbtnLicenciaNo = new JRadioButton("No");
+			rdbtnLicenciaNo.setSelected(true);
+			rdbtnLicenciaNo.addMouseListener(new MouseAdapter()
+			{
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					rdbtnLicenciaSi.setSelected(false);
+				}
+			});
 			rdbtnLicenciaNo.setBounds(128, 194, 48, 25);
 			PanelDatosSolicitud.add(rdbtnLicenciaNo);
 
@@ -242,10 +392,27 @@ public class SolPersona extends JDialog
 			PanelDatosSolicitud.add(lblNewLabel_5);
 
 			rdbtnMudarseSi = new JRadioButton("Si");
+			rdbtnMudarseSi.addMouseListener(new MouseAdapter()
+			{
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					rdbtnMudarseNo.setSelected(false);
+				}
+			});
 			rdbtnMudarseSi.setBounds(368, 181, 48, 25);
 			PanelDatosSolicitud.add(rdbtnMudarseSi);
 
 			rdbtnMudarseNo = new JRadioButton("No");
+			rdbtnMudarseNo.setSelected(true);
+			rdbtnMudarseNo.addMouseListener(new MouseAdapter()
+			{
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					rdbtnMudarseSi.setSelected(false);
+				}
+			});
 			rdbtnMudarseNo.setBounds(418, 181, 53, 25);
 			PanelDatosSolicitud.add(rdbtnMudarseNo);
 
@@ -254,13 +421,35 @@ public class SolPersona extends JDialog
 			PanelDatosSolicitud.add(lblNewLabel_11);
 
 			txtIdiomas = new JTextField();
+			txtIdiomas.addKeyListener(new KeyAdapter()
+			{
+				@Override
+				public void keyTyped(KeyEvent e)
+				{
+					char c = e.getKeyChar();
+					if (!Character.isAlphabetic(c) && (c != KeyEvent.VK_BACK_SPACE) && (c != KeyEvent.VK_SPACE))
+						e.consume();
+
+					if (txtIdiomas.getText().length() > 1)
+						btnAgregarIdioma.setEnabled(true);
+				}
+			});
 			txtIdiomas.setBounds(331, 116, 86, 20);
 			PanelDatosSolicitud.add(txtIdiomas);
 			txtIdiomas.setColumns(10);
 
-			btnAgregar = new JButton("Agregar");
-			btnAgregar.setBounds(442, 114, 97, 25);
-			PanelDatosSolicitud.add(btnAgregar);
+			btnAgregarIdioma = new JButton("Agregar");
+			btnAgregarIdioma.setEnabled(false);
+			btnAgregarIdioma.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					idiomasAux.add(txtIdiomas.getText());
+					txtIdiomas.setText("");
+				}
+			});
+			btnAgregarIdioma.setBounds(442, 114, 97, 25);
+			PanelDatosSolicitud.add(btnAgregarIdioma);
 
 			JLabel label = new JLabel("Ciudad:");
 			label.setBounds(12, 146, 46, 14);
@@ -284,15 +473,76 @@ public class SolPersona extends JDialog
 					new TitledBorder(null, "Tipo de Solicitud:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 			rdbtnUniversitario = new JRadioButton("Universatario");
+			rdbtnUniversitario.addMouseListener(new MouseAdapter()
+			{
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					rdbtnObrero.setSelected(false);
+					rdbtnTecnico.setSelected(false);
+					lblarea.setVisible(true);
+					cbxArea.setVisible(true);
+					lblcarrera.setVisible(true);
+					cbxCarrera.setVisible(true);
+					lblagnos.setVisible(true);
+					spnAgnos.setVisible(true);
+					cbxArea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Ciencias de la Salud",
+							"Ciencias e Ingenieria", "Ciencias Administrativas", "Ciencias Humanidades y Artes" }));
+					lblActividades.setVisible(false);
+					txtActividades.setVisible(false);
+					btnAgregarAct.setVisible(false);
+					PanelListaDeActividades.setVisible(false);
+					btnEliminar.setVisible(false);
+				}
+			});
 			rdbtnUniversitario.setSelected(true);
 			rdbtnUniversitario.setBounds(75, 27, 108, 23);
 			PanelTipoSolicitud.add(rdbtnUniversitario);
 
 			rdbtnTecnico = new JRadioButton("Tecnico");
+			rdbtnTecnico.addMouseListener(new MouseAdapter()
+			{
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					rdbtnObrero.setSelected(false);
+					rdbtnUniversitario.setSelected(false);
+					lblcarrera.setVisible(false);
+					cbxCarrera.setVisible(false);
+					cbxArea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Amd. de Peq. Empresas",
+							"Artes Culinarias", "Automatizacion", "Diseño Grafico", "Enfermeria", "Gestion Social",
+							"Mercadeo", "Microfinanzas", "Publicidad y Medios Digistales", "Redes de Datos", }));
+					lblActividades.setVisible(false);
+					txtActividades.setVisible(false);
+					btnAgregarAct.setVisible(false);
+					PanelListaDeActividades.setVisible(false);
+					btnEliminar.setVisible(false);
+				}
+			});
 			rdbtnTecnico.setBounds(258, 27, 81, 23);
 			PanelTipoSolicitud.add(rdbtnTecnico);
 
 			rdbtnObrero = new JRadioButton("Obrero");
+			rdbtnObrero.addMouseListener(new MouseAdapter()
+			{
+				@Override
+				public void mouseClicked(MouseEvent e)
+				{
+					rdbtnUniversitario.setSelected(false);
+					rdbtnTecnico.setSelected(false);
+					lblarea.setVisible(false);
+					cbxArea.setVisible(false);
+					lblcarrera.setVisible(false);
+					cbxCarrera.setVisible(false);
+					lblagnos.setVisible(false);
+					spnAgnos.setVisible(false);
+					lblActividades.setVisible(true);
+					txtActividades.setVisible(true);
+					btnAgregarAct.setVisible(true);
+					PanelListaDeActividades.setVisible(true);
+					btnEliminar.setVisible(true);
+				}
+			});
 			rdbtnObrero.setBounds(414, 27, 69, 23);
 			PanelTipoSolicitud.add(rdbtnObrero);
 		}
@@ -301,29 +551,53 @@ public class SolPersona extends JDialog
 			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-
-			btnValidar = new JButton("Validar");
-			buttonPane.add(btnValidar);
 			{
 				btnSolicitar = new JButton("Solicitar");
 				btnSolicitar.addActionListener(new ActionListener()
 				{
+					@SuppressWarnings("unused")
 					public void actionPerformed(ActionEvent e)
 					{
-						if (rdbtnMudarseSi.isSelected())
-							mov = true;
+						if (validar())
+						{
+							Persona person = Bolsa.getInstance().buscarPersonaByCedula(txtCedula.getText());
+							if (person == null)
+							{
+								if (rdbtnUniversitario.isSelected())
+								{
+									person = new Universitario(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(), txtDireccion.getText(), false, cbxCarrera.getSelectedItem().toString(), Integer.valueOf(spnAgnos.getValue().toString()));
+								}
+								
+								else if (rdbtnTecnico.isSelected())
+								{
+									person = new Tecnico(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(), txtDireccion.getText(), false, cbxArea.getSelectedItem().toString(), Integer.valueOf(spnAgnos.getValue().toString()));
+								}
+								
+								else if (rdbtnObrero.isSelected())
+								{
+									person = new Obrero(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(), txtDireccion.getText(), false, actividades);
+								}
+								
+								Bolsa.getInstance().addPersona(person);
+							}
 
-						if (rdbtnLicenciaSi.isSelected())
-							lic = true;
+							if (rdbtnMudarseSi.isSelected())
+								mov = true;
 
-						SoliPersona soli = new SoliPersona(txtCodigo.getText(), mov, cbxContrato.getSelectedItem().toString(),
-								lic, cbxCiudad.getSelectedItem().toString(), Float.valueOf(spnSalario.getValue().toString()),
-								txtCedula.getText());
-						Bolsa.getInstance().addSolicitud(soli);
-						JOptionPane.showMessageDialog(null, "Solicitud ingresada", "Informacion",
-								JOptionPane.INFORMATION_MESSAGE);
-						System.out.println(Bolsa.getInstance().getSolicitudes().get(0).getCodigo());
-						clean();
+							if (rdbtnLicenciaSi.isSelected())
+								lic = true;
+							
+							SoliPersona soli = new SoliPersona(txtCodigo.getText(), mov, cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(), Float.valueOf(spnSalario.getValue().toString()), txtCedula.getText());
+							Bolsa.getInstance().addSolicitud(soli);
+
+							JOptionPane.showMessageDialog(null, "Solicitud ingresada", "Informacion",
+									JOptionPane.INFORMATION_MESSAGE);
+
+							clean();
+						}
+						else
+							JOptionPane.showMessageDialog(null, "Solicitud Incompleta", "Informacion",
+									JOptionPane.INFORMATION_MESSAGE);
 					}
 				});
 				btnSolicitar.setActionCommand("OK");
@@ -343,6 +617,12 @@ public class SolPersona extends JDialog
 				buttonPane.add(btnCancelar);
 			}
 		}
+		lblActividades.setVisible(false);
+		txtActividades.setVisible(false);
+		btnAgregarAct.setVisible(false);
+		PanelListaDeActividades.setVisible(false);
+		btnEliminar.setVisible(false);
+		cargarActividades();
 	}
 
 	private void clean()
@@ -366,4 +646,46 @@ public class SolPersona extends JDialog
 		cbxCarrera.setSelectedIndex(0);
 		spnAgnos.setValue(new Integer("0"));
 	}
+	
+	private void cargarActividades()
+	{
+		ModelActividades.removeAllElements();
+	}
+
+	private void recargarActividades()
+	{
+		ModelActividades.removeAllElements();
+		String aux = "";
+		for (int i = 0; i < actividades.size(); i++)
+		{
+			aux = actividades.get(i);
+			ModelActividades.addElement(aux);
+		}
+	}
+	
+	private boolean validar()
+	{
+
+		boolean validado = false;
+
+		if (rdbtnUniversitario.isSelected() && (((txtCedula.getText().length() > 1) && (txtNombre.getText().length() > 1)
+				&& (txtTelefono.getText().length() > 1) && (txtDireccion.getText().length() > 1)
+				&& (cbxContrato.getSelectedIndex() > 0))
+				&& (idiomasAux.size() > 0) && (cbxArea.getSelectedIndex() > 0) && (cbxCarrera.getSelectedIndex() > 0)
+				&& (cbxCiudad.getSelectedIndex() > 0)))
+			validado = true;
+		else if (rdbtnTecnico.isSelected() && (((txtCedula.getText().length() > 1) && (txtNombre.getText().length() > 1)
+				&& (txtTelefono.getText().length() > 1) && (txtDireccion.getText().length() > 1)
+				&& (cbxContrato.getSelectedIndex() > 0) && (idiomasAux.size() > 0) && (cbxArea.getSelectedIndex() > 0) && (cbxCiudad.getSelectedIndex() > 0))))
+			validado = true;
+		else if (rdbtnObrero.isSelected() && (((txtCedula.getText().length() > 1) && (txtNombre.getText().length() > 1)
+				&& (txtTelefono.getText().length() > 1) && (txtDireccion.getText().length() > 1)
+				&& (cbxContrato.getSelectedIndex() > 0)&& (idiomasAux.size() > 0) && (cbxCiudad.getSelectedIndex() > 0) && actividades.size() > 0)))
+			validado = true;
+
+		return validado;
+	}
 }
+
+
+
