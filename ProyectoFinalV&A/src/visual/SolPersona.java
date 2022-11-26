@@ -28,39 +28,39 @@ public class SolPersona extends JDialog
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtCedula;
-	private JTextField txtNom;
+	private JTextField txtNombre;
 	private JButton btnBuscar;
-	private JTextField txtDir;
-	private JRadioButton rdbtnSiLic;
-	private JRadioButton rdbtnNoLic;
-	private JRadioButton rdbtnNoMud;
-	private JRadioButton rdbtnSiMud;
+	private JTextField txtDireccion;
+	private JRadioButton rdbtnLicenciaSi;
+	private JRadioButton rdbtnLicenciaNo;
+	private JRadioButton rdbtnMudarseNo;
+	private JRadioButton rdbtnMudarseSi;
 	private JComboBox cbxArea;
 	private JLabel lblCarrera;
 	private JLabel lblArea;
 	private JSpinner spnAgnos;
-	private JComboBox cbxCotrato;
-	private JSpinner spnSal;
-	private JTextField txtCode;
+	private JComboBox cbxContrato;
+	private JSpinner spnSalario;
+	private JTextField txtCodigo;
 	private JTextField txtIdiomas;
 	private JButton btnAgregar;
 	private JButton btnSolicitar;
 	private JButton btnCancelar;
 	private JButton btnValidar;
-	private JTextField txtTelf;
+	private JTextField txtTelefono;
 	private JPanel PanelTipoSolicitud;
-	private JRadioButton rdbtnUniver;
+	private JRadioButton rdbtnUniversitario;
 	private JRadioButton rdbtnTecnico;
 	private JRadioButton rdbtnObrero;
 	private JComboBox cbxCiudad;
 	private JComboBox cbxCarrera;
+	private JLabel lblNewLabel_6;
 	private boolean mov = false;
 	private boolean lic = false;
-	private JLabel lblNewLabel_6;
 
 	public SolPersona()
 	{
-		setTitle("Registrar solicitud de persona");
+		setTitle("Registrar Solicitud de Persona");
 		setBounds(100, 100, 613, 830);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -85,7 +85,7 @@ public class SolPersona extends JDialog
 			PanelDatos.add(lblNewLabel);
 
 			txtCedula = new JTextField();
-			txtCedula.setBounds(80, 24, 163, 20);
+			txtCedula.setBounds(80, 25, 163, 20);
 			PanelDatos.add(txtCedula);
 			txtCedula.setColumns(10);
 
@@ -93,32 +93,32 @@ public class SolPersona extends JDialog
 			lblNewLabel_1.setBounds(10, 70, 56, 16);
 			PanelDatos.add(lblNewLabel_1);
 
-			txtNom = new JTextField();
-			txtNom.setBounds(80, 68, 210, 20);
-			PanelDatos.add(txtNom);
-			txtNom.setColumns(10);
+			txtNombre = new JTextField();
+			txtNombre.setBounds(80, 68, 210, 20);
+			PanelDatos.add(txtNombre);
+			txtNombre.setColumns(10);
 
 			btnBuscar = new JButton("Buscar");
-			btnBuscar.setBounds(454, 29, 97, 25);
+			btnBuscar.setBounds(454, 23, 97, 25);
 			PanelDatos.add(btnBuscar);
 
 			JLabel lblNewLabel_2 = new JLabel("Telefono:");
 			lblNewLabel_2.setBounds(10, 113, 56, 16);
 			PanelDatos.add(lblNewLabel_2);
 
-			txtTelf = new JTextField();
-			txtTelf.setBounds(80, 112, 178, 20);
-			PanelDatos.add(txtTelf);
-			txtTelf.setColumns(10);
+			txtTelefono = new JTextField();
+			txtTelefono.setBounds(80, 111, 178, 20);
+			PanelDatos.add(txtTelefono);
+			txtTelefono.setColumns(10);
 
 			JLabel lblNewLabel_3 = new JLabel("Direccion:");
 			lblNewLabel_3.setBounds(10, 156, 66, 16);
 			PanelDatos.add(lblNewLabel_3);
 
-			txtDir = new JTextField();
-			txtDir.setBounds(80, 156, 300, 20);
-			PanelDatos.add(txtDir);
-			txtDir.setColumns(10);
+			txtDireccion = new JTextField();
+			txtDireccion.setBounds(80, 154, 300, 20);
+			PanelDatos.add(txtDireccion);
+			txtDireccion.setColumns(10);
 
 			JPanel PanelAptitudes = new JPanel();
 			PanelAptitudes
@@ -151,15 +151,24 @@ public class SolPersona extends JDialog
 						cbxCarrera.setEnabled(true);
 
 						if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias e Ingenieria"))
-							cbxCarrera.setModel(new DefaultComboBoxModel(
-									new String[] { "<Selecionar>", "Ing. Ciencias de la Computacion" }));
+							cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Ing. Civil",
+									"Ing. Mecanica", "Ing. Electrica", "Ing. Industrial y de Sistemas", "Ing. Mecatronica",
+									"Ing. Ciencias de la Computacion", "Ing. Telematica", "Ing. Ambiental" }));
+
 						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias de la Salud"))
-							cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Medicina" }));
+							cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Estomatologia",
+									"Medicina", "Nutricion y Dietetica", "Terapia Fisica" }));
+
 						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias Administrativas"))
-							cbxCarrera.setModel(
-									new DefaultComboBoxModel(new String[] { "<Selecionar>", "Direccion Empresarial" }));
+							cbxCarrera.setModel(new DefaultComboBoxModel(
+									new String[] { "<Selecionar>", "Direccion Empresarial", "Administracion Hotelera",
+											"Economia", "Gesttion Financiera y Adutoria", "Marketing", "Hospitalida y Turismo" }));
+
 						else if (cbxArea.getSelectedItem().toString().equalsIgnoreCase("Ciencias Humanidades y Artes"))
-							cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Derecho" }));
+							cbxCarrera.setModel(new DefaultComboBoxModel(
+									new String[] { "<Selecionar>", "Arquitectura", "Comunicacion Social", "Derecho",
+											"Diseño e Interiorismo", "Educacion", "Filosofia", "Trabajo Social" }));
+
 						else
 							cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>" }));
 					}
@@ -167,7 +176,7 @@ public class SolPersona extends JDialog
 			});
 			cbxArea.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Ciencias de la Salud",
 					"Ciencias e Ingenieria", "Ciencias Administrativas", "Ciencias Humanidades y Artes" }));
-			cbxArea.setBounds(72, 47, 208, 20);
+			cbxArea.setBounds(72, 49, 208, 20);
 			PanelAptitudes.add(cbxArea);
 
 			lblNewLabel_6 = new JLabel("A\u00F1os:");
@@ -176,7 +185,7 @@ public class SolPersona extends JDialog
 
 			spnAgnos = new JSpinner();
 			spnAgnos.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-			spnAgnos.setBounds(388, 49, 110, 20);
+			spnAgnos.setBounds(388, 48, 110, 20);
 			PanelAptitudes.add(spnAgnos);
 
 			JPanel PanelDatosSolicitud = new JPanel();
@@ -190,67 +199,67 @@ public class SolPersona extends JDialog
 			lblNewLabel_7.setBounds(12, 38, 56, 16);
 			PanelDatosSolicitud.add(lblNewLabel_7);
 
-			cbxCotrato = new JComboBox();
-			cbxCotrato.setModel(new DefaultComboBoxModel(
+			cbxContrato = new JComboBox();
+			cbxContrato.setModel(new DefaultComboBoxModel(
 					new String[] { "<Selecionar>", "Jornada Completa", "Media Jornada", "Jornada Mixta" }));
-			cbxCotrato.setBounds(78, 33, 147, 20);
-			PanelDatosSolicitud.add(cbxCotrato);
+			cbxContrato.setBounds(78, 36, 147, 20);
+			PanelDatosSolicitud.add(cbxContrato);
 
 			JLabel lblNewLabel_8 = new JLabel("Codigo:");
 			lblNewLabel_8.setBounds(265, 51, 56, 16);
 			PanelDatosSolicitud.add(lblNewLabel_8);
 
-			txtCode = new JTextField();
-			txtCode.setEditable(false);
-			txtCode.setBounds(331, 46, 116, 22);
-			txtCode.setText("SOL-" + Bolsa.genSol);
-			PanelDatosSolicitud.add(txtCode);
-			txtCode.setColumns(10);
+			txtCodigo = new JTextField();
+			txtCodigo.setEditable(false);
+			txtCodigo.setBounds(331, 48, 116, 22);
+			txtCodigo.setText("SOL-" + Bolsa.genSol);
+			PanelDatosSolicitud.add(txtCodigo);
+			txtCodigo.setColumns(10);
 
 			JLabel lblNewLabel_9 = new JLabel("Salario:");
 			lblNewLabel_9.setBounds(12, 92, 56, 16);
 			PanelDatosSolicitud.add(lblNewLabel_9);
 
-			spnSal = new JSpinner();
-			spnSal.setModel(new SpinnerNumberModel(new Float(1000), new Float(1), null, new Float(500)));
-			spnSal.setBounds(78, 86, 93, 20);
-			PanelDatosSolicitud.add(spnSal);
+			spnSalario = new JSpinner();
+			spnSalario.setModel(new SpinnerNumberModel(new Float(1000), new Float(1), null, new Float(500)));
+			spnSalario.setBounds(78, 90, 93, 20);
+			PanelDatosSolicitud.add(spnSalario);
 
 			JLabel lblNewLabel_4 = new JLabel("Licencia:");
 			lblNewLabel_4.setBounds(12, 198, 56, 16);
 			PanelDatosSolicitud.add(lblNewLabel_4);
 
-			rdbtnSiLic = new JRadioButton("Si");
-			rdbtnSiLic.setBounds(78, 194, 48, 25);
-			PanelDatosSolicitud.add(rdbtnSiLic);
+			rdbtnLicenciaSi = new JRadioButton("Si");
+			rdbtnLicenciaSi.setBounds(78, 194, 48, 25);
+			PanelDatosSolicitud.add(rdbtnLicenciaSi);
 
-			rdbtnNoLic = new JRadioButton("No");
-			rdbtnNoLic.setBounds(128, 194, 48, 25);
-			PanelDatosSolicitud.add(rdbtnNoLic);
+			rdbtnLicenciaNo = new JRadioButton("No");
+			rdbtnLicenciaNo.setBounds(128, 194, 48, 25);
+			PanelDatosSolicitud.add(rdbtnLicenciaNo);
 
 			JLabel lblNewLabel_5 = new JLabel("Puede mudarse:");
 			lblNewLabel_5.setBounds(265, 185, 97, 16);
 			PanelDatosSolicitud.add(lblNewLabel_5);
 
-			rdbtnSiMud = new JRadioButton("Si");
-			rdbtnSiMud.setBounds(368, 180, 48, 25);
-			PanelDatosSolicitud.add(rdbtnSiMud);
+			rdbtnMudarseSi = new JRadioButton("Si");
+			rdbtnMudarseSi.setBounds(368, 181, 48, 25);
+			PanelDatosSolicitud.add(rdbtnMudarseSi);
 
-			rdbtnNoMud = new JRadioButton("No");
-			rdbtnNoMud.setBounds(418, 181, 53, 25);
-			PanelDatosSolicitud.add(rdbtnNoMud);
+			rdbtnMudarseNo = new JRadioButton("No");
+			rdbtnMudarseNo.setBounds(418, 181, 53, 25);
+			PanelDatosSolicitud.add(rdbtnMudarseNo);
 
 			JLabel lblNewLabel_11 = new JLabel("Idiomas:");
 			lblNewLabel_11.setBounds(265, 118, 56, 16);
 			PanelDatosSolicitud.add(lblNewLabel_11);
 
 			txtIdiomas = new JTextField();
-			txtIdiomas.setBounds(331, 114, 86, 20);
+			txtIdiomas.setBounds(331, 116, 86, 20);
 			PanelDatosSolicitud.add(txtIdiomas);
 			txtIdiomas.setColumns(10);
 
 			btnAgregar = new JButton("Agregar");
-			btnAgregar.setBounds(442, 112, 97, 25);
+			btnAgregar.setBounds(442, 114, 97, 25);
 			PanelDatosSolicitud.add(btnAgregar);
 
 			JLabel label = new JLabel("Ciudad:");
@@ -258,9 +267,13 @@ public class SolPersona extends JDialog
 			PanelDatosSolicitud.add(label);
 
 			cbxCiudad = new JComboBox();
-			cbxCiudad.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Santiago", "Santo Domingo",
-					"Espallat", "La Vega", "San Francisco", "Licey", "Samana", "Higuey" }));
-			cbxCiudad.setBounds(78, 139, 147, 20);
+			cbxCiudad.setModel(new DefaultComboBoxModel(new String[] { "<Selecionar>", "Azua", "Bahoruco", "Barahona",
+					"Dajabon", "Distrito Nacional", "Duarte", "El Seybo", "Elias Piña", "Espaillat", "Hato Mayor",
+					"Hermanas Mirabal", "Independencia", "La Altagracia", "La Romana", "La Vega", "Maria Trinidad Sanchez",
+					"Monseñor Nouel", "Monte Plata", "Montecristi", "Pedernales", "Peravia", "Puerto Plata", "Samana",
+					"San Cristobal", "San Jose De Ocoa", "San Juan", "San Pedro De Macoris", "Sanchez Ramirez", "Santiago",
+					"Santiago Rodriguez", "Santo Domingo", "Valverde" }));
+			cbxCiudad.setBounds(78, 143, 147, 20);
 			PanelDatosSolicitud.add(cbxCiudad);
 
 			PanelTipoSolicitud = new JPanel();
@@ -270,10 +283,10 @@ public class SolPersona extends JDialog
 			PanelTipoSolicitud.setBorder(
 					new TitledBorder(null, "Tipo de Solicitud:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
-			rdbtnUniver = new JRadioButton("Universatario");
-			rdbtnUniver.setSelected(true);
-			rdbtnUniver.setBounds(75, 27, 108, 23);
-			PanelTipoSolicitud.add(rdbtnUniver);
+			rdbtnUniversitario = new JRadioButton("Universatario");
+			rdbtnUniversitario.setSelected(true);
+			rdbtnUniversitario.setBounds(75, 27, 108, 23);
+			PanelTipoSolicitud.add(rdbtnUniversitario);
 
 			rdbtnTecnico = new JRadioButton("Tecnico");
 			rdbtnTecnico.setBounds(258, 27, 81, 23);
@@ -297,14 +310,14 @@ public class SolPersona extends JDialog
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						if (rdbtnSiMud.isSelected())
+						if (rdbtnMudarseSi.isSelected())
 							mov = true;
 
-						if (rdbtnSiLic.isSelected())
+						if (rdbtnLicenciaSi.isSelected())
 							lic = true;
 
-						SoliPersona soli = new SoliPersona(txtCode.getText(), mov, cbxCotrato.getSelectedItem().toString(),
-								lic, cbxCiudad.getSelectedItem().toString(), Float.valueOf(spnSal.getValue().toString()), true,
+						SoliPersona soli = new SoliPersona(txtCodigo.getText(), mov, cbxContrato.getSelectedItem().toString(),
+								lic, cbxCiudad.getSelectedItem().toString(), Float.valueOf(spnSalario.getValue().toString()),
 								txtCedula.getText());
 						Bolsa.getInstance().addSolicitud(soli);
 						JOptionPane.showMessageDialog(null, "Solicitud ingresada", "Informacion",
@@ -335,20 +348,20 @@ public class SolPersona extends JDialog
 	private void clean()
 	{
 		txtCedula.setText("");
-		txtNom.setText("");
-		txtTelf.setText("");
-		txtDir.setText("");
-		cbxCotrato.setSelectedIndex(0);
-		txtCode.setText("SOL-" + Bolsa.genSol);
-		spnSal.setValue(new Float("1000"));
+		txtNombre.setText("");
+		txtTelefono.setText("");
+		txtDireccion.setText("");
+		cbxContrato.setSelectedIndex(0);
+		txtCodigo.setText("SOL-" + Bolsa.genSol);
+		spnSalario.setValue(new Float("1000"));
 		txtIdiomas.setText("");
-		rdbtnNoLic.setSelected(false);
-		rdbtnSiLic.setSelected(false);
-		rdbtnSiMud.setSelected(false);
-		rdbtnNoMud.setSelected(false);
+		rdbtnLicenciaNo.setSelected(false);
+		rdbtnLicenciaSi.setSelected(false);
+		rdbtnMudarseSi.setSelected(false);
+		rdbtnMudarseNo.setSelected(false);
 		rdbtnTecnico.setSelected(false);
 		rdbtnTecnico.setSelected(false);
-		rdbtnUniver.setSelected(true);
+		rdbtnUniversitario.setSelected(true);
 		cbxArea.setSelectedIndex(0);
 		cbxCarrera.setSelectedIndex(0);
 		spnAgnos.setValue(new Integer("0"));

@@ -5,9 +5,9 @@ public class SoliPersona extends Solicitud
 	private String cedula;
 
 	public SoliPersona(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
-			boolean activa, String cedula)
+			String cedula)
 	{
-		super(codigo, movilidad, contrato, licencia, cuidad, sueldo, activa);
+		super(codigo, movilidad, contrato, licencia, cuidad, sueldo);
 		this.cedula = cedula;
 
 	}

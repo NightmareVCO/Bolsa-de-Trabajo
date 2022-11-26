@@ -13,8 +13,7 @@ public abstract class Solicitud
 	protected boolean activa;//
 	private ArrayList<String> idiomas;
 
-	public Solicitud(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
-			boolean activa)
+	public Solicitud(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo)
 	{
 		super();
 		this.codigo = codigo;
@@ -23,7 +22,7 @@ public abstract class Solicitud
 		this.licencia = licencia;
 		this.cuidad = cuidad;
 		this.sueldo = sueldo;
-		this.activa = activa;
+		activa = true;
 		idiomas = new ArrayList<String>();
 	}
 

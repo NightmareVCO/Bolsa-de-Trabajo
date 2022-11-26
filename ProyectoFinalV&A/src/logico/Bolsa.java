@@ -10,6 +10,7 @@ public class Bolsa
 	private static Bolsa bolsa = null;
 	public static int genSol = 1;
 	public static int genPer = 1;
+	public static int genEmp = 1;
 
 	private Bolsa()
 	{
@@ -57,7 +58,7 @@ public class Bolsa
 		this.empresas = empresas;
 	}
 
-	public boolean addSolPersona(Persona person)
+	public boolean addPersona(Persona person)
 	{
 		genPer++;
 		return personas.add(person);
@@ -67,5 +68,29 @@ public class Bolsa
 	{
 		genSol++;
 		return solicitudes.add(soli);
+	}
+
+	public boolean addEmpresa(Empresa empresa)
+	{
+		genEmp++;
+		return empresas.add(empresa);
+	}
+
+	public Empresa buscarEmpresaByRNC(String rnc)
+	{
+		boolean encontrado = false;
+		int i = 0;
+		Empresa aux = null;
+
+		while (!encontrado && i < empresas.size())
+		{
+			if (empresas.get(i).getRnc().equalsIgnoreCase(rnc))
+			{
+				encontrado = true;
+				aux = empresas.get(i);
+			}
+			i++;
+		}
+		return aux;
 	}
 }
