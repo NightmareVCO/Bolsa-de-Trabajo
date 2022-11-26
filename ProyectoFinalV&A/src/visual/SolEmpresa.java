@@ -36,6 +36,7 @@ import logico.EmpObrero;
 import logico.EmpTecnico;
 import logico.EmpUniversitario;
 import logico.Empresa;
+import logico.Solicitud;
 
 @SuppressWarnings("serial")
 public class SolEmpresa extends JDialog
@@ -391,6 +392,7 @@ public class SolEmpresa extends JDialog
 					{
 						idiomasAux.add(txtIdiomas.getText());
 						txtIdiomas.setText("");
+						btnAgregarIdioma.setEnabled(false);
 					}
 				});
 				btnAgregarIdioma.setBounds(449, 141, 86, 23);
@@ -669,6 +671,7 @@ public class SolEmpresa extends JDialog
 					{
 						if (validar())
 						{
+							Solicitud solicitud = null;
 							Empresa empresa = Bolsa.getInstance().buscarEmpresaByRNC(txtRNC.getText());
 							if (empresa == null)
 							{
@@ -685,7 +688,7 @@ public class SolEmpresa extends JDialog
 
 							if (rdbtnUniversitario.isSelected())
 							{
-								EmpUniversitario solicitud = new EmpUniversitario(txtCodigo.getText(), mov,
+								solicitud = new EmpUniversitario(txtCodigo.getText(), mov,
 										cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
 										txtRNC.getText(), Float.valueOf(spnPorcentaje.getValue().toString()),
 										cbxTipoSalario.getSelectedItem().toString(),
@@ -695,9 +698,9 @@ public class SolEmpresa extends JDialog
 							}
 							else if (rdbtnTecnico.isSelected())
 							{
-								EmpTecnico solicitud = new EmpTecnico(txtCodigo.getText(), mov,
-										cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
-										txtRNC.getText(), Float.valueOf(spnPorcentaje.getValue().toString()),
+								solicitud = new EmpTecnico(txtCodigo.getText(), mov, cbxContrato.getSelectedItem().toString(),
+										lic, cbxCiudad.getSelectedItem().toString(), txtRNC.getText(),
+										Float.valueOf(spnPorcentaje.getValue().toString()),
 										cbxTipoSalario.getSelectedItem().toString(),
 										Float.valueOf(spnSalario.getValue().toString()),
 										Integer.valueOf(spnCantidad.getValue().toString()), cbxArea.getSelectedItem().toString(),
@@ -705,18 +708,17 @@ public class SolEmpresa extends JDialog
 							}
 							else if (rdbtnObrero.isSelected())
 							{
-								EmpObrero solicitud = new EmpObrero(txtCodigo.getText(), mov,
-										cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
-										txtRNC.getText(), Float.valueOf(spnPorcentaje.getValue().toString()),
+								solicitud = new EmpObrero(txtCodigo.getText(), mov, cbxContrato.getSelectedItem().toString(),
+										lic, cbxCiudad.getSelectedItem().toString(), txtRNC.getText(),
+										Float.valueOf(spnPorcentaje.getValue().toString()),
 										cbxTipoSalario.getSelectedItem().toString(),
 										Float.valueOf(spnSalario.getValue().toString()),
 										Integer.valueOf(spnCantidad.getValue().toString()), actividades);
 							}
 
-							Bolsa.getInstance().addSolicitud(null);
-							JOptionPane.showMessageDialog(null, "Solicitud ingresada", "Informacion",
+							Bolsa.getInstance().addSolicitud(solicitud);
+							JOptionPane.showMessageDialog(null, "Solicitud Ingresada", "Informacion",
 									JOptionPane.INFORMATION_MESSAGE);
-
 							clean();
 						}
 						else
@@ -769,6 +771,7 @@ public class SolEmpresa extends JDialog
 		rdbtnMudarseNo.setSelected(true);
 		rdbtnTecnico.setSelected(false);
 		rdbtnTecnico.setSelected(false);
+		btnAgregarIdioma.setEnabled(false);
 		rdbtnUniversitario.setSelected(true);
 		if (rdbtnUniversitario.isSelected() || rdbtnTecnico.isSelected())
 			cbxArea.setSelectedIndex(0);

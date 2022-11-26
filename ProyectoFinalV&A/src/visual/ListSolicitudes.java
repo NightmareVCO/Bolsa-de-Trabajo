@@ -2,9 +2,14 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,6 +23,7 @@ import logico.Bolsa;
 import logico.EmpObrero;
 import logico.EmpTecnico;
 import logico.EmpUniversitario;
+import logico.Empresa;
 import logico.Obrero;
 import logico.Persona;
 import logico.SoliEmpresa;
@@ -35,7 +41,10 @@ public class ListSolicitudes extends JDialog
 	private JButton btnSalir;
 	private static DefaultTableModel model;
 	private static Object[] rows;
-	private Solicitud solicitud = null;
+	private Solicitud selected = null;
+	Persona persona = null;
+	Empresa empresa = null;
+	private JButton btnMostrar;
 
 	public ListSolicitudes()
 	{
@@ -60,6 +69,22 @@ public class ListSolicitudes extends JDialog
 					String[] columnas = { "Codigo", "Cliente", "Cedula/RNC", "Nombre", "Tipo" };
 					model.setColumnIdentifiers(columnas);
 					table = new JTable();
+					table.addMouseListener(new MouseAdapter()
+					{
+						@Override
+						public void mouseClicked(MouseEvent e)
+						{
+							int rowSelected = -1;
+							rowSelected = table.getSelectedRow();
+							if (rowSelected >= 0)
+							{
+								btnEliminar.setEnabled(true);
+								btnMostrar.setEnabled(true);
+								selected = Bolsa.getInstance()
+										.buscarSolicitudByCodigo(table.getValueAt(rowSelected, 0).toString());
+							}
+						}
+					});
 					table.setModel(model);
 					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					scrollPane.setViewportView(table);
@@ -71,13 +96,50 @@ public class ListSolicitudes extends JDialog
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
+				btnMostrar = new JButton("Mostrar");
+				btnMostrar.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+					}
+				});
+				btnMostrar.setEnabled(false);
+				buttonPane.add(btnMostrar);
+			}
+			{
 				btnEliminar = new JButton("Eliminar");
+				btnEliminar.setEnabled(false);
+				btnEliminar.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						int option;
+						if (selected != null)
+						{
+							option = JOptionPane.showConfirmDialog(null,
+									"Está seguro que desea eliminar la solicitud con código: " + selected.getCodigo(),
+									"Confirmación", JOptionPane.YES_NO_OPTION);
+							if (option == JOptionPane.OK_OPTION)
+							{
+								Bolsa.getInstance().eliminarSolicitud(selected);
+								loadSolicitudes();
+							}
+						}
+					}
+				});
 				btnEliminar.setActionCommand("OK");
 				buttonPane.add(btnEliminar);
 				getRootPane().setDefaultButton(btnEliminar);
 			}
 			{
 				btnSalir = new JButton("Salir");
+				btnSalir.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						dispose();
+					}
+				});
 				btnSalir.setActionCommand("Cancel");
 				buttonPane.add(btnSalir);
 			}
@@ -87,11 +149,15 @@ public class ListSolicitudes extends JDialog
 
 	private void loadSolicitudes()
 	{
-		Persona aux = null;
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
 		for (Solicitud solicitud : Bolsa.getInstance().getSolicitudes())
 		{
+			if (solicitud instanceof SoliPersona)
+				persona = Bolsa.getInstance().buscarPersonaByCedula(((SoliPersona) solicitud).getCedula());
+			if (solicitud instanceof SoliEmpresa)
+				empresa = Bolsa.getInstance().buscarEmpresaByRNC(((SoliEmpresa) solicitud).getRnc());
+
 			rows[0] = solicitud.getCodigo();
 
 			if (solicitud instanceof SoliEmpresa)
@@ -104,16 +170,18 @@ public class ListSolicitudes extends JDialog
 			else if (solicitud instanceof SoliPersona)
 				rows[2] = ((SoliPersona) solicitud).getCedula();
 
-			rows[3] = "Nombre del Cliente";
+			if (solicitud instanceof SoliEmpresa)
+				rows[3] = empresa.getNombre();
+			else if (solicitud instanceof SoliPersona)
+				rows[3] = persona.getNombre();
 
 			if (solicitud instanceof SoliPersona)
 			{
-				//buscar la persona
-				if (aux instanceof Universitario)
+				if (persona instanceof Universitario)
 					rows[4] = "Universatario";
-				else if (aux instanceof Tecnico)
+				else if (persona instanceof Tecnico)
 					rows[4] = "Tecnico";
-				if (aux instanceof Obrero)
+				if (persona instanceof Obrero)
 					rows[4] = "Obrero";
 			}
 			else if (solicitud instanceof SoliEmpresa)
@@ -125,6 +193,9 @@ public class ListSolicitudes extends JDialog
 				else if (solicitud instanceof EmpObrero)
 					rows[4] = "Obrero";
 			}
+
+			persona = null;
+			empresa = null;
 
 			model.addRow(rows);
 		}

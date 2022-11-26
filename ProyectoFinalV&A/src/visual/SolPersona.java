@@ -449,6 +449,7 @@ public class SolPersona extends JDialog
 				{
 					idiomasAux.add(txtIdiomas.getText());
 					txtIdiomas.setText("");
+					btnAgregarIdioma.setEnabled(false);
 				}
 			});
 			btnAgregarIdioma.setBounds(442, 114, 97, 25);
@@ -600,7 +601,7 @@ public class SolPersona extends JDialog
 									Float.valueOf(spnSalario.getValue().toString()), txtCedula.getText());
 							Bolsa.getInstance().addSolicitud(soli);
 
-							JOptionPane.showMessageDialog(null, "Solicitud ingresada", "Informacion",
+							JOptionPane.showMessageDialog(null, "Solicitud Ingresada", "Informacion",
 									JOptionPane.INFORMATION_MESSAGE);
 
 							clean();
@@ -652,6 +653,7 @@ public class SolPersona extends JDialog
 		rdbtnLicenciaSi.setSelected(false);
 		rdbtnMudarseSi.setSelected(false);
 		rdbtnMudarseNo.setSelected(true);
+		btnAgregarIdioma.setEnabled(false);
 		rdbtnTecnico.setSelected(false);
 		rdbtnTecnico.setSelected(false);
 		rdbtnUniversitario.setSelected(true);

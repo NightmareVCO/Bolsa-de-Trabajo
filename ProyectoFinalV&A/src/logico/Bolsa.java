@@ -93,7 +93,7 @@ public class Bolsa
 		}
 		return aux;
 	}
-	
+
 	public Persona buscarPersonaByCedula(String cedula)
 	{
 		boolean encontrado = false;
@@ -110,5 +110,28 @@ public class Bolsa
 			i++;
 		}
 		return aux;
+	}
+
+	public Solicitud buscarSolicitudByCodigo(String codigo)
+	{
+		boolean encontrado = false;
+		int i = 0;
+		Solicitud aux = null;
+
+		while (!encontrado && i < empresas.size())
+		{
+			if (solicitudes.get(i).getCodigo().equalsIgnoreCase(codigo))
+			{
+				encontrado = true;
+				aux = solicitudes.get(i);
+			}
+			i++;
+		}
+		return aux;
+	}
+
+	public boolean eliminarSolicitud(Solicitud solicitud)
+	{
+		return solicitudes.remove(solicitud);
 	}
 }
