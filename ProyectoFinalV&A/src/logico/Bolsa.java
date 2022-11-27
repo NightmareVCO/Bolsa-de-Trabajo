@@ -134,4 +134,9 @@ public class Bolsa
 	{
 		return solicitudes.remove(solicitud);
 	}
+	
+	public boolean eliminarPersona(Persona person)
+	{
+		return personas.remove(person);
+	}
 }
