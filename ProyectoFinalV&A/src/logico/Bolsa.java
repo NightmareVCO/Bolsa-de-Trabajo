@@ -161,4 +161,21 @@ public class Bolsa
 			if (solicitud instanceof SoliEmpresa && ((SoliEmpresa) solicitud).getRnc().equalsIgnoreCase(antiguo))
 				((SoliEmpresa) solicitud).setRnc(nuevo);
 	}
+	
+	public boolean isLibreSoliPer(String cedula)
+	{
+		boolean libre = true;
+		for (Solicitud solicitud : solicitudes)
+			if (solicitud instanceof SoliPersona && ((SoliPersona) solicitud).getCedula().equalsIgnoreCase(cedula))
+				libre = false;
+
+		return libre;
+	}
+
+	public void cambiarCedula(String antiguo, String nuevo)
+	{
+		for (Solicitud solicitud : solicitudes)
+			if (solicitud instanceof SoliPersona && ((SoliPersona) solicitud).getCedula().equalsIgnoreCase(antiguo))
+				((SoliPersona) solicitud).setCedula(nuevo);
+	}
 }

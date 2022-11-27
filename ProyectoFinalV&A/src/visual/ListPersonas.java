@@ -35,6 +35,7 @@ public class ListPersonas extends JDialog
 	private static DefaultTableModel model;
 	private static Object[] rows;
 	private Persona selected = null;
+	private JButton btnMod;
 
 	public ListPersonas()
 	{
@@ -70,6 +71,7 @@ public class ListPersonas extends JDialog
 							if (rowSelected >= 0)
 							{
 								btnEliminar.setEnabled(true);
+								btnMod.setEnabled(true);
 								selected = Bolsa.getInstance()
 										.buscarPersonaByCedula(table.getValueAt(rowSelected, 0).toString());
 							}
@@ -92,18 +94,37 @@ public class ListPersonas extends JDialog
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						int option;
-						option = JOptionPane.showConfirmDialog(null,
-								"Esta seguro que desea eliminar a: " + selected.getNombre(), "Confirmacion",
-								JOptionPane.YES_NO_OPTION);
-						if (option == JOptionPane.OK_OPTION)
+						if(Bolsa.getInstance().isLibreSoliPer(selected.getId()))
 						{
-							Bolsa.getInstance().eliminarPersona(selected);
-							loadPersons();
-							btnEliminar.setEnabled(false);
+							int option;
+							option = JOptionPane.showConfirmDialog(null,
+									"Esta seguro que desea eliminar a: " + selected.getNombre(), "Confirmacion",
+									JOptionPane.YES_NO_OPTION);
+							if (option == JOptionPane.OK_OPTION)
+							{
+								Bolsa.getInstance().eliminarPersona(selected);
+								loadPersons();
+								btnEliminar.setEnabled(false);
+							}
 						}
+						
+						else
+							JOptionPane.showMessageDialog(null, "Error: Persona vinculada", "Informacion",
+									JOptionPane.INFORMATION_MESSAGE);
 					}
 				});
+				{
+					btnMod = new JButton("Modificar");
+					btnMod.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							ModPersona modif = new ModPersona(selected);
+							modif.setModal(true);
+							modif.setVisible(true);
+						}
+					});
+					btnMod.setEnabled(false);
+					buttonPane.add(btnMod);
+				}
 				btnEliminar.setEnabled(false);
 				btnEliminar.setActionCommand("OK");
 				buttonPane.add(btnEliminar);
@@ -125,7 +146,7 @@ public class ListPersonas extends JDialog
 		loadPersons();
 	}
 
-	private void loadPersons()
+	public static void loadPersons()
 	{
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
