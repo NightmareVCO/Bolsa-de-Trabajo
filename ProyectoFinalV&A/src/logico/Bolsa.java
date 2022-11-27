@@ -139,4 +139,19 @@ public class Bolsa
 	{
 		return personas.remove(person);
 	}
+
+	public boolean eliminarEmpresa(Empresa empresa)
+	{
+		return empresas.remove(empresa);
+	}
+
+	public boolean isLibreSoliEmp(String RNC)
+	{
+		boolean libre = true;
+		for (Solicitud solicitud : solicitudes)
+			if (solicitud instanceof SoliEmpresa && ((SoliEmpresa) solicitud).getRnc().equalsIgnoreCase(RNC))
+				libre = false;
+
+		return libre;
+	}
 }

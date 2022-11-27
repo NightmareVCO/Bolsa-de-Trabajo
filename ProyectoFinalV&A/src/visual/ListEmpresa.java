@@ -15,34 +15,32 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Bolsa;
-import logico.Obrero;
-import logico.Persona;
-import logico.Tecnico;
-import logico.Universitario;
+import logico.Empresa;
 
 @SuppressWarnings("serial")
-public class ListPersonas extends JDialog
+public class ListEmpresa extends JDialog
 {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
-	private JButton btnSalir;
 	private JButton btnEliminar;
+	private JButton btnSalir;
 	private static DefaultTableModel model;
 	private static Object[] rows;
-	private Persona selected = null;
+	private Empresa selected = null;
 
-	public ListPersonas()
+	public ListEmpresa()
 	{
-		setTitle("Lista de Personas");
+		setTitle("Lista de Empresas");
 		setBounds(100, 100, 683, 505);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
@@ -56,7 +54,7 @@ public class ListPersonas extends JDialog
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					model = new DefaultTableModel();
-					String[] columnas = { "Cedula", "Nombre", "Tipo", "Telefono", "Direccion" };
+					String[] columnas = { "RNC", "Nombre", "Telefono", "Direccion" };
 					model.setColumnIdentifiers(columnas);
 					table = new JTable();
 					table.addMouseListener(new MouseAdapter()
@@ -70,8 +68,7 @@ public class ListPersonas extends JDialog
 							if (rowSelected >= 0)
 							{
 								btnEliminar.setEnabled(true);
-								selected = Bolsa.getInstance()
-										.buscarPersonaByCedula(table.getValueAt(rowSelected, 0).toString());
+								selected = Bolsa.getInstance().buscarEmpresaByRNC(table.getValueAt(rowSelected, 0).toString());
 							}
 						}
 					});
@@ -83,7 +80,6 @@ public class ListPersonas extends JDialog
 		}
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
@@ -92,16 +88,23 @@ public class ListPersonas extends JDialog
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						int option;
-						option = JOptionPane.showConfirmDialog(null,
-								"Esta seguro que desea eliminar a: " + selected.getNombre(), "Confirmacion",
-								JOptionPane.YES_NO_OPTION);
-						if (option == JOptionPane.OK_OPTION)
+						if (Bolsa.getInstance().isLibreSoliEmp(selected.getRnc()))
 						{
-							Bolsa.getInstance().eliminarPersona(selected);
-							loadPersons();
-							btnEliminar.setEnabled(false);
+							int option;
+							option = JOptionPane.showConfirmDialog(null,
+									"Esta seguro que desea eliminar a: " + selected.getNombre(), "Confirmacion",
+									JOptionPane.YES_NO_OPTION);
+							if (option == JOptionPane.OK_OPTION)
+							{
+								Bolsa.getInstance().eliminarEmpresa(selected);
+								loadEmpresas();
+								btnEliminar.setEnabled(false);
+							}
 						}
+						else
+							JOptionPane.showMessageDialog(null, "Error: Empresa vinculada", "Informacion",
+									JOptionPane.INFORMATION_MESSAGE);
+
 					}
 				});
 				btnEliminar.setEnabled(false);
@@ -122,31 +125,20 @@ public class ListPersonas extends JDialog
 				buttonPane.add(btnSalir);
 			}
 		}
-		loadPersons();
+		loadEmpresas();
 	}
 
-	private void loadPersons()
+	private void loadEmpresas()
 	{
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
 
-		for (Persona person : Bolsa.getInstance().getPersonas())
+		for (Empresa empresa : Bolsa.getInstance().getEmpresas())
 		{
-			rows[0] = person.getId();
-			rows[1] = person.getNombre();
-
-			if (person instanceof Universitario)
-				rows[2] = "Universitario";
-
-			else if (person instanceof Tecnico)
-				rows[2] = "Tecnico";
-
-			else if (person instanceof Obrero)
-				rows[2] = "Obrero";
-
-			rows[3] = person.getTelefono();
-			rows[4] = person.getDireccion();
-
+			rows[0] = empresa.getRnc();
+			rows[1] = empresa.getNombre();
+			rows[2] = empresa.getTelefono();
+			rows[3] = empresa.getDireccion();
 			model.addRow(rows);
 		}
 	}

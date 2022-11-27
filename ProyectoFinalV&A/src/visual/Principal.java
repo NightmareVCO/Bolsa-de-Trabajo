@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -15,8 +17,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class Principal extends JFrame
@@ -64,8 +64,10 @@ public class Principal extends JFrame
 		menuBar.add(mnNewMenu);
 
 		JMenuItem mntmNewMenuItem = new JMenuItem("Ingresar de Empresa");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		mntmNewMenuItem.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				SolEmpresa solEmp = new SolEmpresa();
 				solEmp.setModal(true);
 				solEmp.setVisible(true);
@@ -74,8 +76,10 @@ public class Principal extends JFrame
 		mnNewMenu.add(mntmNewMenuItem);
 
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Ingresar de Persona");
-		mntmNewMenuItem_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		mntmNewMenuItem_5.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				SolPersona solPer = new SolPersona();
 				solPer.setModal(true);
 				solPer.setVisible(true);
@@ -84,8 +88,10 @@ public class Principal extends JFrame
 		mnNewMenu.add(mntmNewMenuItem_5);
 
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listar");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		mntmNewMenuItem_1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				ListSolicitudes listSol = new ListSolicitudes();
 				listSol.setModal(true);
 				listSol.setVisible(true);
@@ -97,8 +103,10 @@ public class Principal extends JFrame
 		menuBar.add(mnNewMenu_1);
 
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Listar");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		mntmNewMenuItem_2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				ListPersonas listPer = new ListPersonas();
 				listPer.setModal(true);
 				listPer.setVisible(true);
@@ -110,6 +118,15 @@ public class Principal extends JFrame
 		menuBar.add(mnNewMenu_2);
 
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Listar");
+		mntmNewMenuItem_3.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				ListEmpresa listEmp = new ListEmpresa();
+				listEmp.setModal(true);
+				listEmp.setVisible(true);
+			}
+		});
 		mnNewMenu_2.add(mntmNewMenuItem_3);
 
 		JMenu mnNewMenu_3 = new JMenu("Administración");
