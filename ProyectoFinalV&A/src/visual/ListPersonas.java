@@ -94,7 +94,7 @@ public class ListPersonas extends JDialog
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						if(Bolsa.getInstance().isLibreSoliPer(selected.getId()))
+						if (Bolsa.getInstance().isLibreSoliPer(selected.getId()))
 						{
 							int option;
 							option = JOptionPane.showConfirmDialog(null,
@@ -107,16 +107,18 @@ public class ListPersonas extends JDialog
 								btnEliminar.setEnabled(false);
 							}
 						}
-						
+
 						else
-							JOptionPane.showMessageDialog(null, "Error: Persona vinculada", "Informacion",
+							JOptionPane.showMessageDialog(null, "Error: Persona Vinculada", "Informacion",
 									JOptionPane.INFORMATION_MESSAGE);
 					}
 				});
 				{
 					btnMod = new JButton("Modificar");
-					btnMod.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
+					btnMod.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
 							ModPersona modif = new ModPersona(selected);
 							modif.setModal(true);
 							modif.setVisible(true);
