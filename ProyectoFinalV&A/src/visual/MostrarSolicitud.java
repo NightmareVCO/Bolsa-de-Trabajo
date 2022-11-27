@@ -122,7 +122,8 @@ public class MostrarSolicitud extends JDialog
 			txtPorcentaje.setBounds(455, 32, 46, 20);
 			panelDatos.add(txtPorcentaje);
 			txtPorcentaje.setColumns(10);
-			txtPorcentaje.setText(String.valueOf(((SoliEmpresa) solicitud).getPorcentajeMacth()));
+			if (solicitud instanceof SoliEmpresa)
+				txtPorcentaje.setText(String.valueOf(((SoliEmpresa) solicitud).getPorcentajeMacth()));
 
 			lblCantidad = new JLabel("Cantidad:");
 			lblCantidad.setBounds(253, 35, 61, 14);
@@ -212,7 +213,8 @@ public class MostrarSolicitud extends JDialog
 			txtCantidad.setBounds(316, 32, 46, 20);
 			panelDatos.add(txtCantidad);
 			txtCantidad.setColumns(10);
-			txtCantidad.setText(String.valueOf(((SoliEmpresa) solicitud).getCantidad()));
+			if (solicitud instanceof SoliEmpresa)
+				txtCantidad.setText(String.valueOf(((SoliEmpresa) solicitud).getCantidad()));
 
 			txtCarrera_Area = new JTextField();
 			txtCarrera_Area.setEditable(false);

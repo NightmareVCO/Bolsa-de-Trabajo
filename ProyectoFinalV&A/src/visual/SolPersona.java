@@ -658,12 +658,12 @@ public class SolPersona extends JDialog
 		rdbtnUniversitario.setSelected(true);
 		if (rdbtnUniversitario.isSelected() || rdbtnTecnico.isSelected())
 			cbxArea.setSelectedIndex(0);
-		if (rdbtnUniversitario.isSelected())
+		if (rdbtnUniversitario.isSelected() && !(rdbtnObrero.isSelected()))
 			cbxCarrera.setSelectedIndex(0);
 		cbxCiudad.setSelectedIndex(0);
 		spnAgnos.setValue(new Integer("0"));
-		actividades.removeAll(actividades);
-		idiomasAux.removeAll(idiomasAux);
+		actividades = new ArrayList<String>();
+		idiomasAux = new ArrayList<String>();
 		ModelActividades.removeAllElements();
 	}
 
@@ -675,12 +675,8 @@ public class SolPersona extends JDialog
 	private void recargarActividades()
 	{
 		ModelActividades.removeAllElements();
-		String aux = "";
-		for (int i = 0; i < actividades.size(); i++)
-		{
-			aux = actividades.get(i);
-			ModelActividades.addElement(aux);
-		}
+		for (String string : actividades)
+			ModelActividades.addElement(string);
 	}
 
 	private boolean validar()

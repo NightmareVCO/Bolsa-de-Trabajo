@@ -816,11 +816,8 @@ public class SolEmpresa extends JDialog
 	private void recargarActividades()
 	{
 		ModelActividades.removeAllElements();
-		String aux = "";
-		for (int i = 0; i < actividades.size(); i++)
-		{
-			aux = actividades.get(i);
-			ModelActividades.addElement(aux);
-		}
+		for (String string : actividades)
+			ModelActividades.addElement(string);
+
 	}
 }
