@@ -559,7 +559,6 @@ public class SolPersona extends JDialog
 				btnSolicitar = new JButton("Solicitar");
 				btnSolicitar.addActionListener(new ActionListener()
 				{
-					@SuppressWarnings("unused")
 					public void actionPerformed(ActionEvent e)
 					{
 						if (validar())
@@ -598,7 +597,7 @@ public class SolPersona extends JDialog
 
 							SoliPersona soli = new SoliPersona(txtCodigo.getText(), mov,
 									cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
-									Float.valueOf(spnSalario.getValue().toString()), txtCedula.getText());
+									Float.valueOf(spnSalario.getValue().toString()), idiomasAux, txtCedula.getText());
 							Bolsa.getInstance().addSolicitud(soli);
 
 							JOptionPane.showMessageDialog(null, "Solicitud Ingresada", "Informacion",

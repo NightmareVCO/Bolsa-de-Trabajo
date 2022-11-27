@@ -4,16 +4,17 @@ import java.util.ArrayList;
 
 public abstract class Solicitud
 {
-	protected String codigo;//
+	protected String codigo;
 	protected boolean movilidad;
-	protected String contrato;//
+	protected String contrato;
 	protected boolean licencia;
 	protected String cuidad;
 	protected float sueldo;
-	protected boolean activa;//
+	protected boolean activa;
 	private ArrayList<String> idiomas;
 
-	public Solicitud(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo)
+	public Solicitud(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
+			ArrayList<String> idiomas)
 	{
 		super();
 		this.codigo = codigo;
@@ -23,7 +24,7 @@ public abstract class Solicitud
 		this.cuidad = cuidad;
 		this.sueldo = sueldo;
 		activa = true;
-		idiomas = new ArrayList<String>();
+		this.idiomas = idiomas;
 	}
 
 	public String getCodigo()

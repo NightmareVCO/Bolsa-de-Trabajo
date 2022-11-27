@@ -7,10 +7,12 @@ public class EmpObrero extends SoliEmpresa
 	private ArrayList<String> oficios;
 
 	public EmpObrero(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, String rnc,
-			float porcentajeMacth, String tipoSalario, float sueldo, int cantidad, ArrayList<String> oficios)
+			float porcentajeMacth, String tipoSalario, float sueldo, ArrayList<String> idiomas, int cantidad,
+			ArrayList<String> oficios)
 	{
-		super(codigo, movilidad, contrato, licencia, cuidad, sueldo, rnc, porcentajeMacth, tipoSalario, cantidad);
-		oficios = new ArrayList<String>();
+		super(codigo, movilidad, contrato, licencia, cuidad, sueldo, idiomas, rnc, porcentajeMacth, tipoSalario,
+				cantidad);
+		this.oficios = oficios;
 	}
 
 	public ArrayList<String> getOficios()

@@ -32,6 +32,7 @@ import logico.Solicitud;
 import logico.Tecnico;
 import logico.Universitario;
 
+@SuppressWarnings("serial")
 public class ListSolicitudes extends JDialog
 {
 
@@ -101,6 +102,9 @@ public class ListSolicitudes extends JDialog
 				{
 					public void actionPerformed(ActionEvent e)
 					{
+						MostrarSolicitud soli = new MostrarSolicitud(selected);
+						soli.setModal(true);
+						soli.setVisible(true);
 					}
 				});
 				btnMostrar.setEnabled(false);

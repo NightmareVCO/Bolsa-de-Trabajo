@@ -1,14 +1,18 @@
 package logico;
 
+import java.util.ArrayList;
+
 public class EmpTecnico extends SoliEmpresa
 {
 	private String area;
 	private int agnos;
 
 	public EmpTecnico(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, String rnc,
-			float porcentajeMacth, String tipoSalario, float sueldo, int cantidad, String area, int agnos)
+			float porcentajeMacth, String tipoSalario, float sueldo, ArrayList<String> idiomas, int cantidad, String area,
+			int agnos)
 	{
-		super(codigo, movilidad, contrato, licencia, cuidad, sueldo, rnc, porcentajeMacth, tipoSalario, cantidad);
+		super(codigo, movilidad, contrato, licencia, cuidad, sueldo, idiomas, rnc, porcentajeMacth, tipoSalario,
+				cantidad);
 		this.area = area;
 		this.agnos = agnos;
 	}

@@ -1,5 +1,7 @@
 package logico;
 
+import java.util.ArrayList;
+
 public class SoliEmpresa extends Solicitud
 {
 	protected String rnc;
@@ -8,9 +10,9 @@ public class SoliEmpresa extends Solicitud
 	protected int cantidad;
 
 	public SoliEmpresa(String codigo, boolean movilidad, String contrato, boolean licencia, String cuidad, float sueldo,
-			String rnc, float porcentajeMacth, String tipoSalario, int cantidad)
+			ArrayList<String> idiomas, String rnc, float porcentajeMacth, String tipoSalario, int cantidad)
 	{
-		super(codigo, movilidad, contrato, licencia, cuidad, sueldo);
+		super(codigo, movilidad, contrato, licencia, cuidad, sueldo, idiomas);
 		this.rnc = rnc;
 		this.porcentajeMacth = porcentajeMacth;
 		this.tipoSalario = tipoSalario;

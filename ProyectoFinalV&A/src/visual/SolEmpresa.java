@@ -92,8 +92,8 @@ public class SolEmpresa extends JDialog
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public SolEmpresa()
 	{
-		idiomasAux = new ArrayList<>();
-		actividades = new ArrayList<>();
+		idiomasAux = new ArrayList<String>();
+		actividades = new ArrayList<String>();
 		setResizable(false);
 		setTitle("Registrar Solicitud de Empresa");
 		setBounds(100, 100, 613, 920);
@@ -666,7 +666,6 @@ public class SolEmpresa extends JDialog
 				btnSolicitar = new JButton("Solicitar");
 				btnSolicitar.addActionListener(new ActionListener()
 				{
-					@SuppressWarnings("unused")
 					public void actionPerformed(ActionEvent e)
 					{
 						if (validar())
@@ -692,7 +691,7 @@ public class SolEmpresa extends JDialog
 										cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
 										txtRNC.getText(), Float.valueOf(spnPorcentaje.getValue().toString()),
 										cbxTipoSalario.getSelectedItem().toString(),
-										Float.valueOf(spnSalario.getValue().toString()),
+										Float.valueOf(spnSalario.getValue().toString()), idiomasAux,
 										Integer.valueOf(spnCantidad.getValue().toString()),
 										cbxCarrera.getSelectedItem().toString(), Integer.valueOf(spnAgnos.getValue().toString()));
 							}
@@ -702,7 +701,7 @@ public class SolEmpresa extends JDialog
 										lic, cbxCiudad.getSelectedItem().toString(), txtRNC.getText(),
 										Float.valueOf(spnPorcentaje.getValue().toString()),
 										cbxTipoSalario.getSelectedItem().toString(),
-										Float.valueOf(spnSalario.getValue().toString()),
+										Float.valueOf(spnSalario.getValue().toString()), idiomasAux,
 										Integer.valueOf(spnCantidad.getValue().toString()), cbxArea.getSelectedItem().toString(),
 										Integer.valueOf(spnAgnos.getValue().toString()));
 							}
@@ -712,10 +711,9 @@ public class SolEmpresa extends JDialog
 										lic, cbxCiudad.getSelectedItem().toString(), txtRNC.getText(),
 										Float.valueOf(spnPorcentaje.getValue().toString()),
 										cbxTipoSalario.getSelectedItem().toString(),
-										Float.valueOf(spnSalario.getValue().toString()),
+										Float.valueOf(spnSalario.getValue().toString()), idiomasAux,
 										Integer.valueOf(spnCantidad.getValue().toString()), actividades);
 							}
-
 							Bolsa.getInstance().addSolicitud(solicitud);
 							JOptionPane.showMessageDialog(null, "Solicitud Ingresada", "Informacion",
 									JOptionPane.INFORMATION_MESSAGE);
@@ -775,13 +773,13 @@ public class SolEmpresa extends JDialog
 		rdbtnUniversitario.setSelected(true);
 		if (rdbtnUniversitario.isSelected() || rdbtnTecnico.isSelected())
 			cbxArea.setSelectedIndex(0);
-		if (rdbtnUniversitario.isSelected())
+		if (rdbtnUniversitario.isSelected() && !(rdbtnObrero.isSelected()))
 			cbxCarrera.setSelectedIndex(0);
 		cbxCiudad.setSelectedIndex(0);
 		cbxTipoSalario.setSelectedIndex(0);
 		spnAgnos.setValue(new Integer("0"));
-		actividades.removeAll(actividades);
-		idiomasAux.removeAll(idiomasAux);
+		actividades = new ArrayList<String>();
+		idiomasAux = new ArrayList<String>();
 		ModelActividades.removeAllElements();
 	}
 

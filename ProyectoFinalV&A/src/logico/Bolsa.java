@@ -100,7 +100,7 @@ public class Bolsa
 		int i = 0;
 		Persona aux = null;
 
-		while (!encontrado && i < empresas.size())
+		while (!encontrado && i < personas.size())
 		{
 			if (personas.get(i).getId().equalsIgnoreCase(cedula))
 			{
@@ -118,7 +118,7 @@ public class Bolsa
 		int i = 0;
 		Solicitud aux = null;
 
-		while (!encontrado && i < empresas.size())
+		while (!encontrado && i < solicitudes.size())
 		{
 			if (solicitudes.get(i).getCodigo().equalsIgnoreCase(codigo))
 			{
@@ -134,7 +134,7 @@ public class Bolsa
 	{
 		return solicitudes.remove(solicitud);
 	}
-	
+
 	public boolean eliminarPersona(Persona person)
 	{
 		return personas.remove(person);
