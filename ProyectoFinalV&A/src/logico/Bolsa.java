@@ -154,4 +154,11 @@ public class Bolsa
 
 		return libre;
 	}
+
+	public void cambiarRNC(String antiguo, String nuevo)
+	{
+		for (Solicitud solicitud : solicitudes)
+			if (solicitud instanceof SoliEmpresa && ((SoliEmpresa) solicitud).getRnc().equalsIgnoreCase(antiguo))
+				((SoliEmpresa) solicitud).setRnc(nuevo);
+	}
 }

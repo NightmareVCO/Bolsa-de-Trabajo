@@ -33,6 +33,7 @@ public class ListEmpresa extends JDialog
 	private static DefaultTableModel model;
 	private static Object[] rows;
 	private Empresa selected = null;
+	private JButton btnModificar;
 
 	public ListEmpresa()
 	{
@@ -68,6 +69,7 @@ public class ListEmpresa extends JDialog
 							if (rowSelected >= 0)
 							{
 								btnEliminar.setEnabled(true);
+								btnModificar.setEnabled(true);
 								selected = Bolsa.getInstance().buscarEmpresaByRNC(table.getValueAt(rowSelected, 0).toString());
 							}
 						}
@@ -107,6 +109,20 @@ public class ListEmpresa extends JDialog
 
 					}
 				});
+				{
+					btnModificar = new JButton("Modificar");
+					btnModificar.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							ModEmpresa mod = new ModEmpresa(selected);
+							mod.setModal(true);
+							mod.setVisible(true);
+						}
+					});
+					btnModificar.setEnabled(false);
+					buttonPane.add(btnModificar);
+				}
 				btnEliminar.setEnabled(false);
 				btnEliminar.setActionCommand("OK");
 				buttonPane.add(btnEliminar);
@@ -128,7 +144,7 @@ public class ListEmpresa extends JDialog
 		loadEmpresas();
 	}
 
-	private void loadEmpresas()
+	public static void loadEmpresas()
 	{
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
