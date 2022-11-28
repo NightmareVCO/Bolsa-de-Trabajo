@@ -46,9 +46,12 @@ public class ListSolicitudes extends JDialog
 	Persona persona = null;
 	Empresa empresa = null;
 	private JButton btnMostrar;
+	private Boolean match = false;
+	private JButton btnSelecionar;
 
 	public ListSolicitudes(boolean match)
 	{
+		this.match = match;
 		setTitle("Lista de Solicitudes");
 		setBounds(100, 100, 683, 505);
 		setLocationRelativeTo(null);
@@ -81,6 +84,7 @@ public class ListSolicitudes extends JDialog
 							{
 								btnEliminar.setEnabled(true);
 								btnMostrar.setEnabled(true);
+								btnSelecionar.setEnabled(true);
 								selected = Bolsa.getInstance()
 										.buscarSolicitudByCodigo(table.getValueAt(rowSelected, 0).toString());
 							}
@@ -107,6 +111,20 @@ public class ListSolicitudes extends JDialog
 						soli.setVisible(true);
 					}
 				});
+				{
+					btnSelecionar = new JButton("Selecionar");
+					btnSelecionar.setEnabled(false);
+					btnSelecionar.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							ListCandidatos listCand = new ListCandidatos((SoliEmpresa) selected);
+							listCand.setModal(true);
+							listCand.setVisible(true);
+						}
+					});
+					buttonPane.add(btnSelecionar);
+				}
 				btnMostrar.setEnabled(false);
 				buttonPane.add(btnMostrar);
 			}
@@ -149,6 +167,12 @@ public class ListSolicitudes extends JDialog
 			}
 		}
 		loadSolicitudes();
+		if (match)
+		{
+			btnEliminar.setVisible(false);
+			btnSelecionar.setVisible(true);
+		}
+
 	}
 
 	private void loadSolicitudes()
@@ -164,53 +188,33 @@ public class ListSolicitudes extends JDialog
 
 			rows[0] = solicitud.getCodigo();
 
-			if (solicitud instanceof SoliEmpresa)
-				rows[1] = "Empresa";
-			else if (solicitud instanceof SoliPersona)
-				rows[1] = "Persona";
+			rows[1] = solicitud instanceof SoliEmpresa ? "Empresa" : solicitud instanceof SoliPersona ? "Persona" : "";
+			rows[2] = solicitud instanceof SoliEmpresa ? ((SoliEmpresa) solicitud).getRnc()
+					: solicitud instanceof SoliPersona ? ((SoliPersona) solicitud).getCedula() : "";
 
-			if (solicitud instanceof SoliEmpresa)
-				rows[2] = ((SoliEmpresa) solicitud).getRnc();
-			else if (solicitud instanceof SoliPersona)
-				rows[2] = ((SoliPersona) solicitud).getCedula();
-
-			if (solicitud instanceof SoliEmpresa)
-				rows[3] = empresa.getNombre();
-			else if (solicitud instanceof SoliPersona)
-				rows[3] = persona.getNombre();
+			rows[3] = solicitud instanceof SoliEmpresa ? empresa.getNombre()
+					: solicitud instanceof SoliPersona ? persona.getNombre() : "";
 
 			if (solicitud instanceof SoliPersona)
-			{
-				if (persona instanceof Universitario)
-					rows[4] = "Universatario";
-				else if (persona instanceof Tecnico)
-					rows[4] = "Tecnico";
-				if (persona instanceof Obrero)
-					rows[4] = "Obrero";
-			}
-			else if (solicitud instanceof SoliEmpresa)
-			{
-				if (solicitud instanceof EmpUniversitario)
-					rows[4] = "Universatario";
-				else if (solicitud instanceof EmpTecnico)
-					rows[4] = "Tecnico";
-				else if (solicitud instanceof EmpObrero)
-					rows[4] = "Obrero";
-			}
-			if (solicitud instanceof SoliPersona)
-				rows[5] = "1";
-			else if (solicitud instanceof SoliEmpresa)
-				rows[5] = String.valueOf(((SoliEmpresa) solicitud).getCantidad());
+				rows[4] = persona instanceof Universitario ? "Universatario"
+						: persona instanceof Tecnico ? "Tecnico" : persona instanceof Obrero ? "Obrero" : "";
 
-			if (solicitud.isActiva())
-				rows[6] = "Activa";
-			else
-				rows[6] = "Inactiva";
+			else if (solicitud instanceof SoliEmpresa)
+				rows[4] = solicitud instanceof EmpUniversitario ? "Universatario"
+						: solicitud instanceof EmpTecnico ? "Tecnico" : solicitud instanceof EmpObrero ? "Obrero" : "";
+
+			rows[5] = solicitud instanceof SoliPersona ? "1"
+					: solicitud instanceof SoliEmpresa ? String.valueOf(((SoliEmpresa) solicitud).getCantidad()) : "";
+
+			rows[6] = solicitud.isActiva() ? "Activa" : "Inactiva";
 
 			persona = null;
 			empresa = null;
 
-			model.addRow(rows);
+			if (solicitud instanceof SoliPersona && match)
+				;
+			else
+				model.addRow(rows);
 		}
 	}
 }

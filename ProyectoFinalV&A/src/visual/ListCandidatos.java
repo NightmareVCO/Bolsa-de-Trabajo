@@ -9,42 +9,49 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Bolsa;
+import logico.Empresa;
 import logico.Obrero;
 import logico.Persona;
+import logico.SoliEmpresa;
+import logico.SoliPersona;
+import logico.Solicitud;
 import logico.Tecnico;
 import logico.Universitario;
 
 @SuppressWarnings("serial")
-public class ListPersonas extends JDialog
+public class ListCandidatos extends JDialog
 {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private JButton btnSalir;
-	private JButton btnEliminar;
 	private static DefaultTableModel model;
 	private static Object[] rows;
-	private Persona selected = null;
+	private Solicitud selected = null;
+	Persona persona = null;
+	Empresa empresa = null;
+	private JButton btnMostrar;
+	private SoliEmpresa solicitudEmpresa = null;
 
-	private JButton btnMod;
+	public ListCandidatos(SoliEmpresa aux)
 
-	public ListPersonas()
 	{
-		setTitle("Lista de Personas");
+		solicitudEmpresa = aux;
+		setTitle("Lista de Cadidatos");
 		setBounds(100, 100, 683, 505);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
@@ -58,7 +65,7 @@ public class ListPersonas extends JDialog
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					model = new DefaultTableModel();
-					String[] columnas = { "Cedula", "Nombre", "Tipo", "Telefono", "Direccion" };
+					String[] columnas = { "Codigo", "Cedula", "Nombre", "Tipo", "Area", "Porcentaje" };
 					model.setColumnIdentifiers(columnas);
 					table = new JTable();
 					table.addMouseListener(new MouseAdapter()
@@ -68,70 +75,38 @@ public class ListPersonas extends JDialog
 						{
 							int rowSelected = -1;
 							rowSelected = table.getSelectedRow();
-
 							if (rowSelected >= 0)
 							{
-								btnEliminar.setEnabled(true);
-								btnMod.setEnabled(true);
+								btnMostrar.setEnabled(true);
 								selected = Bolsa.getInstance()
-										.buscarPersonaByCedula(table.getValueAt(rowSelected, 0).toString());
+										.buscarSolicitudByCodigo(table.getValueAt(rowSelected, 0).toString());
 							}
 						}
 					});
-					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					table.setModel(model);
+					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					scrollPane.setViewportView(table);
 				}
 			}
 		}
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnEliminar = new JButton("Eliminar");
-				btnEliminar.addActionListener(new ActionListener()
+				btnMostrar = new JButton("Mostrar");
+				btnMostrar.addActionListener(new ActionListener()
 				{
+
 					public void actionPerformed(ActionEvent e)
 					{
-						if (Bolsa.getInstance().isLibreSoliPer(selected.getId()))
-						{
-							int option;
-							option = JOptionPane.showConfirmDialog(null,
-									"Esta seguro que desea eliminar a: " + selected.getNombre(), "Confirmacion",
-									JOptionPane.YES_NO_OPTION);
-							if (option == JOptionPane.OK_OPTION)
-							{
-								Bolsa.getInstance().eliminarPersona(selected);
-								loadPersons();
-								btnEliminar.setEnabled(false);
-							}
-						}
-
-						else
-							JOptionPane.showMessageDialog(null, "Error: Persona Vinculada", "Informacion",
-									JOptionPane.INFORMATION_MESSAGE);
+						MostrarMatch match = new MostrarMatch((SoliPersona) selected, solicitudEmpresa);
+						match.setModal(true);
+						match.setVisible(true);
 					}
 				});
-				{
-					btnMod = new JButton("Modificar");
-					btnMod.addActionListener(new ActionListener()
-					{
-						public void actionPerformed(ActionEvent e)
-						{
-							ModPersona modif = new ModPersona(selected);
-							modif.setModal(true);
-							modif.setVisible(true);
-						}
-					});
-					btnMod.setEnabled(false);
-					buttonPane.add(btnMod);
-				}
-				btnEliminar.setEnabled(false);
-				btnEliminar.setActionCommand("OK");
-				buttonPane.add(btnEliminar);
-				getRootPane().setDefaultButton(btnEliminar);
+				btnMostrar.setEnabled(false);
+				buttonPane.add(btnMostrar);
 			}
 			{
 				btnSalir = new JButton("Salir");
@@ -145,25 +120,41 @@ public class ListPersonas extends JDialog
 				btnSalir.setActionCommand("Cancel");
 				buttonPane.add(btnSalir);
 			}
+
 		}
-		loadPersons();
+		loadSolicitudes();
+
 	}
 
-	public static void loadPersons()
+	private void loadSolicitudes()
 	{
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
-
-		for (Persona person : Bolsa.getInstance().getPersonas())
+		for (Solicitud solicitud : Bolsa.getInstance().getSolicitudes())
 		{
-			rows[0] = person.getId();
-			rows[1] = person.getNombre();
-			rows[2] = person instanceof Universitario ? "Universitario"
-					: person instanceof Tecnico ? "Tecnico" : person instanceof Obrero ? "Obrero" : "";
-			rows[3] = person.getTelefono();
-			rows[4] = person.getDireccion();
+			if (solicitud instanceof SoliPersona)
+			{
+				persona = Bolsa.getInstance().buscarPersonaByCedula(((SoliPersona) solicitud).getCedula());
+				float procentaje = Bolsa.getInstance().match(solicitudEmpresa, (SoliPersona) solicitud);
 
-			model.addRow(rows);
+				rows[0] = solicitud.getCodigo();
+				rows[1] = ((SoliPersona) solicitud).getCedula();
+				rows[2] = persona.getNombre();
+				if (solicitud instanceof SoliPersona)
+					rows[3] = persona instanceof Universitario ? "Universatario"
+							: persona instanceof Tecnico ? "Tecnico" : persona instanceof Obrero ? "Obrero" : "";
+
+				rows[4] = persona instanceof Universitario ? ((Universitario) persona).getCarrera()
+						: persona instanceof Tecnico ? ((Tecnico) persona).getArea()
+								: persona instanceof Obrero ? "Obrero" : "";
+
+				rows[5] = String.valueOf(procentaje);
+
+				persona = null;
+
+				if (procentaje >= solicitudEmpresa.getPorcentajeMacth())
+					model.addRow(rows);
+			}
 		}
 	}
 }

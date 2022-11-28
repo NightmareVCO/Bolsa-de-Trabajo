@@ -161,7 +161,7 @@ public class Bolsa
 			if (solicitud instanceof SoliEmpresa && ((SoliEmpresa) solicitud).getRnc().equalsIgnoreCase(antiguo))
 				((SoliEmpresa) solicitud).setRnc(nuevo);
 	}
-	
+
 	public boolean isLibreSoliPer(String cedula)
 	{
 		boolean libre = true;
@@ -177,5 +177,11 @@ public class Bolsa
 		for (Solicitud solicitud : solicitudes)
 			if (solicitud instanceof SoliPersona && ((SoliPersona) solicitud).getCedula().equalsIgnoreCase(antiguo))
 				((SoliPersona) solicitud).setCedula(nuevo);
+	}
+
+	public float match(SoliEmpresa solicitudEmpresa, SoliPersona solicitudPersona)
+	{
+		float porcentaje = 10;
+		return porcentaje;
 	}
 }
