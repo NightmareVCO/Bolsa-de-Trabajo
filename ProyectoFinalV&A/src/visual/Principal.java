@@ -92,7 +92,7 @@ public class Principal extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				ListSolicitudes listSol = new ListSolicitudes();
+				ListSolicitudes listSol = new ListSolicitudes(false);
 				listSol.setModal(true);
 				listSol.setVisible(true);
 			}
@@ -133,6 +133,15 @@ public class Principal extends JFrame
 		menuBar.add(mnNewMenu_3);
 
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Match");
+		mntmNewMenuItem_4.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				ListSolicitudes listSol = new ListSolicitudes(true);
+				listSol.setModal(true);
+				listSol.setVisible(true);
+			}
+		});
 		mnNewMenu_3.add(mntmNewMenuItem_4);
 
 		contentPane = new JPanel();

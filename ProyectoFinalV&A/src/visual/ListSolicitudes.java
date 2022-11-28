@@ -47,7 +47,7 @@ public class ListSolicitudes extends JDialog
 	Empresa empresa = null;
 	private JButton btnMostrar;
 
-	public ListSolicitudes()
+	public ListSolicitudes(boolean match)
 	{
 		setTitle("Lista de Solicitudes");
 		setBounds(100, 100, 683, 505);
@@ -67,7 +67,7 @@ public class ListSolicitudes extends JDialog
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					model = new DefaultTableModel();
-					String[] columnas = { "Codigo", "Cliente", "Cedula/RNC", "Nombre", "Tipo" };
+					String[] columnas = { "Codigo", "Cliente", "Cedula/RNC", "Nombre", "Tipo", "Cantidad", "Estado" };
 					model.setColumnIdentifiers(columnas);
 					table = new JTable();
 					table.addMouseListener(new MouseAdapter()
@@ -197,6 +197,15 @@ public class ListSolicitudes extends JDialog
 				else if (solicitud instanceof EmpObrero)
 					rows[4] = "Obrero";
 			}
+			if (solicitud instanceof SoliPersona)
+				rows[5] = "1";
+			else if (solicitud instanceof SoliEmpresa)
+				rows[5] = String.valueOf(((SoliEmpresa) solicitud).getCantidad());
+
+			if (solicitud.isActiva())
+				rows[6] = "Activa";
+			else
+				rows[6] = "Inactiva";
 
 			persona = null;
 			empresa = null;
