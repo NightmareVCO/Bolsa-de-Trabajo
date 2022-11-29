@@ -5,10 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Bolsa
+public class Bolsa implements Serializable
 {
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Persona> personas;
 	private ArrayList<Solicitud> solicitudes;
 	private ArrayList<Empresa> empresas;
@@ -192,73 +194,21 @@ public class Bolsa
 
 	public void guardarArchivo() throws IOException, ClassNotFoundException
 	{
-		FileOutputStream fPerOut = new FileOutputStream("C:\\JAVA\\Personas.dat");
-		ObjectOutputStream oosPer = new ObjectOutputStream(fPerOut);
+		FileOutputStream fBolsa = new FileOutputStream("C:\\JAVA\\Bolsa.dat");
+		ObjectOutputStream oosBolsa = new ObjectOutputStream(fBolsa);
+		oosBolsa.writeObject(bolsa);
 
-		FileOutputStream fEmpOut = new FileOutputStream("C:\\JAVA\\Empresas.dat");
-		ObjectOutputStream oosEmp = new ObjectOutputStream(fEmpOut);
-
-		FileOutputStream fSolOut = new FileOutputStream("C:\\JAVA\\Solicitudes.dat");
-		ObjectOutputStream oosSol = new ObjectOutputStream(fSolOut);
-		int cantPer = personas.size();
-		oosPer.writeInt(cantPer);
-		for (Persona person : personas)
-		{
-			oosPer.writeObject(person);
-		}
-		fPerOut.close();
-
-		int cantEmp = empresas.size();
-		oosEmp.writeInt(cantEmp);
-		for (Empresa emp : empresas)
-		{
-			oosEmp.writeObject(emp);
-		}
-		fEmpOut.close();
-
-		int cantSol = solicitudes.size();
-		oosSol.writeInt(cantSol);
-		for (Solicitud soli : solicitudes)
-		{
-			oosSol.writeObject(soli);
-		}
-		fSolOut.close();
+		fBolsa.close();
 	}
 
 	public void cargarArchivo() throws IOException, ClassNotFoundException
 	{
 
-		FileInputStream fPerIn = new FileInputStream("C:\\JAVA\\Personas.dat");
-		ObjectInputStream oisPer = new ObjectInputStream(fPerIn);
+		FileInputStream fBolsa = new FileInputStream("C:\\JAVA\\Bolsa.dat");
+		ObjectInputStream oosBolsa = new ObjectInputStream(fBolsa);
+		bolsa = (Bolsa) oosBolsa.readObject();
 
-		FileInputStream fEmpIn = new FileInputStream("C:\\JAVA\\Empresas.dat");
-		ObjectInputStream oisEmp = new ObjectInputStream(fEmpIn);
+		fBolsa.close();
 
-		FileInputStream fSolIn = new FileInputStream("C:\\JAVA\\Solicitudes.dat");
-		ObjectInputStream oisSol = new ObjectInputStream(fSolIn);
-
-		int cantPer = oisPer.readInt();
-		for (int i = 0; i < cantPer; i++)
-		{
-			Persona aux = (Persona) oisPer.readObject();
-			personas.add(aux);
-		}
-		fPerIn.close();
-
-		int cantEmp = oisEmp.readInt();
-		for (int i = 0; i < cantEmp; i++)
-		{
-			Empresa aux = (Empresa) oisEmp.readObject();
-			empresas.add(aux);
-		}
-		fEmpIn.close();
-
-		int cantSol = oisSol.readInt();
-		for (int i = 0; i < cantSol; i++)
-		{
-			Solicitud aux = (Solicitud) oisSol.readObject();
-			solicitudes.add(aux);
-		}
-		fSolIn.close();
 	}
 }

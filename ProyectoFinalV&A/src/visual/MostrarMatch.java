@@ -49,7 +49,7 @@ public class MostrarMatch extends JDialog
 
 			txtNombre = new JTextField();
 			txtNombre.setEditable(false);
-			txtNombre.setBounds(156, 47, 159, 20);
+			txtNombre.setBounds(158, 41, 159, 20);
 			panel.add(txtNombre);
 			txtNombre.setColumns(10);
 			txtNombre.setText(persona.getNombre());
