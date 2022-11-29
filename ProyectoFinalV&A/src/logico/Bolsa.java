@@ -341,7 +341,7 @@ public class Bolsa implements Serializable
 		else if(contratoOfrecido == "Media Jornada" && contratoDeseado == "Jornada Mixta")
 			coiciden = true;
 		
-		if(!coiciden)
+		if(coiciden)
 			total = 15;
 		
 		return total;
