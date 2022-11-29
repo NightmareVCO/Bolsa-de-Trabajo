@@ -32,8 +32,21 @@ public class Principal extends JFrame
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException
 	{
-		//queda pendiente revisar cuando no hay ninguna fichero previo, primer lunch del programa.
-		Bolsa.getInstance().cargarArchivo();
+		try
+		{
+			Bolsa.getInstance().cargarArchivo();
+		}
+		catch (ClassNotFoundException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		catch (IOException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
