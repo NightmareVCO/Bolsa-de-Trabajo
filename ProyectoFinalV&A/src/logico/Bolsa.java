@@ -284,5 +284,106 @@ public class Bolsa implements Serializable
 			}
 		return login;
 	}
+	
+	public float compararIdiomas(ArrayList<String> idiomasRequeridos, ArrayList<String> idiomaHablados)
+	{
+		float porcentaje = 0;
+		float total = 10;
+		int cantidadIdiomas = idiomasRequeridos.size();
+		int cantidadEncontrados = 0;
+		
+		for (String idR : idiomasRequeridos)
+		{
+			for (String idH : idiomaHablados)
+			{
+				if(idH.equalsIgnoreCase(idR))
+					cantidadEncontrados++;
+			}
+		}
+		
+		porcentaje = (cantidadEncontrados * 100) / cantidadIdiomas;
+		
+		return total * (porcentaje/100);
+	}
+	
+	public float compararActividades (ArrayList<String> actividadesRequeridas, ArrayList<String> actividadesQueRealiza)
+	{
+		float porcentaje = 0;
+		float total = 10;
+		int cantidadOficios = actividadesRequeridas.size();
+		int cantidadEncontrados = 0;
+		
+		for (String actReq : actividadesRequeridas)
+		{
+			for (String actRea : actividadesQueRealiza)
+			{
+				if(actReq.equalsIgnoreCase(actRea))
+					cantidadEncontrados++;
+			}
+		}
+		
+		porcentaje = (cantidadEncontrados * 100) / cantidadOficios;
+		
+		return total * (porcentaje/100);
+	}
+	
+	public float compararContratos (String contratoOfrecido, String contratoDeseado)
+	{
+		float total = 0;
+		boolean coiciden = false;
+		
+		if(contratoOfrecido.equalsIgnoreCase(contratoDeseado))
+			coiciden = true;
+		
+		else if(contratoOfrecido == "Jornada Completa" && contratoDeseado == "Jornada Mixta")
+			coiciden = true;
+		
+		else if(contratoOfrecido == "Media Jornada" && contratoDeseado == "Jornada Mixta")
+			coiciden = true;
+		
+		if(!coiciden)
+			total = 15;
+		
+		return total;
+	}
+	
+	public float comprarSueldo (float sueldoQuePagan, float sueldoQueQuieren)
+	{
+		float porcentaje = 0;
+		float total = 15;
+		
+		/*
+			100% = 15%
+			15/100
+		*/
+		
+		if (sueldoQuePagan <= sueldoQueQuieren)
+			porcentaje = 15;
+		
+		else
+		{
+			float diferencia = (sueldoQueQuieren - sueldoQuePagan) / sueldoQuePagan;
+			float diffPorcentaje = diferencia * 100;
+			
+			if(diffPorcentaje == 25)
+				porcentaje = 75;
+			
+			else if(diffPorcentaje == 50)
+				porcentaje = 50;
+			
+			else if(diffPorcentaje == 75)
+				porcentaje = 25;
+			
+			else if(diffPorcentaje == 100)
+				porcentaje = 0;
+		}
 
+	/*
+	25% >, 75%
+	50% >, 50%
+	75% >, 25%
+	100% >, 0%
+	*/
+		return total * (porcentaje/100);
+	}
 }
