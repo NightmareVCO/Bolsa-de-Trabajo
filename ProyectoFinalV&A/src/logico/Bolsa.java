@@ -358,24 +358,42 @@ public class Bolsa implements Serializable
 		*/
 		
 		if (sueldoQuePagan <= sueldoQueQuieren)
-			porcentaje = 15;
+			porcentaje = 100;
 		
 		else
 		{
 			float diferencia = (sueldoQueQuieren - sueldoQuePagan) / sueldoQuePagan;
 			float diffPorcentaje = diferencia * 100;
 			
-			if(diffPorcentaje == 25)
-				porcentaje = 75;
+			if(diffPorcentaje == 100)
+				porcentaje = 0;
 			
-			else if(diffPorcentaje == 50)
+			else if(diffPorcentaje >= 90)
+				porcentaje = 10;
+			
+			else if(diffPorcentaje >= 80)
+				porcentaje = 20;
+			
+			else if(diffPorcentaje >= 70)
+				porcentaje = 30;
+			
+			else if(diffPorcentaje >= 60)
+				porcentaje = 40;
+			
+			else if(diffPorcentaje >= 50)
 				porcentaje = 50;
 			
-			else if(diffPorcentaje == 75)
-				porcentaje = 25;
+			else if(diffPorcentaje >= 40)
+				porcentaje = 60;
 			
-			else if(diffPorcentaje == 100)
-				porcentaje = 0;
+			else if(diffPorcentaje >= 30)
+				porcentaje = 70;
+			
+			else if(diffPorcentaje >= 20)
+				porcentaje = 80;
+			
+			else if(diffPorcentaje >= 10)
+				porcentaje = 90;
 		}
 
 	/*
