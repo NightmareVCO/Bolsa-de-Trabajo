@@ -1,9 +1,14 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Solicitud
+public abstract class Solicitud implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String codigo;
 	protected boolean movilidad;
 	protected String contrato;

@@ -1,8 +1,14 @@
 package logico;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class Bolsa
+public class Bolsa 
 {
 	private ArrayList<Persona> personas;
 	private ArrayList<Solicitud> solicitudes;
@@ -183,5 +189,77 @@ public class Bolsa
 	{
 		float porcentaje = 21;
 		return porcentaje;
+	}
+	
+	public void guardarArchivo() throws IOException, ClassNotFoundException
+	{
+		FileOutputStream fPerOut = new FileOutputStream("C:/Personas.dat");
+		ObjectOutputStream oosPer = new ObjectOutputStream(fPerOut);
+		
+		FileOutputStream fEmpOut = new FileOutputStream("C:/Empresas.dat");
+		ObjectOutputStream oosEmp = new ObjectOutputStream(fEmpOut);
+		
+		FileOutputStream fSolOut = new FileOutputStream("C:/Solicitudes.dat");
+		ObjectOutputStream oosSol = new ObjectOutputStream(fSolOut);
+		
+		int cantPer = personas.size();
+		oosPer.writeInt(cantPer);
+		for (Persona person : personas)
+		{
+			oosPer.writeObject(person);
+		}
+		fPerOut.close();
+		
+		int cantEmp = empresas.size();
+		oosEmp.writeInt(cantEmp);
+		for (Empresa emp : empresas)
+		{
+			oosEmp.writeObject(emp);
+		}
+		fEmpOut.close();
+		
+		int cantSol = solicitudes.size();
+		oosSol.writeInt(cantSol);
+		for (Solicitud soli : solicitudes)
+		{
+			oosSol.writeObject(soli);
+		}
+		fSolOut.close();
+	}
+	
+	public void cargarArchivo() throws IOException, ClassNotFoundException
+	{
+		FileInputStream fPerIn = new FileInputStream("C:/FicherosJava/Personas.dat");
+		ObjectInputStream oisPer = new ObjectInputStream(fPerIn);
+		
+		FileInputStream fEmpIn = new FileInputStream("C:/FicherosJava/Empresas.dat");
+		ObjectInputStream oisEmp = new ObjectInputStream(fEmpIn);
+		
+		FileInputStream fSolIn = new FileInputStream("C:/FicherosJava/Solicitudes.dat");
+		ObjectInputStream oisSol = new ObjectInputStream(fSolIn);
+		
+		int cantPer = oisPer.readInt();
+		for(int i = 0; i < cantPer; i++)
+		{
+			Persona aux = (Persona)oisPer.readObject();
+			personas.add(aux);
+		}
+		fPerIn.close();
+		
+		int cantEmp = oisEmp.readInt();
+		for(int i = 0; i < cantEmp; i++)
+		{
+			Empresa aux = (Empresa)oisEmp.readObject();
+			empresas.add(aux);
+		}
+		fEmpIn.close();
+		
+		int cantSol = oisSol.readInt();
+		for(int i = 0; i < cantSol; i++)
+		{
+			Solicitud aux = (Solicitud)oisSol.readObject();
+			solicitudes.add(aux);
+		}
+		fSolIn.close();
 	}
 }

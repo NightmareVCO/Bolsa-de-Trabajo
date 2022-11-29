@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -18,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import logico.Bolsa;
+
 @SuppressWarnings("serial")
 public class Principal extends JFrame
 {
@@ -25,8 +29,10 @@ public class Principal extends JFrame
 	private JPanel contentPane;
 	private Dimension dim = null;
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException, ClassNotFoundException
 	{
+		Bolsa.getInstance().cargarArchivo();
+
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
@@ -42,6 +48,8 @@ public class Principal extends JFrame
 				}
 			}
 		});
+
+		Bolsa.getInstance().guardarArchivo();
 	}
 
 	public Principal()

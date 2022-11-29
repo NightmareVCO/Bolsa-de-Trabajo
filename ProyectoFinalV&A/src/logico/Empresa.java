@@ -1,7 +1,13 @@
 package logico;
 
-public class Empresa
+import java.io.Serializable;
+
+public class Empresa implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String rnc;
 	private String nombre;
 	private String telefono;
