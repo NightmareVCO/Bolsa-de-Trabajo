@@ -329,20 +329,27 @@ public class Bolsa implements Serializable
 	
 	public float compararContratos (String contratoOfrecido, String contratoDeseado)
 	{
-		float total = 0;
-		boolean coiciden = false;
+		float total = 15;
+		boolean coinciden = false;
 		
 		if(contratoOfrecido.equalsIgnoreCase(contratoDeseado))
-			coiciden = true;
+			coinciden = true;
 		
 		else if(contratoOfrecido == "Jornada Completa" && contratoDeseado == "Jornada Mixta")
-			coiciden = true;
-		
+		{
+			coinciden = true;
+			total = (float) 7.5;
+		}
+			
 		else if(contratoOfrecido == "Media Jornada" && contratoDeseado == "Jornada Mixta")
-			coiciden = true;
+		{
+			coinciden = true;
+			total = (float) 7.5;
+		}
+			
 		
-		if(coiciden)
-			total = 15;
+		if(!coinciden)
+			total = 0;
 		
 		return total;
 	}
@@ -351,11 +358,6 @@ public class Bolsa implements Serializable
 	{
 		float porcentaje = 0;
 		float total = 15;
-		
-		/*
-			100% = 15%
-			15/100
-		*/
 		
 		if (sueldoQuePagan <= sueldoQueQuieren)
 			porcentaje = 100;
@@ -396,12 +398,6 @@ public class Bolsa implements Serializable
 				porcentaje = 90;
 		}
 
-	/*
-	25% >, 75%
-	50% >, 50%
-	75% >, 25%
-	100% >, 0%
-	*/
 		return total * (porcentaje/100);
 	}
 }
