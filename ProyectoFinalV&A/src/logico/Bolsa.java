@@ -15,9 +15,7 @@ public class Bolsa implements Serializable
 	private ArrayList<Solicitud> solicitudes;
 	private ArrayList<Empresa> empresas;
 	private static Bolsa bolsa = null;
-	public static int genSol = 1;
-	public static int genPer = 1;
-	public static int genEmp = 1;
+	public int genSol;
 
 	private Bolsa()
 	{
@@ -25,6 +23,7 @@ public class Bolsa implements Serializable
 		personas = new ArrayList<>();
 		solicitudes = new ArrayList<>();
 		empresas = new ArrayList<>();
+		genSol = 1;
 	}
 
 	public static Bolsa getInstance()
@@ -67,7 +66,6 @@ public class Bolsa implements Serializable
 
 	public boolean addPersona(Persona person)
 	{
-		genPer++;
 		return personas.add(person);
 	}
 
@@ -79,7 +77,6 @@ public class Bolsa implements Serializable
 
 	public boolean addEmpresa(Empresa empresa)
 	{
-		genEmp++;
 		return empresas.add(empresa);
 	}
 
@@ -211,4 +208,15 @@ public class Bolsa implements Serializable
 		fBolsa.close();
 
 	}
+
+	public int getGenSol()
+	{
+		return genSol;
+	}
+
+	public void setGenSol(int genSol)
+	{
+		this.genSol = genSol;
+	}
+
 }

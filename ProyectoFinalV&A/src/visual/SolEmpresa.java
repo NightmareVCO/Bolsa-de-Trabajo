@@ -328,7 +328,7 @@ public class SolEmpresa extends JDialog
 					txtCodigo = new JTextField();
 					txtCodigo.setEditable(false);
 					txtCodigo.setBounds(379, 36, 123, 20);
-					txtCodigo.setText("SOL-" + Bolsa.genSol);
+					txtCodigo.setText("SOL-" + Bolsa.getInstance().getGenSol());
 					PanelDatosSolicitud.add(txtCodigo);
 					txtCodigo.setColumns(10);
 				}
@@ -760,7 +760,7 @@ public class SolEmpresa extends JDialog
 		txtTelefono.setEditable(false);
 		txtDireccion.setEditable(false);
 		cbxContrato.setSelectedIndex(0);
-		txtCodigo.setText("SOL-" + Bolsa.genSol);
+		txtCodigo.setText("SOL-" + Bolsa.getInstance().getGenSol());
 		spnSalario.setValue(new Float("1000"));
 		txtIdiomas.setText("");
 		rdbtnLicenciaNo.setSelected(true);
