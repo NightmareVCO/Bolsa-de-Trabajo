@@ -96,7 +96,7 @@ public class SolPersona extends JDialog
 		idiomasAux = new ArrayList<>();
 		actividades = new ArrayList<>();
 		setTitle("Registrar Solicitud de Persona");
-		setBounds(100, 100, 613, 830);
+		setBounds(100, 100, 613, 848);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -120,6 +120,16 @@ public class SolPersona extends JDialog
 			PanelDatos.add(lblNewLabel);
 
 			txtCedula = new JTextField();
+			txtCedula.addKeyListener(new KeyAdapter()
+			{
+				@Override
+				public void keyTyped(KeyEvent e)
+				{
+					char c = e.getKeyChar();
+					if ((!Character.isDigit(c)) && (c != KeyEvent.VK_BACK_SPACE))
+						e.consume();
+				}
+			});
 			txtCedula.setBounds(80, 25, 163, 20);
 			PanelDatos.add(txtCedula);
 			txtCedula.setColumns(10);
@@ -129,6 +139,16 @@ public class SolPersona extends JDialog
 			PanelDatos.add(lblNewLabel_1);
 
 			txtNombre = new JTextField();
+			txtNombre.addKeyListener(new KeyAdapter()
+			{
+				@Override
+				public void keyTyped(KeyEvent e)
+				{
+					char c = e.getKeyChar();
+					if ((!Character.isAlphabetic(c) && (c != KeyEvent.VK_BACK_SPACE) && (c != KeyEvent.VK_SPACE)))
+						e.consume();
+				}
+			});
 			txtNombre.setEditable(false);
 			txtNombre.setBounds(80, 68, 210, 20);
 			PanelDatos.add(txtNombre);
@@ -162,6 +182,16 @@ public class SolPersona extends JDialog
 			PanelDatos.add(lblNewLabel_2);
 
 			txtTelefono = new JTextField();
+			txtTelefono.addKeyListener(new KeyAdapter()
+			{
+				@Override
+				public void keyTyped(KeyEvent e)
+				{
+					char c = e.getKeyChar();
+					if ((!Character.isDigit(c)) && (c != KeyEvent.VK_BACK_SPACE))
+						e.consume();
+				}
+			});
 			txtTelefono.setEditable(false);
 			txtTelefono.setBounds(80, 111, 178, 20);
 			PanelDatos.add(txtTelefono);

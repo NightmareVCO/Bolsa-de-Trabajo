@@ -2,6 +2,8 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -62,23 +64,23 @@ public class MostrarMatch extends JDialog
 			}
 			{
 				JLabel lblNewLabel_2 = new JLabel("");
-				if (porcentaje > 90)
+				if (porcentaje == 100)
 					lblNewLabel_2.setIcon(new ImageIcon(MostrarMatch.class.getResource("/images/100.png")));
-				else if (porcentaje > 80)
+				else if (porcentaje >= 90)
 					lblNewLabel_2.setIcon(new ImageIcon(MostrarMatch.class.getResource("/images/90.png")));
-				else if (porcentaje > 70)
+				else if (porcentaje >= 80)
 					lblNewLabel_2.setIcon(new ImageIcon(MostrarMatch.class.getResource("/images/80.png")));
-				else if (porcentaje > 60)
+				else if (porcentaje >= 70)
 					lblNewLabel_2.setIcon(new ImageIcon(MostrarMatch.class.getResource("/images/70.png")));
-				else if (porcentaje > 50)
+				else if (porcentaje >= 60)
 					lblNewLabel_2.setIcon(new ImageIcon(MostrarMatch.class.getResource("/images/60.png")));
-				else if (porcentaje > 40)
+				else if (porcentaje >= 50)
 					lblNewLabel_2.setIcon(new ImageIcon(MostrarMatch.class.getResource("/images/50.png")));
-				else if (porcentaje > 30)
+				else if (porcentaje >= 40)
 					lblNewLabel_2.setIcon(new ImageIcon(MostrarMatch.class.getResource("/images/40.png")));
-				else if (porcentaje > 20)
+				else if (porcentaje >= 30)
 					lblNewLabel_2.setIcon(new ImageIcon(MostrarMatch.class.getResource("/images/30.png")));
-				else if (porcentaje > 10)
+				else if (porcentaje >= 20)
 					lblNewLabel_2.setIcon(new ImageIcon(MostrarMatch.class.getResource("/images/20.png")));
 				else
 					lblNewLabel_2.setIcon(new ImageIcon(MostrarMatch.class.getResource("/images/10.png")));
@@ -89,10 +91,10 @@ public class MostrarMatch extends JDialog
 			{
 				txtPorcentaje = new JTextField();
 				txtPorcentaje.setEditable(false);
-				txtPorcentaje.setBounds(189, 98, 86, 20);
+				txtPorcentaje.setBounds(156, 101, 159, 20);
 				panel.add(txtPorcentaje);
 				txtPorcentaje.setColumns(10);
-				txtPorcentaje.setText(String.valueOf(porcentaje) + "% de Requisitos");
+				txtPorcentaje.setText(String.valueOf(porcentaje) + "% de los requisitos");
 			}
 		}
 		{
@@ -107,6 +109,13 @@ public class MostrarMatch extends JDialog
 			}
 			{
 				JButton btnSalir = new JButton("Salir");
+				btnSalir.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						dispose();
+					}
+				});
 				btnSalir.setActionCommand("Cancel");
 				buttonPane.add(btnSalir);
 			}

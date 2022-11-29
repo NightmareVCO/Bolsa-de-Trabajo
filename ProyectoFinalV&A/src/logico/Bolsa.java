@@ -181,7 +181,7 @@ public class Bolsa
 
 	public float match(SoliEmpresa solicitudEmpresa, SoliPersona solicitudPersona)
 	{
-		float porcentaje = 10;
+		float porcentaje = 21;
 		return porcentaje;
 	}
 }
