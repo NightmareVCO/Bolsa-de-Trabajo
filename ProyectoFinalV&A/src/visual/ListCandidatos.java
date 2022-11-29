@@ -40,8 +40,9 @@ public class ListCandidatos extends JDialog
 	private Solicitud selected = null;
 	Persona persona = null;
 	Empresa empresa = null;
-	private JButton btnMostrar;
+	private JButton btnSelecionar;
 	private SoliEmpresa solicitudEmpresa = null;
+	private JButton btnMostrar;
 
 	public ListCandidatos(SoliEmpresa aux)
 
@@ -77,6 +78,7 @@ public class ListCandidatos extends JDialog
 							rowSelected = table.getSelectedRow();
 							if (rowSelected >= 0)
 							{
+								btnSelecionar.setEnabled(true);
 								btnMostrar.setEnabled(true);
 								selected = Bolsa.getInstance()
 										.buscarSolicitudByCodigo(table.getValueAt(rowSelected, 0).toString());
@@ -94,8 +96,8 @@ public class ListCandidatos extends JDialog
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnMostrar = new JButton("Mostrar");
-				btnMostrar.addActionListener(new ActionListener()
+				btnSelecionar = new JButton("Selecionar");
+				btnSelecionar.addActionListener(new ActionListener()
 				{
 
 					public void actionPerformed(ActionEvent e)
@@ -105,8 +107,22 @@ public class ListCandidatos extends JDialog
 						match.setVisible(true);
 					}
 				});
-				btnMostrar.setEnabled(false);
-				buttonPane.add(btnMostrar);
+				{
+					btnMostrar = new JButton("Mostrar");
+					btnMostrar.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							MostrarSolicitud mostrar = new MostrarSolicitud(selected);
+							mostrar.setModal(true);
+							mostrar.setVisible(true);
+						}
+					});
+					btnMostrar.setEnabled(false);
+					buttonPane.add(btnMostrar);
+				}
+				btnSelecionar.setEnabled(false);
+				buttonPane.add(btnSelecionar);
 			}
 			{
 				btnSalir = new JButton("Salir");
