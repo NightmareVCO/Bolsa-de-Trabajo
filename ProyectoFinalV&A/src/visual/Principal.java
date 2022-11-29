@@ -3,7 +3,6 @@ package visual;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,49 +28,18 @@ public class Principal extends JFrame
 
 	private JPanel contentPane;
 	private Dimension dim = null;
+	private boolean admin = false;
+	private JMenu menuAdministracion;
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException
+	public Principal(boolean ad)
 	{
-		try
-		{
-			Bolsa.getInstance().cargarArchivo();
-		}
-		catch (ClassNotFoundException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		catch (IOException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
-					Principal frame = new Principal();
-					frame.setVisible(true);
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-
-	}
-
-	public Principal()
-	{
+		admin = ad;
 		addWindowListener(new WindowAdapter()
 		{
 			@Override
 			public void windowClosing(WindowEvent e)
 			{
+
 				try
 				{
 					Bolsa.getInstance().guardarArchivo();
@@ -86,6 +54,7 @@ public class Principal extends JFrame
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+
 			}
 		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/images/Icon.png")));
@@ -171,8 +140,8 @@ public class Principal extends JFrame
 		});
 		mnNewMenu_2.add(mntmNewMenuItem_3);
 
-		JMenu mnNewMenu_3 = new JMenu("Administración");
-		menuBar.add(mnNewMenu_3);
+		menuAdministracion = new JMenu("Administración");
+		menuBar.add(menuAdministracion);
 
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Match");
 		mntmNewMenuItem_4.addActionListener(new ActionListener()
@@ -184,7 +153,19 @@ public class Principal extends JFrame
 				listSol.setVisible(true);
 			}
 		});
-		mnNewMenu_3.add(mntmNewMenuItem_4);
+		menuAdministracion.add(mntmNewMenuItem_4);
+
+		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Agregar Usuario");
+		mntmNewMenuItem_6.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				RegUsuario usuario = new RegUsuario();
+				usuario.setModal(true);
+				usuario.setVisible(true);
+			}
+		});
+		menuAdministracion.add(mntmNewMenuItem_6);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -200,5 +181,9 @@ public class Principal extends JFrame
 		Foto.setIcon(new ImageIcon(Principal.class.getResource("/images/Fondo Principal.png")));
 		Foto.setBounds(0, 0, 1910, 985);
 		panel.add(Foto);
+
+		if (!admin)
+			menuAdministracion.setEnabled(false);
+
 	}
 }

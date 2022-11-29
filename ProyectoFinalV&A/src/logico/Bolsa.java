@@ -1,6 +1,7 @@
 package logico;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,7 +15,9 @@ public class Bolsa implements Serializable
 	private ArrayList<Persona> personas;
 	private ArrayList<Solicitud> solicitudes;
 	private ArrayList<Empresa> empresas;
+	private ArrayList<Usuario> usuarios;
 	private static Bolsa bolsa = null;
+	private static Usuario loginUser;
 	public int genSol;
 
 	private Bolsa()
@@ -23,6 +26,7 @@ public class Bolsa implements Serializable
 		personas = new ArrayList<>();
 		solicitudes = new ArrayList<>();
 		empresas = new ArrayList<>();
+		usuarios = new ArrayList<>();
 		genSol = 1;
 	}
 
@@ -64,6 +68,36 @@ public class Bolsa implements Serializable
 		this.empresas = empresas;
 	}
 
+	public ArrayList<Usuario> getUsuarios()
+	{
+		return usuarios;
+	}
+
+	public void setUsuarios(ArrayList<Usuario> usuarios)
+	{
+		this.usuarios = usuarios;
+	}
+
+	public static Usuario getLoginUser()
+	{
+		return loginUser;
+	}
+
+	public static void setLoginUser(Usuario loginUser)
+	{
+		Bolsa.loginUser = loginUser;
+	}
+
+	public int getGenSol()
+	{
+		return genSol;
+	}
+
+	public void setGenSol(int genSol)
+	{
+		this.genSol = genSol;
+	}
+
 	public boolean addPersona(Persona person)
 	{
 		return personas.add(person);
@@ -78,6 +112,11 @@ public class Bolsa implements Serializable
 	public boolean addEmpresa(Empresa empresa)
 	{
 		return empresas.add(empresa);
+	}
+
+	public boolean addUsuario(Usuario usuario)
+	{
+		return usuarios.add(usuario);
 	}
 
 	public Empresa buscarEmpresaByRNC(String rnc)
@@ -149,6 +188,11 @@ public class Bolsa implements Serializable
 		return empresas.remove(empresa);
 	}
 
+	public boolean elimianrUsuarios(Usuario usuario)
+	{
+		return usuarios.remove(usuario);
+	}
+
 	public boolean isLibreSoliEmp(String RNC)
 	{
 		boolean libre = true;
@@ -191,32 +235,54 @@ public class Bolsa implements Serializable
 
 	public void guardarArchivo() throws IOException, ClassNotFoundException
 	{
+
 		FileOutputStream fBolsa = new FileOutputStream("C:\\JAVA\\Bolsa.dat");
 		ObjectOutputStream oosBolsa = new ObjectOutputStream(fBolsa);
 		oosBolsa.writeObject(bolsa);
-
 		fBolsa.close();
+
 	}
 
 	public void cargarArchivo() throws IOException, ClassNotFoundException
 	{
-
-		FileInputStream fBolsa = new FileInputStream("C:\\JAVA\\Bolsa.dat");
-		ObjectInputStream oosBolsa = new ObjectInputStream(fBolsa);
-		bolsa = (Bolsa) oosBolsa.readObject();
-
-		fBolsa.close();
-
+		try
+		{
+			FileInputStream fBolsa = new FileInputStream("C:\\JAVA\\Bolsa.dat");
+			ObjectInputStream oosBolsa = new ObjectInputStream(fBolsa);
+			bolsa = (Bolsa) oosBolsa.readObject();
+			fBolsa.close();
+			oosBolsa.close();
+		}
+		catch (FileNotFoundException e)
+		{
+			try
+			{
+				FileOutputStream fBolsa2 = new FileOutputStream("C:\\JAVA\\Bolsa.dat");
+				ObjectOutputStream oosBolsa2 = new ObjectOutputStream(fBolsa2);
+				Usuario usuario = new Usuario("administrador", "admin", "Administrador");
+				Bolsa.getInstance().addUsuario(usuario);
+				oosBolsa2.writeObject(bolsa);
+				fBolsa2.close();
+				oosBolsa2.close();
+			}
+			catch (IOException e1)
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 	}
 
-	public int getGenSol()
+	public boolean confirmarLogin(String username, String password)
 	{
-		return genSol;
-	}
-
-	public void setGenSol(int genSol)
-	{
-		this.genSol = genSol;
+		boolean login = false;
+		for (Usuario user : usuarios)
+			if (user.getUsername().equals(username) && user.getPassword().equals(password))
+			{
+				setLoginUser(user);
+				login = true;
+			}
+		return login;
 	}
 
 }
