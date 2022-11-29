@@ -2,6 +2,7 @@ package logico;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("serial")
 public class EmpTecnico extends SoliEmpresa
 {
 	private String area;

@@ -2,6 +2,7 @@ package logico;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("serial")
 public class Obrero extends Persona
 {
 	private ArrayList<String> oficios;

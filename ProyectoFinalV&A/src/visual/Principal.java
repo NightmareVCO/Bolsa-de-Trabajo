@@ -7,7 +7,8 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
@@ -22,7 +23,7 @@ import javax.swing.border.TitledBorder;
 
 import logico.Bolsa;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial" })
 public class Principal extends JFrame
 {
 
@@ -31,8 +32,8 @@ public class Principal extends JFrame
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException
 	{
+		//queda pendiente revisar cuando no hay ninguna fichero previo, primer lunch del programa.
 		Bolsa.getInstance().cargarArchivo();
-
 		EventQueue.invokeLater(new Runnable()
 		{
 			public void run()
@@ -49,11 +50,31 @@ public class Principal extends JFrame
 			}
 		});
 
-		Bolsa.getInstance().guardarArchivo();
 	}
 
 	public Principal()
 	{
+		addWindowListener(new WindowAdapter()
+		{
+			@Override
+			public void windowClosing(WindowEvent e)
+			{
+				try
+				{
+					Bolsa.getInstance().guardarArchivo();
+				}
+				catch (ClassNotFoundException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				catch (IOException e1)
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/images/Icon.png")));
 		setTitle("Bolsa de Trabajo");
 		setResizable(false);

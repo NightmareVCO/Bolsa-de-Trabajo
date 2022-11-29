@@ -1,5 +1,6 @@
 package logico;
 
+@SuppressWarnings("serial")
 public class Universitario extends Persona
 {
 	private String carrera;

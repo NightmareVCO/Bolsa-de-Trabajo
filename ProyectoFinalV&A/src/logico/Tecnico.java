@@ -1,5 +1,6 @@
 package logico;
 
+@SuppressWarnings("serial")
 public class Tecnico extends Persona
 {
 	private String area;
