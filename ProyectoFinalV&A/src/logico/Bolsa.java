@@ -227,12 +227,6 @@ public class Bolsa implements Serializable
 				((SoliPersona) solicitud).setCedula(nuevo);
 	}
 
-	public float match(SoliEmpresa solicitudEmpresa, SoliPersona solicitudPersona)
-	{
-		float porcentaje = 21;
-		return porcentaje;
-	}
-
 	public void guardarArchivo() throws IOException, ClassNotFoundException
 	{
 
@@ -284,120 +278,201 @@ public class Bolsa implements Serializable
 			}
 		return login;
 	}
-	
+
+	public float match(SoliEmpresa solicitudEmpresa, SoliPersona solicitudPersona)
+	{
+		float puntaje = compararArea(solicitudEmpresa, solicitudPersona);
+		Persona persona = buscarPersonaByCedula(solicitudPersona.getCedula());
+
+		if (puntaje > 0 && persona != null)
+		{
+			puntaje += compararContratos(solicitudEmpresa.getContrato(), solicitudPersona.getContrato());
+			puntaje += comprarSueldo(solicitudEmpresa.getSueldo(), solicitudPersona.getSueldo());
+			puntaje += compararIdiomas(solicitudEmpresa.getIdiomas(), solicitudPersona.getIdiomas());
+			puntaje += compararMovilidad(solicitudEmpresa.isMovilidad(), solicitudPersona.isMovilidad());
+			puntaje += compararLicencia(solicitudEmpresa.isLicencia(), solicitudPersona.isLicencia());
+			puntaje += compararCiudad(solicitudEmpresa.getCuidad(), solicitudPersona.getCuidad());
+			if (solicitudEmpresa instanceof EmpUniversitario && persona instanceof Universitario)
+				puntaje += compararTiempo(((EmpUniversitario) solicitudEmpresa).getAgnos(),
+						((Universitario) persona).getAgnos());
+			else if (solicitudEmpresa instanceof EmpTecnico && persona instanceof Tecnico)
+				puntaje += compararTiempo(((EmpTecnico) solicitudEmpresa).getAgnos(), ((Tecnico) persona).getAgnos());
+		}
+		return puntaje;
+	}
+
+	public float compararContratos(String contratoOfrecido, String contratoDeseado)
+	{
+		float total = 15;
+		boolean coinciden = false;
+
+		if (contratoOfrecido.equalsIgnoreCase(contratoDeseado))
+			coinciden = true;
+
+		else if (contratoOfrecido == "Media Jornada" && contratoDeseado == "Jornada Mixta")
+			coinciden = true;
+
+		else if (contratoOfrecido == "Jornada Completa" && contratoDeseado == "Jornada Mixta")
+		{
+			coinciden = true;
+			total = (float) 7.5;
+		}
+
+		if (!coinciden)
+			total = 0;
+
+		return total;
+	}
+
+	public float comprarSueldo(float sueldoQuePagan, float sueldoQueQuieren)
+	{
+		float porcentaje = 0;
+		float total = 15;
+		float diferencia = 0;
+
+		if (sueldoQuePagan <= sueldoQueQuieren)
+			porcentaje = 100;
+
+		else
+		{
+			diferencia = ((sueldoQueQuieren - sueldoQuePagan) / sueldoQuePagan) * 100;
+			porcentaje = diferencia == 100 ? 0
+					: diferencia >= 90 ? 10
+							: diferencia >= 80 ? 20
+									: diferencia >= 70 ? 30
+											: diferencia >= 60 ? 40
+													: diferencia >= 50 ? 50
+															: diferencia >= 40 ? 60
+																	: diferencia >= 30 ? 70
+																			: diferencia >= 20 ? 80 : diferencia >= 10 ? 90 : 100;
+
+		}
+
+		return total * (porcentaje / 100);
+	}
+
 	public float compararIdiomas(ArrayList<String> idiomasRequeridos, ArrayList<String> idiomaHablados)
 	{
 		float porcentaje = 0;
 		float total = 10;
 		int cantidadIdiomas = idiomasRequeridos.size();
 		int cantidadEncontrados = 0;
-		
+
 		for (String idR : idiomasRequeridos)
 		{
 			for (String idH : idiomaHablados)
 			{
-				if(idH.equalsIgnoreCase(idR))
+				if (idH.equalsIgnoreCase(idR))
 					cantidadEncontrados++;
 			}
 		}
-		
+
 		porcentaje = (cantidadEncontrados * 100) / cantidadIdiomas;
-		
-		return total * (porcentaje/100);
+
+		return total * (porcentaje / 100);
 	}
-	
-	public float compararActividades (ArrayList<String> actividadesRequeridas, ArrayList<String> actividadesQueRealiza)
+
+	public float compararMovilidad(boolean empresa, boolean persona)
+	{
+		float total = 10;
+
+		if (empresa && !persona)
+			total = 0;
+
+		return total;
+	}
+
+	public float compararLicencia(boolean empresa, boolean persona)
+	{
+		float total = 4;
+
+		if (empresa && !persona)
+			total = 0;
+
+		return total;
+	}
+
+	public float compararCiudad(String empresa, String persona)
+	{
+		float total = 4;
+
+		if (!empresa.equalsIgnoreCase(persona))
+			total = 0;
+
+		return total;
+	}
+
+	public float compararArea(SoliEmpresa solicitudEmpresa, SoliPersona solicitudPersona)
+	{
+		float total = -1;//24
+		Persona persona = buscarPersonaByCedula(solicitudPersona.getCedula());
+
+		if (persona != null)
+		{
+			if (solicitudEmpresa instanceof EmpUniversitario && persona instanceof Universitario)
+			{
+				((EmpUniversitario) solicitudEmpresa).getCarrera().equals(((Universitario) persona).getCarrera());
+				total = 24;
+			}
+			if (solicitudEmpresa instanceof EmpTecnico && persona instanceof Tecnico)
+			{
+				((EmpTecnico) solicitudEmpresa).getArea().equals(((Tecnico) persona).getArea());
+				total = 24;
+			}
+			if (solicitudEmpresa instanceof EmpObrero && persona instanceof Obrero)
+			{
+				total = compararActividades(((EmpObrero) solicitudEmpresa).getOficios(), ((Obrero) persona).getOficios());
+			}
+		}
+		return total;
+	}
+
+	public float compararTiempo(int tiempoRequerido, int tiempoQueTiene)
 	{
 		float porcentaje = 0;
-		float total = 10;
+		float total = 18;
+		float diferencia = 0;
+
+		if (tiempoRequerido <= tiempoQueTiene)
+			porcentaje = 100;
+
+		else
+		{
+			diferencia = ((tiempoRequerido - tiempoQueTiene) / tiempoRequerido) * 100;
+			porcentaje = diferencia == 100 ? 0
+					: diferencia >= 90 ? 10
+							: diferencia >= 80 ? 20
+									: diferencia >= 70 ? 30
+											: diferencia >= 60 ? 40
+													: diferencia >= 50 ? 50
+															: diferencia >= 40 ? 60
+																	: diferencia >= 30 ? 70
+																			: diferencia >= 20 ? 80 : diferencia >= 10 ? 90 : 100;
+
+		}
+
+		return total * (porcentaje / 100);
+	}
+
+	public float compararActividades(ArrayList<String> actividadesRequeridas, ArrayList<String> actividadesQueRealiza)
+	{
+		float porcentaje = 0;
+		float total = 42;
 		int cantidadOficios = actividadesRequeridas.size();
 		int cantidadEncontrados = 0;
-		
+
 		for (String actReq : actividadesRequeridas)
 		{
 			for (String actRea : actividadesQueRealiza)
 			{
-				if(actReq.equalsIgnoreCase(actRea))
+				if (actReq.equalsIgnoreCase(actRea))
 					cantidadEncontrados++;
 			}
 		}
-		
-		porcentaje = (cantidadEncontrados * 100) / cantidadOficios;
-		
-		return total * (porcentaje/100);
-	}
-	
-	public float compararContratos (String contratoOfrecido, String contratoDeseado)
-	{
-		float total = 15;
-		boolean coinciden = false;
-		
-		if(contratoOfrecido.equalsIgnoreCase(contratoDeseado))
-			coinciden = true;
-		
-		else if(contratoOfrecido == "Jornada Completa" && contratoDeseado == "Jornada Mixta")
-		{
-			coinciden = true;
-			total = (float) 7.5;
-		}
-			
-		else if(contratoOfrecido == "Media Jornada" && contratoDeseado == "Jornada Mixta")
-		{
-			coinciden = true;
-			total = (float) 7.5;
-		}
-			
-		
-		if(!coinciden)
-			total = 0;
-		
-		return total;
-	}
-	
-	public float comprarSueldo (float sueldoQuePagan, float sueldoQueQuieren)
-	{
-		float porcentaje = 0;
-		float total = 15;
-		
-		if (sueldoQuePagan <= sueldoQueQuieren)
-			porcentaje = 100;
-		
-		else
-		{
-			float diferencia = (sueldoQueQuieren - sueldoQuePagan) / sueldoQuePagan;
-			float diffPorcentaje = diferencia * 100;
-			
-			if(diffPorcentaje == 100)
-				porcentaje = 0;
-			
-			else if(diffPorcentaje >= 90)
-				porcentaje = 10;
-			
-			else if(diffPorcentaje >= 80)
-				porcentaje = 20;
-			
-			else if(diffPorcentaje >= 70)
-				porcentaje = 30;
-			
-			else if(diffPorcentaje >= 60)
-				porcentaje = 40;
-			
-			else if(diffPorcentaje >= 50)
-				porcentaje = 50;
-			
-			else if(diffPorcentaje >= 40)
-				porcentaje = 60;
-			
-			else if(diffPorcentaje >= 30)
-				porcentaje = 70;
-			
-			else if(diffPorcentaje >= 20)
-				porcentaje = 80;
-			
-			else if(diffPorcentaje >= 10)
-				porcentaje = 90;
-		}
 
-		return total * (porcentaje/100);
+		porcentaje = (cantidadEncontrados * 100) / cantidadOficios;
+
+		return total * (porcentaje / 100);
 	}
+
 }
