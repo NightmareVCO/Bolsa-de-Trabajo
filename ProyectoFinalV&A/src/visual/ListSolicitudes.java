@@ -114,6 +114,7 @@ public class ListSolicitudes extends JDialog
 				{
 					btnSelecionar = new JButton("Selecionar");
 					btnSelecionar.setEnabled(false);
+					btnSelecionar.setVisible(false);
 					btnSelecionar.addActionListener(new ActionListener()
 					{
 						public void actionPerformed(ActionEvent e)
