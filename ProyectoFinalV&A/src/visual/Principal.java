@@ -140,7 +140,7 @@ public class Principal extends JFrame
 		});
 		mnNewMenu_2.add(mntmNewMenuItem_3);
 
-		menuAdministracion = new JMenu("Administración");
+		menuAdministracion = new JMenu("Administracion");
 		menuBar.add(menuAdministracion);
 
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Match");
