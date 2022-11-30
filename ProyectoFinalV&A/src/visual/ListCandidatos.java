@@ -153,23 +153,26 @@ public class ListCandidatos extends JDialog
 				persona = Bolsa.getInstance().buscarPersonaByCedula(((SoliPersona) solicitud).getCedula());
 				float procentaje = Bolsa.getInstance().match(solicitudEmpresa, (SoliPersona) solicitud);
 
-				rows[0] = solicitud.getCodigo();
-				rows[1] = ((SoliPersona) solicitud).getCedula();
-				rows[2] = persona.getNombre();
-				if (solicitud instanceof SoliPersona)
-					rows[3] = persona instanceof Universitario ? "Universatario"
-							: persona instanceof Tecnico ? "Tecnico" : persona instanceof Obrero ? "Obrero" : "";
+				if (persona != null)
+				{
+					rows[0] = solicitud.getCodigo();
+					rows[1] = ((SoliPersona) solicitud).getCedula();
+					rows[2] = persona.getNombre();
+					if (solicitud instanceof SoliPersona)
+						rows[3] = persona instanceof Universitario ? "Universatario"
+								: persona instanceof Tecnico ? "Tecnico" : persona instanceof Obrero ? "Obrero" : "";
 
-				rows[4] = persona instanceof Universitario ? ((Universitario) persona).getCarrera()
-						: persona instanceof Tecnico ? ((Tecnico) persona).getArea()
-								: persona instanceof Obrero ? "Obrero" : "";
+					rows[4] = persona instanceof Universitario ? ((Universitario) persona).getCarrera()
+							: persona instanceof Tecnico ? ((Tecnico) persona).getArea()
+									: persona instanceof Obrero ? "Obrero" : "";
 
-				rows[5] = String.valueOf(procentaje);
+					rows[5] = String.valueOf(procentaje);
 
-				persona = null;
+					persona = null;
 
-				if (procentaje >= solicitudEmpresa.getPorcentajeMacth())
-					model.addRow(rows);
+					if (procentaje >= solicitudEmpresa.getPorcentajeMacth() && (solicitud.isActiva()))
+						model.addRow(rows);
+				}
 			}
 		}
 	}

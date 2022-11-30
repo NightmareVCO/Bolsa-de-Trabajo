@@ -103,6 +103,20 @@ public class MostrarMatch extends JDialog
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnContratar = new JButton("Contratar");
+				btnContratar.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						/*
+						 * Recorrer todas las solitudes con esa cedula, colocarlar en inactivas Buscar a
+						 * las persona de esa cedula y colocarlas en contratas Buscar la solicitud de
+						 * empleo y reducir la cantidad que necesitan (si llega a 0 ponerla en inactiva)
+						 * 
+						 * Puedes hacer metodos en la bolsa para eso pero aqui es donde van a ser
+						 * llamados
+						 */
+					}
+				});
 				btnContratar.setActionCommand("OK");
 				buttonPane.add(btnContratar);
 				getRootPane().setDefaultButton(btnContratar);

@@ -186,35 +186,38 @@ public class ListSolicitudes extends JDialog
 			if (solicitud instanceof SoliEmpresa)
 				empresa = Bolsa.getInstance().buscarEmpresaByRNC(((SoliEmpresa) solicitud).getRnc());
 
-			rows[0] = solicitud.getCodigo();
+			if (persona != null || empresa != null)
+			{
+				rows[0] = solicitud.getCodigo();
 
-			rows[1] = solicitud instanceof SoliEmpresa ? "Empresa" : solicitud instanceof SoliPersona ? "Persona" : "";
-			rows[2] = solicitud instanceof SoliEmpresa ? ((SoliEmpresa) solicitud).getRnc()
-					: solicitud instanceof SoliPersona ? ((SoliPersona) solicitud).getCedula() : "";
+				rows[1] = solicitud instanceof SoliEmpresa ? "Empresa" : solicitud instanceof SoliPersona ? "Persona" : "";
+				rows[2] = solicitud instanceof SoliEmpresa ? ((SoliEmpresa) solicitud).getRnc()
+						: solicitud instanceof SoliPersona ? ((SoliPersona) solicitud).getCedula() : "";
 
-			rows[3] = solicitud instanceof SoliEmpresa ? empresa.getNombre()
-					: solicitud instanceof SoliPersona ? persona.getNombre() : "";
+				rows[3] = solicitud instanceof SoliEmpresa ? empresa.getNombre()
+						: solicitud instanceof SoliPersona ? persona.getNombre() : "";
 
-			if (solicitud instanceof SoliPersona)
-				rows[4] = persona instanceof Universitario ? "Universatario"
-						: persona instanceof Tecnico ? "Tecnico" : persona instanceof Obrero ? "Obrero" : "";
+				if (solicitud instanceof SoliPersona)
+					rows[4] = persona instanceof Universitario ? "Universatario"
+							: persona instanceof Tecnico ? "Tecnico" : persona instanceof Obrero ? "Obrero" : "";
 
-			else if (solicitud instanceof SoliEmpresa)
-				rows[4] = solicitud instanceof EmpUniversitario ? "Universatario"
-						: solicitud instanceof EmpTecnico ? "Tecnico" : solicitud instanceof EmpObrero ? "Obrero" : "";
+				else if (solicitud instanceof SoliEmpresa)
+					rows[4] = solicitud instanceof EmpUniversitario ? "Universatario"
+							: solicitud instanceof EmpTecnico ? "Tecnico" : solicitud instanceof EmpObrero ? "Obrero" : "";
 
-			rows[5] = solicitud instanceof SoliPersona ? "1"
-					: solicitud instanceof SoliEmpresa ? String.valueOf(((SoliEmpresa) solicitud).getCantidad()) : "";
+				rows[5] = solicitud instanceof SoliPersona ? "1"
+						: solicitud instanceof SoliEmpresa ? String.valueOf(((SoliEmpresa) solicitud).getCantidad()) : "";
 
-			rows[6] = solicitud.isActiva() ? "Activa" : "Inactiva";
+				rows[6] = solicitud.isActiva() ? "Activa" : "Inactiva";
 
-			persona = null;
-			empresa = null;
+				persona = null;
+				empresa = null;
 
-			if (solicitud instanceof SoliPersona && match)
-				;
-			else
-				model.addRow(rows);
+				if (solicitud instanceof SoliPersona && match)
+					;
+				else
+					model.addRow(rows);
+			}
 		}
 	}
 }

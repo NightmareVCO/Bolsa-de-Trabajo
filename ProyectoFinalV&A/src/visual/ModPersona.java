@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
@@ -28,12 +29,14 @@ public class ModPersona extends JDialog
 	private JTextField txtNom;
 	private JTextField txtTelf;
 	private JTextField txtDir;
+	private JRadioButton rdbtnSi;
+	private JRadioButton rdbtnNo;
 
 	public ModPersona(Persona aux)
 	{
 		person = aux;
 		setTitle("Modificar persona: " + person.getNombre());
-		setBounds(100, 100, 432, 310);
+		setBounds(100, 100, 432, 352);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -83,6 +86,34 @@ public class ModPersona extends JDialog
 			panel.add(txtDir);
 			txtDir.setColumns(10);
 			txtDir.setText(person.getDireccion());
+
+			JLabel lblNewLabel_4 = new JLabel("Trabaja:");
+			lblNewLabel_4.setBounds(10, 233, 46, 14);
+			panel.add(lblNewLabel_4);
+
+			rdbtnSi = new JRadioButton("Si");
+			rdbtnSi.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					rdbtnNo.setSelected(false);
+					person.setContratado(true);
+				}
+			});
+			rdbtnSi.setBounds(80, 229, 46, 23);
+			panel.add(rdbtnSi);
+
+			rdbtnNo = new JRadioButton("No");
+			rdbtnNo.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					rdbtnSi.setSelected(false);
+					person.setContratado(false);
+				}
+			});
+			rdbtnNo.setBounds(141, 229, 46, 23);
+			panel.add(rdbtnNo);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -121,6 +152,12 @@ public class ModPersona extends JDialog
 				});
 				btnCancelar.setActionCommand("Cancel");
 				buttonPane.add(btnCancelar);
+
+				if (person.isContratado())
+					rdbtnSi.setSelected(true);
+				else
+					rdbtnNo.setSelected(true);
+
 			}
 		}
 	}
