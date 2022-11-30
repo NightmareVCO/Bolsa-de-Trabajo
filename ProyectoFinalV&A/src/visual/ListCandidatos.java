@@ -119,6 +119,7 @@ public class ListCandidatos extends JDialog
 							loadSolicitudes();
 							if (solicitudEmpresa.getCantidad() == 0)
 								dispose();
+							//
 
 						}
 					});
