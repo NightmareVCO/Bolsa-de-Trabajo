@@ -116,7 +116,10 @@ public class ListCandidatos extends JDialog
 							MostrarMatch match = new MostrarMatch((SoliPersona) selected, solicitudEmpresa);
 							match.setModal(true);
 							match.setVisible(true);
-							dispose();
+							loadSolicitudes();
+							if (solicitudEmpresa.getCantidad() == 0)
+								dispose();
+
 						}
 					});
 					btnSelecionar.setEnabled(false);
