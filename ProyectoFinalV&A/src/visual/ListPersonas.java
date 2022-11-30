@@ -58,7 +58,7 @@ public class ListPersonas extends JDialog
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					model = new DefaultTableModel();
-					String[] columnas = { "Cedula", "Nombre", "Tipo", "Telefono", "Direccion" };
+					String[] columnas = { "Cedula", "Nombre", "Tipo", "Telefono", "Direccion", "Estado"};
 					model.setColumnIdentifiers(columnas);
 					table = new JTable();
 					table.addMouseListener(new MouseAdapter()
@@ -162,6 +162,7 @@ public class ListPersonas extends JDialog
 					: person instanceof Tecnico ? "Tecnico" : person instanceof Obrero ? "Obrero" : "";
 			rows[3] = person.getTelefono();
 			rows[4] = person.getDireccion();
+			rows[5] = person.isContratado() ? "Contratado" : "Desempleado";
 
 			model.addRow(rows);
 		}

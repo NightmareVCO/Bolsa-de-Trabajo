@@ -121,6 +121,7 @@ public class ListSolicitudes extends JDialog
 							ListCandidatos listCand = new ListCandidatos((SoliEmpresa) selected);
 							listCand.setModal(true);
 							listCand.setVisible(true);
+							loadSolicitudes();
 						}
 					});
 					buttonPane.add(btnSelecionar);
@@ -213,7 +214,7 @@ public class ListSolicitudes extends JDialog
 				persona = null;
 				empresa = null;
 
-				if (solicitud instanceof SoliPersona && match)
+				if ((solicitud instanceof SoliPersona && match) || !solicitud.isActiva())
 					;
 				else
 					model.addRow(rows);

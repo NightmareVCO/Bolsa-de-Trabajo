@@ -96,17 +96,6 @@ public class ListCandidatos extends JDialog
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnSelecionar = new JButton("Selecionar");
-				btnSelecionar.addActionListener(new ActionListener()
-				{
-
-					public void actionPerformed(ActionEvent e)
-					{
-						MostrarMatch match = new MostrarMatch((SoliPersona) selected, solicitudEmpresa);
-						match.setModal(true);
-						match.setVisible(true);
-					}
-				});
 				{
 					btnMostrar = new JButton("Mostrar");
 					btnMostrar.addActionListener(new ActionListener()
@@ -118,11 +107,23 @@ public class ListCandidatos extends JDialog
 							mostrar.setVisible(true);
 						}
 					});
+					btnSelecionar = new JButton("Selecionar");
+					btnSelecionar.addActionListener(new ActionListener()
+					{
+
+						public void actionPerformed(ActionEvent e)
+						{
+							MostrarMatch match = new MostrarMatch((SoliPersona) selected, solicitudEmpresa);
+							match.setModal(true);
+							match.setVisible(true);
+							dispose();
+						}
+					});
+					btnSelecionar.setEnabled(false);
+					buttonPane.add(btnSelecionar);
 					btnMostrar.setEnabled(false);
 					buttonPane.add(btnMostrar);
 				}
-				btnSelecionar.setEnabled(false);
-				buttonPane.add(btnSelecionar);
 			}
 			{
 				btnSalir = new JButton("Salir");

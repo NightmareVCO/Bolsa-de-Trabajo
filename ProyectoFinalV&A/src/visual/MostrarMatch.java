@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -34,7 +35,7 @@ public class MostrarMatch extends JDialog
 		porcentaje = Bolsa.getInstance().match(solicitudEmpresa, solicitudPersona);
 
 		setTitle("Contratar a: " + persona.getNombre());
-		setBounds(100, 100, 500, 426);
+		setBounds(100, 100, 500, 439);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
@@ -107,14 +108,13 @@ public class MostrarMatch extends JDialog
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						/*
-						 * Recorrer todas las solitudes con esa cedula, colocarlar en inactivas Buscar a
-						 * las persona de esa cedula y colocarlas en contratas Buscar la solicitud de
-						 * empleo y reducir la cantidad que necesitan (si llega a 0 ponerla en inactiva)
-						 * 
-						 * Puedes hacer metodos en la bolsa para eso pero aqui es donde van a ser
-						 * llamados
-						 */
+						Bolsa.getInstance().contrarPersona(persona.getId());
+						Bolsa.getInstance().desactivarSoliPersona(persona.getId());
+						Bolsa.getInstance().actualizarEstadoSoliEmpresa(solicitudEmpresa);
+						JOptionPane.showMessageDialog(null, "Persona contratada exitosamente.", "Informacion",
+								JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+						
 					}
 				});
 				btnContratar.setActionCommand("OK");

@@ -135,6 +135,18 @@ public class ModPersona extends JDialog
 								JOptionPane.INFORMATION_MESSAGE);
 						ListPersonas.loadPersons();
 						Bolsa.getInstance().cambiarCedula(antiguo, txtCedula.getText());
+						
+						if(rdbtnSi.isSelected())
+						{
+							Bolsa.getInstance().desactivarSoliPersona(person.getId());
+							Bolsa.getInstance().contrarPersona(person.getId());
+						}
+						
+						else
+						{
+							Bolsa.getInstance().reactivarSoliPersona(person.getId());
+							Bolsa.getInstance().desemplearPersona(person.getId());
+						}
 					}
 				});
 				btnMod.setActionCommand("OK");

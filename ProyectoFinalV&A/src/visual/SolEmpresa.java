@@ -653,7 +653,7 @@ public class SolEmpresa extends JDialog
 			PanelCantidad.add(lblNewLabel_16);
 			{
 				spnPorcentaje = new JSpinner();
-				spnPorcentaje.setModel(new SpinnerNumberModel(new Float(1), new Float(1), null, new Float(1)));
+				spnPorcentaje.setModel(new SpinnerNumberModel(new Float(10), new Float(1), null, new Float(10)));
 				spnPorcentaje.setBounds(399, 32, 110, 20);
 				PanelCantidad.add(spnPorcentaje);
 			}
@@ -781,6 +781,8 @@ public class SolEmpresa extends JDialog
 		actividades = new ArrayList<String>();
 		idiomasAux = new ArrayList<String>();
 		ModelActividades.removeAllElements();
+		spnPorcentaje.setValue(new Float("10"));
+		spnCantidad.setValue(new Float("1"));
 	}
 
 	private boolean validar()
