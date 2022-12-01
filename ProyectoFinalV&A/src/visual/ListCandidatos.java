@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -118,9 +119,11 @@ public class ListCandidatos extends JDialog
 							match.setVisible(true);
 							loadSolicitudes();
 							if (solicitudEmpresa.getCantidad() == 0)
+							{
+								JOptionPane.showMessageDialog(null, "Solicitud sin vacantes.", "Informacion",
+										JOptionPane.INFORMATION_MESSAGE);
 								dispose();
-							//
-
+							}
 						}
 					});
 					btnSelecionar.setEnabled(false);
