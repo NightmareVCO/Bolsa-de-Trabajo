@@ -122,6 +122,7 @@ public class ListCandidatos extends JDialog
 							{
 								JOptionPane.showMessageDialog(null, "Solicitud sin vacantes.", "Informacion",
 										JOptionPane.INFORMATION_MESSAGE);
+								solicitudEmpresa.setActiva(false);
 								dispose();
 							}
 						}
