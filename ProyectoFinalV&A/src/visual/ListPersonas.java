@@ -37,6 +37,7 @@ public class ListPersonas extends JDialog
 	private Persona selected = null;
 
 	private JButton btnMod;
+	private JButton btnListarSolicitudes;
 
 	public ListPersonas()
 	{
@@ -58,7 +59,7 @@ public class ListPersonas extends JDialog
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					model = new DefaultTableModel();
-					String[] columnas = { "Cedula", "Nombre", "Tipo", "Telefono", "Direccion", "Estado"};
+					String[] columnas = { "Cedula", "Nombre", "Tipo", "Telefono", "Direccion", "Estado" };
 					model.setColumnIdentifiers(columnas);
 					table = new JTable();
 					table.addMouseListener(new MouseAdapter()
@@ -73,6 +74,7 @@ public class ListPersonas extends JDialog
 							{
 								btnEliminar.setEnabled(true);
 								btnMod.setEnabled(true);
+								btnListarSolicitudes.setEnabled(true);
 								selected = Bolsa.getInstance()
 										.buscarPersonaByCedula(table.getValueAt(rowSelected, 0).toString());
 							}
@@ -125,6 +127,20 @@ public class ListPersonas extends JDialog
 							modif.setVisible(true);
 						}
 					});
+					{
+						btnListarSolicitudes = new JButton("Solicitudes");
+						btnListarSolicitudes.addActionListener(new ActionListener()
+						{
+							public void actionPerformed(ActionEvent e)
+							{
+								ListSoliEspecificas list = new ListSoliEspecificas(selected, null);
+								list.setModal(true);
+								list.setVisible(true);
+							}
+						});
+						btnListarSolicitudes.setEnabled(false);
+						buttonPane.add(btnListarSolicitudes);
+					}
 					btnMod.setEnabled(false);
 					buttonPane.add(btnMod);
 				}

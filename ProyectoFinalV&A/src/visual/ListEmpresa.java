@@ -34,6 +34,7 @@ public class ListEmpresa extends JDialog
 	private static Object[] rows;
 	private Empresa selected = null;
 	private JButton btnModificar;
+	private JButton btnListarSolicitudes;
 
 	public ListEmpresa()
 	{
@@ -70,6 +71,7 @@ public class ListEmpresa extends JDialog
 							{
 								btnEliminar.setEnabled(true);
 								btnModificar.setEnabled(true);
+								btnListarSolicitudes.setEnabled(true);
 								selected = Bolsa.getInstance().buscarEmpresaByRNC(table.getValueAt(rowSelected, 0).toString());
 							}
 						}
@@ -120,6 +122,20 @@ public class ListEmpresa extends JDialog
 							mod.setVisible(true);
 						}
 					});
+					{
+						btnListarSolicitudes = new JButton("Solicitudes");
+						btnListarSolicitudes.addActionListener(new ActionListener()
+						{
+							public void actionPerformed(ActionEvent e)
+							{
+								ListSoliEspecificas list = new ListSoliEspecificas(null, selected);
+								list.setModal(true);
+								list.setVisible(true);
+							}
+						});
+						btnListarSolicitudes.setEnabled(false);
+						buttonPane.add(btnListarSolicitudes);
+					}
 					btnModificar.setEnabled(false);
 					buttonPane.add(btnModificar);
 				}
