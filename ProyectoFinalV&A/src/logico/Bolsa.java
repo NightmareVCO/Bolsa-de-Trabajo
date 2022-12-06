@@ -460,8 +460,7 @@ public class Bolsa implements Serializable
 			for (String actRea : actividadesQueRealiza)
 				if (actReq.equalsIgnoreCase(actRea))
 					cantidadEncontrados++;
-			
-		
+
 		porcentaje = (cantidadEncontrados * 100) / cantidadOficios;
 
 		return total * (porcentaje / 100);
@@ -470,44 +469,43 @@ public class Bolsa implements Serializable
 	public void desactivarSoliPersona(String cedula)
 	{
 		for (Solicitud soli : solicitudes)
-			if(soli instanceof SoliPersona)
-				if(((SoliPersona) soli).getCedula().equalsIgnoreCase(cedula))
+			if (soli instanceof SoliPersona)
+				if (((SoliPersona) soli).getCedula().equalsIgnoreCase(cedula))
 					soli.setActiva(false);
 
 	}
-	
+
 	public void reactivarSoliPersona(String cedula)
 	{
 		for (Solicitud soli : solicitudes)
-			if(soli instanceof SoliPersona)
-				if(((SoliPersona) soli).getCedula().equalsIgnoreCase(cedula))
+			if (soli instanceof SoliPersona)
+				if (((SoliPersona) soli).getCedula().equalsIgnoreCase(cedula))
 					soli.setActiva(true);
 
 	}
-	
+
 	public void desemplearPersona(String cedula)
 	{
 		for (Persona person : personas)
-				if(person.getId().equalsIgnoreCase(cedula))
-					person.setContratado(false);
+			if (person.getId().equalsIgnoreCase(cedula))
+				person.setContratado(false);
 
 	}
-	
+
 	public void contrarPersona(String cedula)
 	{
 		for (Persona person : personas)
-				if(person.getId().equalsIgnoreCase(cedula))
-					person.setContratado(true);
-
+			if (person.getId().equalsIgnoreCase(cedula))
+				person.setContratado(true);
 	}
-	
+
 	public void actualizarEstadoSoliEmpresa(SoliEmpresa soli)
 	{
 		int cantidad = soli.getCantidad();
-		
+
 		soli.setCantidad(cantidad - 1);
-		
-		if(soli.getCantidad() == 0)
+
+		if (soli.getCantidad() == 0)
 			soli.setActiva(false);
 	}
 }

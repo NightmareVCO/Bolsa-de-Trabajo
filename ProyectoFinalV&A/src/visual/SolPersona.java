@@ -169,6 +169,27 @@ public class SolPersona extends JDialog
 						txtNombre.setText(aux.getNombre());
 						txtTelefono.setText(aux.getTelefono());
 						txtDireccion.setText(aux.getDireccion());
+						if (aux instanceof Universitario)
+						{
+							rdbtnUniversitario.setSelected(true);
+							rdbtnObrero.setEnabled(false);
+							rdbtnTecnico.setEnabled(false);
+
+						}
+						else if (aux instanceof Tecnico)
+						{
+							rdbtnUniversitario.setSelected(false);
+							rdbtnTecnico.setSelected(true);
+							rdbtnUniversitario.setEnabled(false);
+							rdbtnObrero.setEnabled(false);
+						}
+						else if (aux instanceof Obrero)
+						{
+							rdbtnUniversitario.setSelected(false);
+							rdbtnObrero.setSelected(true);
+							rdbtnUniversitario.setEnabled(false);
+							rdbtnTecnico.setEnabled(false);
+						}
 					}
 					else
 					{
@@ -638,6 +659,8 @@ public class SolPersona extends JDialog
 										cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
 										Float.valueOf(spnSalario.getValue().toString()), idiomasAux, txtCedula.getText());
 								Bolsa.getInstance().addSolicitud(soli);
+								if (auxPerson.isContratado())
+									Bolsa.getInstance().desactivarSoliPersona(auxPerson.getId());
 
 								JOptionPane.showMessageDialog(null, "Solicitud Ingresada", "Informacion",
 										JOptionPane.INFORMATION_MESSAGE);
