@@ -143,9 +143,9 @@ public class ListSolicitudes extends JDialog
 							}
 							else if (selected instanceof SoliPersona)
 							{
-								//SolPersona solPer = new SolPersona((SoliPersona) selected);
-								//solPer.setModal(true);
-								//solPer.setVisible(true);
+								SolPersona solPer = new SolPersona((SoliPersona) selected);
+								solPer.setModal(true);
+								solPer.setVisible(true);
 							}
 
 						}

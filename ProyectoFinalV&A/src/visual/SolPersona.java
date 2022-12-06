@@ -89,13 +89,17 @@ public class SolPersona extends JDialog
 	private JList ListaActividades;
 	private JButton btnEliminar;
 	private JPanel PanelListaDeActividades;
+	private SoliPersona solicitud;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public SolPersona()
+	public SolPersona(SoliPersona aux)
 	{
+		solicitud = aux;
 		idiomasAux = new ArrayList<>();
 		actividades = new ArrayList<>();
 		setTitle("Registrar Solicitud de Persona");
+		if (solicitud != null) 
+			setTitle("Modificar Solicitud de " + solicitud.getCedula());
 		setBounds(100, 100, 613, 848);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -209,7 +213,7 @@ public class SolPersona extends JDialog
 
 			PanelAptitudes = new JPanel();
 			PanelAptitudes
-					.setBorder(new TitledBorder(null, "Aptitudes:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			.setBorder(new TitledBorder(null, "Aptitudes:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			PanelAptitudes.setBounds(12, 568, 561, 186);
 			panel.add(PanelAptitudes);
 			PanelAptitudes.setLayout(null);
@@ -587,57 +591,106 @@ public class SolPersona extends JDialog
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnSolicitar = new JButton("Solicitar");
+				if (solicitud != null) 
+					btnSolicitar.setText("Modificar");
 				btnSolicitar.addActionListener(new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						if (validar())
+						if(solicitud == null)
 						{
-							Persona person = Bolsa.getInstance().buscarPersonaByCedula(txtCedula.getText());
-							if (person == null)
+							if (validar())
 							{
-								if (rdbtnUniversitario.isSelected())
+								Persona auxPerson = Bolsa.getInstance().buscarPersonaByCedula(txtCedula.getText());
+								if (auxPerson == null)
 								{
-									person = new Universitario(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(),
-											txtDireccion.getText(), cbxCarrera.getSelectedItem().toString(),
-											Integer.valueOf(spnAgnos.getValue().toString()));
+									if (rdbtnUniversitario.isSelected())
+									{
+										auxPerson = new Universitario(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(),
+												txtDireccion.getText(), cbxCarrera.getSelectedItem().toString(),
+												Integer.valueOf(spnAgnos.getValue().toString()));
+									}
+
+									else if (rdbtnTecnico.isSelected())
+									{
+										auxPerson = new Tecnico(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(),
+												txtDireccion.getText(), cbxArea.getSelectedItem().toString(),
+												Integer.valueOf(spnAgnos.getValue().toString()));
+									}
+
+									else if (rdbtnObrero.isSelected())
+									{
+										auxPerson = new Obrero(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(),
+												txtDireccion.getText(), actividades);
+									}
+
+									Bolsa.getInstance().addPersona(auxPerson);
 								}
 
-								else if (rdbtnTecnico.isSelected())
-								{
-									person = new Tecnico(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(),
-											txtDireccion.getText(), cbxArea.getSelectedItem().toString(),
-											Integer.valueOf(spnAgnos.getValue().toString()));
-								}
+								if (rdbtnMudarseSi.isSelected())
+									mov = true;
 
-								else if (rdbtnObrero.isSelected())
-								{
-									person = new Obrero(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(),
-											txtDireccion.getText(), actividades);
-								}
+								if (rdbtnLicenciaSi.isSelected())
+									lic = true;
 
-								Bolsa.getInstance().addPersona(person);
+								SoliPersona soli = new SoliPersona(txtCodigo.getText(), mov,
+										cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
+										Float.valueOf(spnSalario.getValue().toString()), idiomasAux, txtCedula.getText());
+								Bolsa.getInstance().addSolicitud(soli);
+
+								JOptionPane.showMessageDialog(null, "Solicitud Ingresada", "Informacion",
+										JOptionPane.INFORMATION_MESSAGE);
+
+								clean();
 							}
 
-							if (rdbtnMudarseSi.isSelected())
-								mov = true;
-
-							if (rdbtnLicenciaSi.isSelected())
-								lic = true;
-
-							SoliPersona soli = new SoliPersona(txtCodigo.getText(), mov,
-									cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
-									Float.valueOf(spnSalario.getValue().toString()), idiomasAux, txtCedula.getText());
-							Bolsa.getInstance().addSolicitud(soli);
-
-							JOptionPane.showMessageDialog(null, "Solicitud Ingresada", "Informacion",
-									JOptionPane.INFORMATION_MESSAGE);
-
-							clean();
+							else
+								JOptionPane.showMessageDialog(null, "Solicitud Incompleta", "Informacion",
+										JOptionPane.INFORMATION_MESSAGE);
 						}
+
 						else
-							JOptionPane.showMessageDialog(null, "Solicitud Incompleta", "Informacion",
-									JOptionPane.INFORMATION_MESSAGE);
+						{
+							Persona person = Bolsa.getInstance().buscarPersonaByCedula(solicitud.getCedula());
+							if(validar())
+							{
+								if (rdbtnMudarseSi.isSelected())
+									mov = true;
+
+								if (rdbtnLicenciaSi.isSelected())
+									lic = true;
+
+								solicitud.setContrato(cbxContrato.getSelectedItem().toString());
+								solicitud.setSueldo(Float.valueOf(spnSalario.getValue().toString()));
+								solicitud.setCuidad(cbxCiudad.getSelectedItem().toString());
+								solicitud.setIdiomas(idiomasAux);
+								solicitud.setLicencia(lic);
+
+								if(person instanceof Universitario)
+								{
+									((Universitario) person).setCarrera(cbxCarrera.getSelectedItem().toString());
+									((Universitario) person).setAgnos(Integer.valueOf(spnAgnos.getValue().toString()));
+								}
+
+								else if(person instanceof Tecnico)
+								{
+									((Tecnico) person).setArea(cbxArea.getSelectedItem().toString());
+									((Tecnico) person).setAgnos(Integer.valueOf(spnAgnos.getValue().toString()));
+								}
+
+								else if(person instanceof Obrero)
+								{
+									((Obrero) person).setOficios(actividades);
+								}
+
+								JOptionPane.showMessageDialog(null, "Modificacion Realizada", "Informacion",
+										JOptionPane.INFORMATION_MESSAGE);
+							}
+							else
+								JOptionPane.showMessageDialog(null, "Modificacion Incompleta", "Informacion",
+										JOptionPane.INFORMATION_MESSAGE);
+						}
+
 					}
 				});
 				btnSolicitar.setActionCommand("OK");
@@ -662,7 +715,114 @@ public class SolPersona extends JDialog
 		btnAgregarAct.setVisible(false);
 		PanelListaDeActividades.setVisible(false);
 		btnEliminar.setVisible(false);
+
+		if(solicitud != null)
+		{
+			Persona person = Bolsa.getInstance().buscarPersonaByCedula(solicitud.getCedula());
+			txtCedula.setText(solicitud.getCedula());
+			if(person != null)
+			{
+				txtNombre.setText(person.getNombre());
+				txtTelefono.setText(person.getTelefono());
+				txtDireccion.setText(person.getDireccion());
+			}
+			txtCedula.setEditable(false);
+		}
 		cargarActividades();
+		loadSolicitud();
+	}
+	
+	private void loadSolicitud()
+	{
+		if(solicitud != null)
+		{
+			Persona person = Bolsa.getInstance().buscarPersonaByCedula(solicitud.getCedula());
+			txtCedula.setText(solicitud.getCedula());
+			txtNombre.setText(person.getNombre());
+			txtTelefono.setText(person.getTelefono());
+			txtDireccion.setText(person.getDireccion());
+			if (solicitud.getContrato().equalsIgnoreCase("Jornada Completa"))
+				cbxContrato.setSelectedIndex(1);
+			else if (solicitud.getContrato().equalsIgnoreCase("Media Jornada"))
+				cbxContrato.setSelectedIndex(2);
+			else if (solicitud.getContrato().equalsIgnoreCase("Jornada Mixta"))
+				cbxContrato.setSelectedIndex(3);
+			
+			txtCodigo.setText(solicitud.getCodigo());
+			spnSalario.setValue(solicitud.getSueldo());
+			txtIdiomas.setText("");
+			
+			if (solicitud.isLicencia())
+			{
+				rdbtnLicenciaNo.setSelected(false);
+				rdbtnLicenciaSi.setSelected(true);
+			}
+			else
+			{
+				rdbtnLicenciaNo.setSelected(true);
+				rdbtnLicenciaSi.setSelected(false);
+			}
+
+			if (solicitud.isMovilidad())
+			{
+				rdbtnMudarseSi.setSelected(true);
+				rdbtnMudarseNo.setSelected(false);
+			}
+			else
+			{
+				rdbtnMudarseSi.setSelected(false);
+				rdbtnMudarseNo.setSelected(true);
+			}
+			
+			if(person instanceof Universitario)
+			{
+				rdbtnUniversitario.setSelected(true);
+				rdbtnTecnico.setSelected(false);
+				rdbtnTecnico.setEnabled(false);
+				rdbtnObrero.setSelected(false);
+				rdbtnObrero.setEnabled(false);
+			}
+			
+			else if(person instanceof Tecnico)
+			{
+				rdbtnUniversitario.setSelected(false);
+				rdbtnUniversitario.setEnabled(false);
+				rdbtnTecnico.setSelected(true);
+				rdbtnObrero.setSelected(false);
+				rdbtnObrero.setEnabled(false);
+			}
+			
+			else if(person instanceof Obrero)
+			{
+				rdbtnUniversitario.setSelected(false);
+				rdbtnUniversitario.setEnabled(false);
+				rdbtnTecnico.setSelected(false);
+				rdbtnTecnico.setEnabled(false);
+				rdbtnObrero.setSelected(true);
+			}
+			
+			btnAgregarIdioma.setEnabled(false);
+
+			if (rdbtnUniversitario.isSelected() || rdbtnTecnico.isSelected())
+				cbxArea.setSelectedIndex(0);
+
+			cbxCiudad.setSelectedIndex(0);
+			
+			spnAgnos.setValue(new Integer("0"));
+			
+			if(person instanceof Universitario)
+				spnAgnos.setValue(((Universitario) person).getAgnos());
+			else if(person instanceof Tecnico)
+				spnAgnos.setValue(((Tecnico) person).getAgnos());	
+			else if(person instanceof Obrero)
+			{
+				actividades = ((Obrero) person).getOficios();
+				recargarActividades();
+			}
+			
+			idiomasAux = solicitud.getIdiomas();
+			ModelActividades.removeAllElements();
+		}
 	}
 
 	private void clean()

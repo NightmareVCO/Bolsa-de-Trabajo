@@ -91,7 +91,7 @@ public class Principal extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				SolPersona solPer = new SolPersona();
+				SolPersona solPer = new SolPersona(null);
 				solPer.setModal(true);
 				solPer.setVisible(true);
 			}
