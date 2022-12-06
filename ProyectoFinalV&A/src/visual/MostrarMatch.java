@@ -34,6 +34,9 @@ public class MostrarMatch extends JDialog
 		persona = Bolsa.getInstance().buscarPersonaByCedula(solicitudPersona.getCedula());
 		porcentaje = Bolsa.getInstance().match(solicitudEmpresa, solicitudPersona);
 
+		if (porcentaje > 100) //solo ocurre con los idiomas repetidos
+			porcentaje = 100;
+
 		setTitle("Contratar a: " + persona.getNombre());
 		setBounds(100, 100, 500, 439);
 		setLocationRelativeTo(null);
@@ -114,7 +117,7 @@ public class MostrarMatch extends JDialog
 						JOptionPane.showMessageDialog(null, "Persona contratada exitosamente.", "Informacion",
 								JOptionPane.INFORMATION_MESSAGE);
 						dispose();
-						
+
 					}
 				});
 				btnContratar.setActionCommand("OK");

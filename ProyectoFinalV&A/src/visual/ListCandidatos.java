@@ -160,7 +160,7 @@ public class ListCandidatos extends JDialog
 			if (solicitud instanceof SoliPersona)
 			{
 				persona = Bolsa.getInstance().buscarPersonaByCedula(((SoliPersona) solicitud).getCedula());
-				float procentaje = Bolsa.getInstance().match(solicitudEmpresa, (SoliPersona) solicitud);
+				float porcentaje = Bolsa.getInstance().match(solicitudEmpresa, (SoliPersona) solicitud);
 
 				if (persona != null)
 				{
@@ -175,11 +175,13 @@ public class ListCandidatos extends JDialog
 							: persona instanceof Tecnico ? ((Tecnico) persona).getArea()
 									: persona instanceof Obrero ? "Obrero" : "";
 
-					rows[5] = String.valueOf(procentaje);
+					if (porcentaje > 100) //solo ocurre con los idiomas repetidos
+						porcentaje = 100;
+					rows[5] = String.valueOf(porcentaje);
 
 					persona = null;
 
-					if (procentaje >= solicitudEmpresa.getPorcentajeMacth() && (solicitud.isActiva()))
+					if (porcentaje >= solicitudEmpresa.getPorcentajeMacth() && (solicitud.isActiva()))
 						model.addRow(rows);
 				}
 			}

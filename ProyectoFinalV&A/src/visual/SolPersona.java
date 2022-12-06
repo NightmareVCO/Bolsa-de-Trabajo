@@ -98,7 +98,7 @@ public class SolPersona extends JDialog
 		idiomasAux = new ArrayList<>();
 		actividades = new ArrayList<>();
 		setTitle("Registrar Solicitud de Persona");
-		if (solicitud != null) 
+		if (solicitud != null)
 			setTitle("Modificar Solicitud de " + solicitud.getCedula());
 		setBounds(100, 100, 613, 848);
 		setResizable(false);
@@ -213,7 +213,7 @@ public class SolPersona extends JDialog
 
 			PanelAptitudes = new JPanel();
 			PanelAptitudes
-			.setBorder(new TitledBorder(null, "Aptitudes:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+					.setBorder(new TitledBorder(null, "Aptitudes:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			PanelAptitudes.setBounds(12, 568, 561, 186);
 			panel.add(PanelAptitudes);
 			PanelAptitudes.setLayout(null);
@@ -591,13 +591,13 @@ public class SolPersona extends JDialog
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnSolicitar = new JButton("Solicitar");
-				if (solicitud != null) 
+				if (solicitud != null)
 					btnSolicitar.setText("Modificar");
 				btnSolicitar.addActionListener(new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						if(solicitud == null)
+						if (solicitud == null)
 						{
 							if (validar())
 							{
@@ -606,8 +606,9 @@ public class SolPersona extends JDialog
 								{
 									if (rdbtnUniversitario.isSelected())
 									{
-										auxPerson = new Universitario(txtCedula.getText(), txtNombre.getText(), txtTelefono.getText(),
-												txtDireccion.getText(), cbxCarrera.getSelectedItem().toString(),
+										auxPerson = new Universitario(txtCedula.getText(), txtNombre.getText(),
+												txtTelefono.getText(), txtDireccion.getText(),
+												cbxCarrera.getSelectedItem().toString(),
 												Integer.valueOf(spnAgnos.getValue().toString()));
 									}
 
@@ -652,7 +653,7 @@ public class SolPersona extends JDialog
 						else
 						{
 							Persona person = Bolsa.getInstance().buscarPersonaByCedula(solicitud.getCedula());
-							if(validar())
+							if (validar())
 							{
 								if (rdbtnMudarseSi.isSelected())
 									mov = true;
@@ -665,20 +666,21 @@ public class SolPersona extends JDialog
 								solicitud.setCuidad(cbxCiudad.getSelectedItem().toString());
 								solicitud.setIdiomas(idiomasAux);
 								solicitud.setLicencia(lic);
+								solicitud.setMovilidad(mov);
 
-								if(person instanceof Universitario)
+								if (person instanceof Universitario)
 								{
 									((Universitario) person).setCarrera(cbxCarrera.getSelectedItem().toString());
 									((Universitario) person).setAgnos(Integer.valueOf(spnAgnos.getValue().toString()));
 								}
 
-								else if(person instanceof Tecnico)
+								else if (person instanceof Tecnico)
 								{
 									((Tecnico) person).setArea(cbxArea.getSelectedItem().toString());
 									((Tecnico) person).setAgnos(Integer.valueOf(spnAgnos.getValue().toString()));
 								}
 
-								else if(person instanceof Obrero)
+								else if (person instanceof Obrero)
 								{
 									((Obrero) person).setOficios(actividades);
 								}
@@ -716,11 +718,11 @@ public class SolPersona extends JDialog
 		PanelListaDeActividades.setVisible(false);
 		btnEliminar.setVisible(false);
 
-		if(solicitud != null)
+		if (solicitud != null)
 		{
 			Persona person = Bolsa.getInstance().buscarPersonaByCedula(solicitud.getCedula());
 			txtCedula.setText(solicitud.getCedula());
-			if(person != null)
+			if (person != null)
 			{
 				txtNombre.setText(person.getNombre());
 				txtTelefono.setText(person.getTelefono());
@@ -731,10 +733,10 @@ public class SolPersona extends JDialog
 		cargarActividades();
 		loadSolicitud();
 	}
-	
+
 	private void loadSolicitud()
 	{
-		if(solicitud != null)
+		if (solicitud != null)
 		{
 			Persona person = Bolsa.getInstance().buscarPersonaByCedula(solicitud.getCedula());
 			txtCedula.setText(solicitud.getCedula());
@@ -747,11 +749,11 @@ public class SolPersona extends JDialog
 				cbxContrato.setSelectedIndex(2);
 			else if (solicitud.getContrato().equalsIgnoreCase("Jornada Mixta"))
 				cbxContrato.setSelectedIndex(3);
-			
+
 			txtCodigo.setText(solicitud.getCodigo());
 			spnSalario.setValue(solicitud.getSueldo());
 			txtIdiomas.setText("");
-			
+
 			if (solicitud.isLicencia())
 			{
 				rdbtnLicenciaNo.setSelected(false);
@@ -773,8 +775,8 @@ public class SolPersona extends JDialog
 				rdbtnMudarseSi.setSelected(false);
 				rdbtnMudarseNo.setSelected(true);
 			}
-			
-			if(person instanceof Universitario)
+
+			if (person instanceof Universitario)
 			{
 				rdbtnUniversitario.setSelected(true);
 				rdbtnTecnico.setSelected(false);
@@ -782,8 +784,8 @@ public class SolPersona extends JDialog
 				rdbtnObrero.setSelected(false);
 				rdbtnObrero.setEnabled(false);
 			}
-			
-			else if(person instanceof Tecnico)
+
+			else if (person instanceof Tecnico)
 			{
 				rdbtnUniversitario.setSelected(false);
 				rdbtnUniversitario.setEnabled(false);
@@ -791,8 +793,8 @@ public class SolPersona extends JDialog
 				rdbtnObrero.setSelected(false);
 				rdbtnObrero.setEnabled(false);
 			}
-			
-			else if(person instanceof Obrero)
+
+			else if (person instanceof Obrero)
 			{
 				rdbtnUniversitario.setSelected(false);
 				rdbtnUniversitario.setEnabled(false);
@@ -800,26 +802,26 @@ public class SolPersona extends JDialog
 				rdbtnTecnico.setEnabled(false);
 				rdbtnObrero.setSelected(true);
 			}
-			
+
 			btnAgregarIdioma.setEnabled(false);
 
 			if (rdbtnUniversitario.isSelected() || rdbtnTecnico.isSelected())
 				cbxArea.setSelectedIndex(0);
 
 			cbxCiudad.setSelectedIndex(0);
-			
+
 			spnAgnos.setValue(new Integer("0"));
-			
-			if(person instanceof Universitario)
+
+			if (person instanceof Universitario)
 				spnAgnos.setValue(((Universitario) person).getAgnos());
-			else if(person instanceof Tecnico)
-				spnAgnos.setValue(((Tecnico) person).getAgnos());	
-			else if(person instanceof Obrero)
+			else if (person instanceof Tecnico)
+				spnAgnos.setValue(((Tecnico) person).getAgnos());
+			else if (person instanceof Obrero)
 			{
 				actividades = ((Obrero) person).getOficios();
 				recargarActividades();
 			}
-			
+
 			idiomasAux = solicitud.getIdiomas();
 			ModelActividades.removeAllElements();
 		}
