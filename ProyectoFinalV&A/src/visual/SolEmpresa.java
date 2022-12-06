@@ -36,6 +36,7 @@ import logico.EmpObrero;
 import logico.EmpTecnico;
 import logico.EmpUniversitario;
 import logico.Empresa;
+import logico.SoliEmpresa;
 import logico.Solicitud;
 
 @SuppressWarnings("serial")
@@ -88,14 +89,18 @@ public class SolEmpresa extends JDialog
 	private int selected = -1;
 	private DefaultListModel<String> ModelActividades;
 	private JButton btnAgregarIdioma;
+	private SoliEmpresa solicitud = null; // mod
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public SolEmpresa()
+	public SolEmpresa(SoliEmpresa aux)
 	{
+		solicitud = aux;
 		idiomasAux = new ArrayList<String>();
 		actividades = new ArrayList<String>();
 		setResizable(false);
 		setTitle("Registrar Solicitud de Empresa");
+		if (solicitud != null) // mod
+			setTitle("Modificar Solicitud de " + solicitud.getRnc()); // mod
 		setBounds(100, 100, 613, 920);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -148,6 +153,7 @@ public class SolEmpresa extends JDialog
 			});
 			txtRNC.setBounds(76, 26, 163, 20);
 			PanelDatos.add(txtRNC);
+
 			txtRNC.setColumns(10);
 			{
 				txtNombre = new JTextField();
@@ -285,7 +291,7 @@ public class SolEmpresa extends JDialog
 					PanelDatosSolicitud.add(lblNewLabel_9);
 				}
 				{
-					JRadioButton radioButton = new JRadioButton("SÃ­");
+					JRadioButton radioButton = new JRadioButton("Si");
 					radioButton.setBounds(6, 347, 52, 23);
 					PanelDatosSolicitud.add(radioButton);
 				}
@@ -653,7 +659,7 @@ public class SolEmpresa extends JDialog
 			PanelCantidad.add(lblNewLabel_16);
 			{
 				spnPorcentaje = new JSpinner();
-				spnPorcentaje.setModel(new SpinnerNumberModel(new Float(10), new Float(1), null, new Float(10)));
+				spnPorcentaje.setModel(new SpinnerNumberModel(new Float(10), new Float(1), new Float(100), new Float(10)));
 				spnPorcentaje.setBounds(399, 32, 110, 20);
 				PanelCantidad.add(spnPorcentaje);
 			}
@@ -664,64 +670,111 @@ public class SolEmpresa extends JDialog
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnSolicitar = new JButton("Solicitar");
+				if (solicitud != null) // mod
+					btnSolicitar.setText("Modificar");
 				btnSolicitar.addActionListener(new ActionListener()
 				{
+
 					public void actionPerformed(ActionEvent e)
 					{
-						if (validar())
+						if (solicitud == null) // mod
 						{
-							Solicitud solicitud = null;
-							Empresa empresa = Bolsa.getInstance().buscarEmpresaByRNC(txtRNC.getText());
-							if (empresa == null)
+							if (validar())
 							{
-								empresa = new Empresa(txtRNC.getText(), txtNombre.getText(), txtTelefono.getText(),
-										txtDireccion.getText());
-								Bolsa.getInstance().addEmpresa(empresa);
-							}
+								Solicitud solicitudNew = null;
+								Empresa empresa = Bolsa.getInstance().buscarEmpresaByRNC(txtRNC.getText());
+								if (empresa == null)
+								{
+									empresa = new Empresa(txtRNC.getText(), txtNombre.getText(), txtTelefono.getText(),
+											txtDireccion.getText());
+									Bolsa.getInstance().addEmpresa(empresa);
+								}
+								if (rdbtnMudarseSi.isSelected())
+									mov = true;
 
-							if (rdbtnMudarseSi.isSelected())
-								mov = true;
+								if (rdbtnLicenciaSi.isSelected())
+									lic = true;
 
-							if (rdbtnLicenciaSi.isSelected())
-								lic = true;
-
-							if (rdbtnUniversitario.isSelected())
-							{
-								solicitud = new EmpUniversitario(txtCodigo.getText(), mov,
-										cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
-										txtRNC.getText(), Float.valueOf(spnPorcentaje.getValue().toString()),
-										cbxTipoSalario.getSelectedItem().toString(),
-										Float.valueOf(spnSalario.getValue().toString()), idiomasAux,
-										Integer.valueOf(spnCantidad.getValue().toString()),
-										cbxCarrera.getSelectedItem().toString(), Integer.valueOf(spnAgnos.getValue().toString()));
+								if (rdbtnUniversitario.isSelected())
+								{
+									solicitudNew = new EmpUniversitario(txtCodigo.getText(), mov,
+											cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
+											txtRNC.getText(), Float.valueOf(spnPorcentaje.getValue().toString()),
+											cbxTipoSalario.getSelectedItem().toString(),
+											Float.valueOf(spnSalario.getValue().toString()), idiomasAux,
+											Integer.valueOf(spnCantidad.getValue().toString()),
+											cbxCarrera.getSelectedItem().toString(),
+											Integer.valueOf(spnAgnos.getValue().toString()));
+								}
+								else if (rdbtnTecnico.isSelected())
+								{
+									solicitudNew = new EmpTecnico(txtCodigo.getText(), mov,
+											cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
+											txtRNC.getText(), Float.valueOf(spnPorcentaje.getValue().toString()),
+											cbxTipoSalario.getSelectedItem().toString(),
+											Float.valueOf(spnSalario.getValue().toString()), idiomasAux,
+											Integer.valueOf(spnCantidad.getValue().toString()),
+											cbxArea.getSelectedItem().toString(), Integer.valueOf(spnAgnos.getValue().toString()));
+								}
+								else if (rdbtnObrero.isSelected())
+								{
+									solicitudNew = new EmpObrero(txtCodigo.getText(), mov,
+											cbxContrato.getSelectedItem().toString(), lic, cbxCiudad.getSelectedItem().toString(),
+											txtRNC.getText(), Float.valueOf(spnPorcentaje.getValue().toString()),
+											cbxTipoSalario.getSelectedItem().toString(),
+											Float.valueOf(spnSalario.getValue().toString()), idiomasAux,
+											Integer.valueOf(spnCantidad.getValue().toString()), actividades);
+								}
+								Bolsa.getInstance().addSolicitud(solicitudNew);
+								JOptionPane.showMessageDialog(null, "Solicitud Ingresada", "Informacion",
+										JOptionPane.INFORMATION_MESSAGE);
+								clean();
 							}
-							else if (rdbtnTecnico.isSelected())
-							{
-								solicitud = new EmpTecnico(txtCodigo.getText(), mov, cbxContrato.getSelectedItem().toString(),
-										lic, cbxCiudad.getSelectedItem().toString(), txtRNC.getText(),
-										Float.valueOf(spnPorcentaje.getValue().toString()),
-										cbxTipoSalario.getSelectedItem().toString(),
-										Float.valueOf(spnSalario.getValue().toString()), idiomasAux,
-										Integer.valueOf(spnCantidad.getValue().toString()), cbxArea.getSelectedItem().toString(),
-										Integer.valueOf(spnAgnos.getValue().toString()));
-							}
-							else if (rdbtnObrero.isSelected())
-							{
-								solicitud = new EmpObrero(txtCodigo.getText(), mov, cbxContrato.getSelectedItem().toString(),
-										lic, cbxCiudad.getSelectedItem().toString(), txtRNC.getText(),
-										Float.valueOf(spnPorcentaje.getValue().toString()),
-										cbxTipoSalario.getSelectedItem().toString(),
-										Float.valueOf(spnSalario.getValue().toString()), idiomasAux,
-										Integer.valueOf(spnCantidad.getValue().toString()), actividades);
-							}
-							Bolsa.getInstance().addSolicitud(solicitud);
-							JOptionPane.showMessageDialog(null, "Solicitud Ingresada", "Informacion",
-									JOptionPane.INFORMATION_MESSAGE);
-							clean();
+							else
+								JOptionPane.showMessageDialog(null, "Solicitud Incompleta", "Informacion",
+										JOptionPane.INFORMATION_MESSAGE);
 						}
-						else
-							JOptionPane.showMessageDialog(null, "Solicitud Incompleta", "Informacion",
-									JOptionPane.INFORMATION_MESSAGE);
+						else //mod, todo el else
+						{
+							if (validar())
+							{
+								if (rdbtnMudarseSi.isSelected())
+									mov = true;
+
+								if (rdbtnLicenciaSi.isSelected())
+									lic = true;
+
+								solicitud.setContrato(cbxContrato.getSelectedItem().toString());
+								solicitud.setSueldo(Float.valueOf(spnSalario.getValue().toString()));
+								solicitud.setTipoSalario(cbxTipoSalario.getSelectedItem().toString());
+								solicitud.setCuidad(cbxCiudad.getSelectedItem().toString());
+								solicitud.setIdiomas(idiomasAux);
+								solicitud.setLicencia(lic);
+								solicitud.setCantidad(Integer.valueOf(spnCantidad.getValue().toString()));
+								solicitud.setPorcentajeMacth(Float.valueOf(spnPorcentaje.getValue().toString()));
+								if (solicitud instanceof EmpUniversitario)
+								{
+									((EmpUniversitario) solicitud).setCarrera(cbxCarrera.getSelectedItem().toString());
+									((EmpUniversitario) solicitud).setAgnos(Integer.valueOf(spnAgnos.getValue().toString()));
+
+								}
+								else if (solicitud instanceof EmpTecnico)
+								{
+									((EmpTecnico) solicitud).setArea(cbxArea.getSelectedItem().toString());
+									((EmpTecnico) solicitud).setAgnos(Integer.valueOf(spnAgnos.getValue().toString()));
+								}
+								else if (solicitud instanceof EmpObrero)
+								{
+									((EmpObrero) solicitud).setOficios(actividades);
+								}
+								JOptionPane.showMessageDialog(null, "Modificacion Realizada", "Informacion",
+										JOptionPane.INFORMATION_MESSAGE);
+							}
+							else
+								JOptionPane.showMessageDialog(null, "Modificacion Incompleta", "Informacion",
+										JOptionPane.INFORMATION_MESSAGE);
+
+						}
 					}
 				});
 				btnSolicitar.setActionCommand("OK");
@@ -747,7 +800,125 @@ public class SolEmpresa extends JDialog
 		btnAgregarAct.setVisible(false);
 		PanelListaDeActividades.setVisible(false);
 		btnEliminar.setVisible(false);
+
+		//mod, todo el if
+		if (solicitud != null)
+		{
+			txtRNC.setText(solicitud.getRnc());
+
+			Empresa empresa = Bolsa.getInstance().buscarEmpresaByRNC(txtRNC.getText());
+			if (empresa != null)
+			{
+				txtNombre.setText(empresa.getNombre());
+				txtTelefono.setText(empresa.getTelefono());
+				txtDireccion.setText(empresa.getDireccion());
+			}
+			txtRNC.setEditable(false);
+		}
 		cargarActividades();
+		loadSolicitud(); // mod
+	}
+
+	private void loadSolicitud() //mod, la funcion completa
+	{
+		if (solicitud != null)
+		{
+			Empresa empresa = Bolsa.getInstance().buscarEmpresaByRNC(solicitud.getRnc());
+			txtRNC.setText(solicitud.getRnc());
+			txtNombre.setText(empresa.getNombre());
+			txtTelefono.setText(empresa.getTelefono());
+			txtDireccion.setText(empresa.getDireccion());
+			if (solicitud.getContrato().equalsIgnoreCase("Jornada Completa"))
+				cbxContrato.setSelectedIndex(1);
+			else if (solicitud.getContrato().equalsIgnoreCase("Media Jornada"))
+				cbxContrato.setSelectedIndex(2);
+			else if (solicitud.getContrato().equalsIgnoreCase("Jornada Mixta"))
+				cbxContrato.setSelectedIndex(3);
+
+			txtCodigo.setText(solicitud.getCodigo());
+			spnSalario.setValue(solicitud.getSueldo());
+			txtIdiomas.setText("");
+
+			if (solicitud.isLicencia())
+			{
+				rdbtnLicenciaNo.setSelected(false);
+				rdbtnLicenciaSi.setSelected(true);
+			}
+			else
+			{
+				rdbtnLicenciaNo.setSelected(true);
+				rdbtnLicenciaSi.setSelected(false);
+			}
+
+			if (solicitud.isMovilidad())
+			{
+				rdbtnMudarseSi.setSelected(true);
+				rdbtnMudarseNo.setSelected(false);
+			}
+			else
+			{
+				rdbtnMudarseSi.setSelected(false);
+				rdbtnMudarseNo.setSelected(true);
+			}
+
+			if (solicitud instanceof EmpUniversitario)
+			{
+				rdbtnUniversitario.setSelected(true);
+				rdbtnTecnico.setSelected(false);
+				rdbtnTecnico.setEnabled(false);
+				rdbtnObrero.setSelected(false);
+				rdbtnObrero.setEnabled(false);
+
+			}
+			else if (solicitud instanceof EmpTecnico)
+			{
+				rdbtnUniversitario.setSelected(false);
+				rdbtnUniversitario.setEnabled(false);
+				rdbtnTecnico.setSelected(true);
+				rdbtnObrero.setSelected(false);
+				rdbtnObrero.setEnabled(false);
+			}
+			else if (solicitud instanceof EmpObrero)
+			{
+				rdbtnUniversitario.setSelected(false);
+				rdbtnUniversitario.setEnabled(false);
+				rdbtnTecnico.setSelected(false);
+				rdbtnTecnico.setEnabled(false);
+				rdbtnObrero.setSelected(true);
+			}
+			btnAgregarIdioma.setEnabled(false);
+
+			if (rdbtnUniversitario.isSelected() || rdbtnTecnico.isSelected())
+				cbxArea.setSelectedIndex(0);
+
+			cbxCiudad.setSelectedIndex(0);
+
+			if (solicitud.getTipoSalario().equalsIgnoreCase("Quincenal"))
+				cbxTipoSalario.setSelectedIndex(1);
+			else if (solicitud.getTipoSalario().equalsIgnoreCase("Mensual"))
+				cbxTipoSalario.setSelectedIndex(2);
+			else if (solicitud.getTipoSalario().equalsIgnoreCase("Semanal"))
+				cbxTipoSalario.setSelectedIndex(3);
+			else if (solicitud.getTipoSalario().equalsIgnoreCase("Diario"))
+				cbxTipoSalario.setSelectedIndex(4);
+
+			spnAgnos.setValue(new Integer("0"));
+			if (solicitud instanceof EmpUniversitario)
+				spnAgnos.setValue(((EmpUniversitario) solicitud).getAgnos());
+			else if (solicitud instanceof EmpTecnico)
+				spnAgnos.setValue(((EmpTecnico) solicitud).getAgnos());
+
+			if (solicitud instanceof EmpObrero)
+			{
+				actividades = ((EmpObrero) solicitud).getOficios();
+				recargarActividades();
+			}
+
+			idiomasAux = solicitud.getIdiomas();
+			ModelActividades.removeAllElements();
+			spnPorcentaje.setValue(solicitud.getPorcentajeMacth());
+			spnCantidad.setValue(solicitud.getCantidad());
+		}
 	}
 
 	private void clean()
@@ -767,7 +938,6 @@ public class SolEmpresa extends JDialog
 		rdbtnLicenciaSi.setSelected(false);
 		rdbtnMudarseSi.setSelected(false);
 		rdbtnMudarseNo.setSelected(true);
-		rdbtnTecnico.setSelected(false);
 		rdbtnTecnico.setSelected(false);
 		btnAgregarIdioma.setEnabled(false);
 		rdbtnUniversitario.setSelected(true);

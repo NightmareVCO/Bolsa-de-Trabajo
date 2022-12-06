@@ -48,6 +48,7 @@ public class ListSolicitudes extends JDialog
 	private JButton btnMostrar;
 	private Boolean match = false;
 	private JButton btnSelecionar;
+	private JButton btnModificar;
 
 	public ListSolicitudes(boolean match)
 	{
@@ -85,6 +86,7 @@ public class ListSolicitudes extends JDialog
 								btnEliminar.setEnabled(true);
 								btnMostrar.setEnabled(true);
 								btnSelecionar.setEnabled(true);
+								btnModificar.setEnabled(true);
 								selected = Bolsa.getInstance()
 										.buscarSolicitudByCodigo(table.getValueAt(rowSelected, 0).toString());
 							}
@@ -126,6 +128,30 @@ public class ListSolicitudes extends JDialog
 						}
 					});
 					buttonPane.add(btnSelecionar);
+				}
+				{
+					btnModificar = new JButton("Modificar");
+					btnModificar.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							if (selected instanceof SoliEmpresa)
+							{
+								SolEmpresa solEmp = new SolEmpresa((SoliEmpresa) selected);
+								solEmp.setModal(true);
+								solEmp.setVisible(true);
+							}
+							else if (selected instanceof SoliPersona)
+							{
+								//SolPersona solPer = new SolPersona((SoliPersona) selected);
+								//solPer.setModal(true);
+								//solPer.setVisible(true);
+							}
+
+						}
+					});
+					btnModificar.setEnabled(false);
+					buttonPane.add(btnModificar);
 				}
 				btnMostrar.setEnabled(false);
 				buttonPane.add(btnMostrar);

@@ -79,7 +79,7 @@ public class Principal extends JFrame
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				SolEmpresa solEmp = new SolEmpresa();
+				SolEmpresa solEmp = new SolEmpresa(null);
 				solEmp.setModal(true);
 				solEmp.setVisible(true);
 			}
