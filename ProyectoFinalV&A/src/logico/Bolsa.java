@@ -173,6 +173,24 @@ public class Bolsa implements Serializable
 		return aux;
 	}
 
+	public Usuario buscarUsuarioByUsername(String username)
+	{
+		boolean encontrado = false;
+		int i = 0;
+		Usuario aux = null;
+
+		while (!encontrado && i < usuarios.size())
+		{
+			if (usuarios.get(i).getUsername().equalsIgnoreCase(username))
+			{
+				encontrado = true;
+				aux = usuarios.get(i);
+			}
+			i++;
+		}
+		return aux;
+	}
+
 	public boolean eliminarSolicitud(Solicitud solicitud)
 	{
 		return solicitudes.remove(solicitud);
@@ -406,15 +424,16 @@ public class Bolsa implements Serializable
 		{
 			if (solicitudEmpresa instanceof EmpUniversitario && persona instanceof Universitario)
 			{
-				((EmpUniversitario) solicitudEmpresa).getCarrera().equals(((Universitario) persona).getCarrera());
-				total = 24;
+				if (((EmpUniversitario) solicitudEmpresa).getCarrera()
+						.equalsIgnoreCase(((Universitario) persona).getCarrera()))
+					total = 24;
 			}
-			if (solicitudEmpresa instanceof EmpTecnico && persona instanceof Tecnico)
+			else if (solicitudEmpresa instanceof EmpTecnico && persona instanceof Tecnico)
 			{
-				((EmpTecnico) solicitudEmpresa).getArea().equals(((Tecnico) persona).getArea());
-				total = 24;
+				if (((EmpTecnico) solicitudEmpresa).getArea().equalsIgnoreCase(((Tecnico) persona).getArea()))
+					total = 24;
 			}
-			if (solicitudEmpresa instanceof EmpObrero && persona instanceof Obrero)
+			else if (solicitudEmpresa instanceof EmpObrero && persona instanceof Obrero)
 			{
 				total = compararActividades(((EmpObrero) solicitudEmpresa).getOficios(), ((Obrero) persona).getOficios());
 			}
@@ -507,5 +526,16 @@ public class Bolsa implements Serializable
 
 		if (soli.getCantidad() == 0)
 			soli.setActiva(false);
+	}
+
+	public boolean existeUsuario(String username)
+	{
+		boolean existe = false;
+
+		for (Usuario usuario : usuarios)
+			if (username.equalsIgnoreCase(usuario.getUsername()))
+				existe = true;
+
+		return existe;
 	}
 }

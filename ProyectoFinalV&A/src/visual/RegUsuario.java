@@ -29,11 +29,15 @@ public class RegUsuario extends JDialog
 	private JPasswordField pswConfirm;
 	@SuppressWarnings("rawtypes")
 	private JComboBox cbxTipoUsuario;
+	private Usuario usuario = null;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public RegUsuario()
+	public RegUsuario(Usuario aux)
 	{
+		usuario = aux;
 		setTitle("Registrar Usuario");
+		if (usuario != null)
+			setTitle("Modificar Usuario: " + usuario.getUsername());
 		setBounds(100, 100, 441, 246);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -91,23 +95,55 @@ public class RegUsuario extends JDialog
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnRegistrar = new JButton("Registrar");
+				if (usuario != null)
+					btnRegistrar.setText("Modidicar");
+
 				btnRegistrar.addActionListener(new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						if (String.valueOf(pswPassword.getPassword()).equals(String.valueOf(pswConfirm.getPassword())))
+						if (usuario == null)
 						{
-							Usuario newUser = new Usuario(txtUsername.getText(), String.valueOf(pswPassword.getPassword()),
-									cbxTipoUsuario.getSelectedItem().toString());
-							Bolsa.getInstance().addUsuario(newUser);
-							clean();
-							JOptionPane.showMessageDialog(null, "Usuario Ingresado", "Informacion",
-									JOptionPane.INFORMATION_MESSAGE);
-						}
-						else
-							JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "Informacion",
-									JOptionPane.INFORMATION_MESSAGE);
+							if (String.valueOf(pswPassword.getPassword()).equals(String.valueOf(pswConfirm.getPassword())))
+							{
+								if (Bolsa.getInstance().existeUsuario(txtUsername.getText()))
+								{
+									Usuario newUser = new Usuario(txtUsername.getText(),
+											String.valueOf(pswPassword.getPassword()),
+											cbxTipoUsuario.getSelectedItem().toString());
+									Bolsa.getInstance().addUsuario(newUser);
+									clean();
+									JOptionPane.showMessageDialog(null, "Usuario Ingresado", "Informacion",
+											JOptionPane.INFORMATION_MESSAGE);
+								}
+								else
+									JOptionPane.showMessageDialog(null, "Ese Usuario no esta disponible", "Informacion",
+											JOptionPane.INFORMATION_MESSAGE);
 
+							}
+							else
+								JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "Informacion",
+										JOptionPane.INFORMATION_MESSAGE);
+						}
+						else if (usuario != null)
+						{
+							if (String.valueOf(pswPassword.getPassword()).equals(String.valueOf(pswConfirm.getPassword())))
+							{
+								if (Bolsa.getInstance().existeUsuario(txtUsername.getText()))
+								{
+									usuario.setUsername(txtUsername.getText());
+									usuario.setPassword(String.valueOf(pswPassword.getPassword()));
+									usuario.setTipo(cbxTipoUsuario.getSelectedItem().toString());
+
+									JOptionPane.showMessageDialog(null, "Usuario modificado con exito", "Informacion",
+											JOptionPane.INFORMATION_MESSAGE);
+									dispose();
+								}
+								else
+									JOptionPane.showMessageDialog(null, "Ese Usuario no esta disponible", "Informacion",
+											JOptionPane.INFORMATION_MESSAGE);
+							}
+						}
 					}
 				});
 				btnRegistrar.setActionCommand("OK");
@@ -127,14 +163,25 @@ public class RegUsuario extends JDialog
 				buttonPane.add(cancelButton);
 			}
 		}
+		if (usuario != null && usuario.isSecret())
+		{
+			cbxTipoUsuario.setEditable(false);
+		}
+		loadUsuario();
 	}
 
-	public void clean()
+	private void clean()
 	{
 		txtUsername.setText("");
 		cbxTipoUsuario.setSelectedIndex(0);
 		pswPassword.setText("");
 		pswConfirm.setText("");
+	}
+
+	private void loadUsuario()
+	{
+		if (usuario != null)
+			txtUsername.setText(usuario.getUsername());
 
 	}
 }

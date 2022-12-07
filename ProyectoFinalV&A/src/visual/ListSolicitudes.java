@@ -241,7 +241,9 @@ public class ListSolicitudes extends JDialog
 				persona = null;
 				empresa = null;
 
-				if ((solicitud instanceof SoliPersona && match) || !solicitud.isActiva())
+				if ((solicitud instanceof SoliPersona && match))
+					;
+				else if (match && !solicitud.isActiva())
 					;
 				else
 					model.addRow(rows);
