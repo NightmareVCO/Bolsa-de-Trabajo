@@ -868,6 +868,9 @@ public class SolPersona extends JDialog
 		rdbtnMudarseSi.setSelected(false);
 		rdbtnMudarseNo.setSelected(true);
 		btnAgregarIdioma.setEnabled(false);
+		rdbtnUniversitario.setEnabled(true);
+		rdbtnObrero.setEnabled(true);
+		rdbtnTecnico.setEnabled(true);
 		rdbtnTecnico.setSelected(false);
 		rdbtnTecnico.setSelected(false);
 		rdbtnUniversitario.setSelected(true);
