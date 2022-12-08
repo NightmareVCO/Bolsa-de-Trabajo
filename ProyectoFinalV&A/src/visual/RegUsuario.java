@@ -106,7 +106,7 @@ public class RegUsuario extends JDialog
 						{
 							if (String.valueOf(pswPassword.getPassword()).equals(String.valueOf(pswConfirm.getPassword())))
 							{
-								if (Bolsa.getInstance().existeUsuario(txtUsername.getText()))
+								if (!Bolsa.getInstance().existeUsuario(txtUsername.getText()))
 								{
 									Usuario newUser = new Usuario(txtUsername.getText(),
 											String.valueOf(pswPassword.getPassword()),
@@ -129,7 +129,7 @@ public class RegUsuario extends JDialog
 						{
 							if (String.valueOf(pswPassword.getPassword()).equals(String.valueOf(pswConfirm.getPassword())))
 							{
-								if (Bolsa.getInstance().existeUsuario(txtUsername.getText()))
+								if (!Bolsa.getInstance().existeUsuario(txtUsername.getText()))
 								{
 									usuario.setUsername(txtUsername.getText());
 									usuario.setPassword(String.valueOf(pswPassword.getPassword()));
